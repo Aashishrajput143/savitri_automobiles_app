@@ -1,0 +1,35 @@
+import 'package:flutter/material.dart';
+
+final ButtonStyle raisedButtonStyle = ElevatedButton.styleFrom(
+  backgroundColor: Colors.black,
+  minimumSize: const Size(double.infinity, 36),
+  padding: const EdgeInsets.symmetric(horizontal: 16),
+  shape: const RoundedRectangleBorder(
+    borderRadius: BorderRadius.all(Radius.circular(2)),
+  ),
+);
+final ButtonStyle raisedButtonStyleRound = ElevatedButton.styleFrom(
+  elevation: 0,
+  backgroundColor: Colors.black,
+  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 3),
+  // foregroundColor: Colors.white
+);
+
+final ButtonStyle raisedButtonStyleForm = ElevatedButton.styleFrom(
+  backgroundColor: Colors.black,
+  elevation: 0,
+  minimumSize: const Size(double.infinity, 36),
+  padding: const EdgeInsets.symmetric(vertical: 14),
+  shape: const RoundedRectangleBorder(
+    borderRadius: BorderRadius.all(Radius.circular(2)),
+  ),
+);
+final ButtonStyle raisedButtonStyleFormOutline = ElevatedButton.styleFrom(
+  backgroundColor: Colors.transparent,
+  elevation: 0,
+  minimumSize: const Size(double.infinity, 36),
+  padding: const EdgeInsets.symmetric(vertical: 14),
+  shape: const RoundedRectangleBorder(
+    borderRadius: BorderRadius.all(Radius.circular(2)),
+  ),
+);
