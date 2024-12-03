@@ -26,7 +26,7 @@ class TractorPageView extends StatelessWidget {
       appBarTitle: const Padding(
         padding: EdgeInsets.symmetric(horizontal: 5.0),
         child: Text(
-          "Tractor Listing",
+          "Tractor Collection",
           style: TextStyle(
             color: Colors.black,
             fontSize: 20,
@@ -44,7 +44,9 @@ class TractorPageView extends StatelessWidget {
           color: Colors.black,
         ),
         IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pushNamed(context, Routes.notification);
+          },
           icon: const Icon(Icons.notifications_outlined),
           color: Colors.black,
         ),

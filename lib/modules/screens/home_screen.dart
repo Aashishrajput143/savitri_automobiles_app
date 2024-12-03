@@ -46,7 +46,9 @@ class HomePageView extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(right: 12),
           child: IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(context, Routes.notification);
+            },
             icon: const Icon(Icons.notifications_outlined),
             color: Colors.black,
           ),
