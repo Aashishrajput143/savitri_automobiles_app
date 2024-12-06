@@ -23,6 +23,7 @@ class TractorPageView extends StatelessWidget {
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
     return CommonScreen(
+      autoimplement: false,
       appBarTitle: const Padding(
         padding: EdgeInsets.symmetric(horizontal: 5.0),
         child: Text(

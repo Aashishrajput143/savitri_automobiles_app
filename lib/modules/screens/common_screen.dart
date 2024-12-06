@@ -7,6 +7,7 @@ class CommonScreen extends StatelessWidget {
   final int currentIndex;
   final Function(int) onBottomNavTap;
   final bool centertitle;
+  final bool autoimplement;
 
   const CommonScreen({
     super.key,
@@ -16,6 +17,7 @@ class CommonScreen extends StatelessWidget {
     required this.body,
     required this.currentIndex,
     required this.onBottomNavTap,
+    required this.autoimplement,
   });
 
   @override
@@ -25,6 +27,7 @@ class CommonScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 0,
         title: appBarTitle,
+        automaticallyImplyLeading: autoimplement,
         centerTitle: centertitle,
         actions: appBarActions,
       ),
