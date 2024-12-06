@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:savitri_automobiles_admin/modules/screens/login_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/notification_screen.dart';
+import 'package:savitri_automobiles_admin/modules/screens/registration_listing.dart';
 import 'package:savitri_automobiles_admin/modules/screens/sales_person_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/search_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/tractor_details_screen.dart';
@@ -18,6 +19,7 @@ class Routes {
   static const String salespersonsprofile = '/salespersonsprofile';
   static const String tractordetails = '/tractordetails';
   static const String notification = '/notification';
+  static const String registration = '/registration';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -35,6 +37,9 @@ class Routes {
         return MaterialPageRoute(builder: (_) => const TractorDetailsScreen());
       case notification:
         return MaterialPageRoute(builder: (_) => const NotificationScreen());
+      case registration:
+        return MaterialPageRoute(
+            builder: (_) => const RegistrationListingScreen());
       case salespersonsprofile:
         return MaterialPageRoute(
             builder: (_) => const SalesPersonListingScreen());

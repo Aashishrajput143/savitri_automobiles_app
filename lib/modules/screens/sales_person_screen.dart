@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:savitri_automobiles_admin/modules/cubit/sales_person_cubit/sales_person_cubit.dart';
-import 'package:savitri_automobiles_admin/modules/cubit/sales_person_cubit/sales_perspn_state.dart';
 import 'package:savitri_automobiles_admin/modules/screens/common_screen.dart';
-import 'package:savitri_automobiles_admin/resources/images.dart';
 import 'package:savitri_automobiles_admin/routes/routes.dart';
 
 class SalesPersonListingScreen extends StatelessWidget {
@@ -53,135 +51,67 @@ class SalesPersonPageView extends StatelessWidget {
       body: BlocBuilder<SalesPersonCubit, SalesPersonState>(
         builder: (context, state) {
           return Container(
+            height: MediaQuery.of(context).size.height,
             color: Colors.white,
             child: SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.green,
-                          padding: const EdgeInsets.symmetric(vertical: 12),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8.0),
-                          ),
-                        ),
-                        child: const Text(
-                          'Add Sales Person',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    const Text(
-                      "Sales Persons Profile",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    ...List.generate(8, (index) {
-                      return Card(
-                        margin:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: ListTile(
-                            leading: CircleAvatar(
-                              backgroundImage: AssetImage(AppImages
-                                  .profile), // Replace with your assets
-                            ),
-                            title: Text(
-                              'April Curtis. ${index + 1}',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            subtitle: Text('Sales Person'),
-                            trailing: const Icon(
-                              Icons.arrow_forward_ios,
-                              color: Colors.blue,
-                            )),
-                      );
-                    }),
-                    const SizedBox(height: 16),
-
-                    // Options Section
-                    Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Column(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: state.salesperson.length,
+                      itemBuilder: (context, index) {
+                        final product = state.salesperson[index];
+                        return Column(
                           children: [
-                            _buildOptionRow(
-                              title: 'Wallet',
-                              trailing: Text(
-                                'TZN 892K',
-                                style: TextStyle(
+                            ListTile(
+                              leading: CircleAvatar(
+                                backgroundImage:
+                                    AssetImage("${product['profile']}"),
+                              ),
+                              title: Text(
+                                "${product['name']}",
+                                style: const TextStyle(
                                   fontWeight: FontWeight.bold,
+                                  fontSize: 16,
                                 ),
                               ),
-                            ),
-                            const Divider(),
-                            _buildOptionRow(
-                              title: 'Manage catalog',
-                              trailing:
-                                  const Icon(Icons.arrow_forward_ios, size: 16),
-                            ),
-                            const Divider(),
-                            _buildOptionRow(
-                              title: 'Share catalog',
-                              trailing:
-                                  const Icon(Icons.arrow_forward_ios, size: 16),
-                            ),
-                            const Divider(),
-                            _buildOptionRow(
-                              title: 'Push Notifications',
-                              trailing: Switch(
-                                value: true,
-                                onChanged: (value) {},
+                              subtitle: Text(
+                                "Salesman-id ${product['id']}",
+                                style: const TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 14,
+                                ),
+                              ),
+                              trailing: IconButton(
+                                icon: const Icon(Icons.arrow_forward_ios),
+                                onPressed: () {
+                                  // Handle mail icon tap
+                                },
                               ),
                             ),
-                            const Divider(),
-                            _buildOptionRow(
-                              title: 'Set up 2 Factor Authentication',
-                              trailing:
-                                  const Icon(Icons.arrow_forward_ios, size: 16),
-                            ),
-                            const Divider(),
+                            const Divider()
                           ],
-                        ),
-                      ),
-                    ),
-                  ],
+                        );
+                      }),
                 ),
               ),
             ),
           );
         },
       ),
-      currentIndex: 2,
+      currentIndex: 3,
       onBottomNavTap: (index) {
         if (index == 0) {
           Navigator.pushReplacementNamed(context, Routes.home);
         } else if (index == 1) {
-          Navigator.pushReplacementNamed(context, Routes.tractorlisting);
+          Navigator.pushReplacementNamed(context, Routes.registration);
         } else if (index == 2) {
           Navigator.pushReplacementNamed(context, Routes.home);
         } else if (index == 3) {
-          Navigator.pushReplacementNamed(context, Routes.home);
+          Navigator.pushReplacementNamed(context, Routes.salespersonsprofile);
         }
       },
     );
