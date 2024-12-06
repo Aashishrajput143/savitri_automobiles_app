@@ -5,12 +5,14 @@ import 'package:savitri_automobiles_admin/resources/images.dart';
 class HomeState {
   final List<Map<String, dynamic>> categories;
   final List<Map<String, dynamic>> featuredProducts;
-  final List<Map<String, dynamic>> newArrivals;
+  final List<Map<String, dynamic>> salesperson;
+  final List<Map<String, dynamic>> register;
 
   HomeState({
     required this.categories,
     required this.featuredProducts,
-    required this.newArrivals,
+    required this.salesperson,
+    required this.register,
   });
 }
 
@@ -41,20 +43,44 @@ class HomeCubit extends Cubit<HomeState> {
                 "reviews": 122
               },
             ],
-            newArrivals: [
+            register: [
               {
-                "name": "Swaraj 735FEeps",
-                "price": "₹1,50,000",
-                "image": AppImages.tractor735FEePS,
-                "rating": 4.7,
-                "reviews": 312
+                "name": "Swaraj 735FE",
+                "price": "₹16,80,590",
+                "image": AppImages.swaraj735FE,
+                "salesperson": "Rajendra Singh",
+                "date": "20 Oct 2024"
               },
               {
-                "name": "Swaraj 843 XM",
-                "price": "₹2,75,000",
-                "image": AppImages.tractor,
-                "rating": 4.6,
-                "reviews": 89
+                "name": "Swaraj 735XT",
+                "price": "₹36,00,000",
+                "image": AppImages.swaraj735XT,
+                "salesperson": "Pawan Kumar",
+                "date": "15 Aug 2024"
+              },
+              {
+                "name": "Swaraj 735FEePS",
+                "price": "₹26,00,000",
+                "image": AppImages.tractor735FEePS,
+                "salesperson": "Nipendra Singh",
+                "date": "25 Jul 2024"
+              }
+            ],
+            salesperson: [
+              {
+                "name": "Rajendra Singh",
+                "id": "#100052",
+                "profile": AppImages.profile,
+              },
+              {
+                "name": "Pawan Kumar",
+                "id": "#100049",
+                "profile": AppImages.profile,
+              },
+              {
+                "name": "Nipendra Singh",
+                "id": "#100045",
+                "profile": AppImages.profile,
               },
             ],
           ),

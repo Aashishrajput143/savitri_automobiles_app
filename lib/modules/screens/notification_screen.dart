@@ -45,8 +45,12 @@ class NotificationPage extends StatelessWidget {
                       final notification = state.notification[index];
                       return ListTile(
                         leading: CircleAvatar(
-                          backgroundImage: AssetImage(notification['avatar']),
-                          radius: 24,
+                          backgroundColor: Colors.grey[200],
+                          child: Padding(
+                            padding: EdgeInsets.all(2),
+                            child: Image.asset(notification['avatar']),
+                          ),
+                          radius: 25,
                         ),
                         title: RichText(
                           text: TextSpan(

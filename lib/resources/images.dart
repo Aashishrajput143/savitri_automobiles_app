@@ -3,6 +3,7 @@ class AppImages {
   static get maatibackground => 'assets/images/maatibackground.jpeg';
   static get logo => 'assets/images/logo.png';
   static get logoicon => 'assets/images/logoicon.png';
+  static get logodash => 'assets/images/logodash.png';
   static get logoblack => 'assets/images/logoblack.png';
   static get splashscreen => 'assets/images/splashscreen.png';
   static get swaraj735FE => 'assets/images/Swaraj735FE.png';

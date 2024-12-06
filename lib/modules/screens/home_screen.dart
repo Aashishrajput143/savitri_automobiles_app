@@ -27,11 +27,11 @@ class HomePageView extends StatelessWidget {
       appBarTitle: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 5.0),
         child: SizedBox(
-          width: 150,
+          width: 50,
           height: 30,
           child: Image.asset(
-            AppImages.logoblack,
-            fit: BoxFit.contain,
+            AppImages.logodash,
+            fit: BoxFit.fill,
           ),
         ),
       ),
@@ -56,8 +56,7 @@ class HomePageView extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(right: 25),
           child: CircleAvatar(
-            backgroundImage:
-                AssetImage(AppImages.profile), // Replace with your assets
+            backgroundImage: AssetImage(AppImages.profile),
             radius: 15,
           ),
         ),
@@ -75,7 +74,7 @@ class HomePageView extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text(
-                        "Categories",
+                        "Analytics",
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -87,133 +86,240 @@ class HomePageView extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(
-                    height: 100,
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      children: state.categories.map((category) {
-                        return Padding(
-                          padding: const EdgeInsets.only(right: 30, top: 10),
-                          child: Column(
-                            children: [
-                              CircleAvatar(
-                                radius: 30,
-                                backgroundColor: Colors.grey[200],
-                                child: Icon(category['icon'],
-                                    size: 30, color: Colors.green),
-                              ),
-                              const SizedBox(height: 8),
-                              Text(
-                                category['label'],
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(fontSize: 12),
-                              ),
-                            ],
-                          ),
-                        );
-                      }).toList(),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
-                        "Featured Tractors",
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () {},
-                        child: const Text("See all"),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-                  SizedBox(
-                    height: 220,
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      children: state.featuredProducts.map((product) {
-                        return InkWell(
-                          onTap: () {
-                            Navigator.pushNamed(context, Routes.tractordetails);
-                          },
-                          child: Container(
-                            width: 165,
-                            margin: const EdgeInsets.only(right: 20),
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey[300]!),
-                              borderRadius: BorderRadius.circular(8),
+                      Container(
+                        width: 170,
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                          border:
+                              Border.all(color: Colors.grey.withOpacity(0.3)),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.2),
+                              blurRadius: 3,
+                              offset: const Offset(0, 3),
                             ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                          ],
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
                               children: [
-                                Container(
-                                  height: 120,
-                                  decoration: BoxDecoration(
-                                    borderRadius: const BorderRadius.vertical(
-                                        top: Radius.circular(8)),
-                                    image: DecorationImage(
-                                      image: AssetImage("${product['image']}"),
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
+                                CircleAvatar(
+                                  radius: 12,
+                                  backgroundColor:
+                                      Colors.green.withOpacity(0.2),
+                                  child: const Icon(Icons.bar_chart,
+                                      color: Colors.green, size: 16),
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "${product['name']}",
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      Text(
-                                        "${product['price']}",
-                                        style: const TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.green,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      const SizedBox(height: 4),
-                                      Row(
-                                        children: [
-                                          const Icon(Icons.star,
-                                              color: Colors.orange, size: 16),
-                                          const SizedBox(width: 4),
-                                          Text(
-                                            "${product['rating']} (${product['reviews']})",
-                                            style:
-                                                const TextStyle(fontSize: 12),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
+                                const SizedBox(width: 8),
+                                const Text(
+                                  "Total Sales",
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.black,
                                   ),
                                 ),
                               ],
                             ),
-                          ),
-                        );
-                      }).toList(),
-                    ),
+                            const SizedBox(height: 16),
+                            const Padding(
+                              padding: EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                              child: Text(
+                                "₹ 15 Lakh",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        width: 170,
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                          border:
+                              Border.all(color: Colors.grey.withOpacity(0.3)),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.2),
+                              blurRadius: 3,
+                              offset: const Offset(0, 3),
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                CircleAvatar(
+                                  radius: 12,
+                                  backgroundColor: Colors.blue.withOpacity(0.2),
+                                  child: const Icon(Icons.person,
+                                      color: Colors.blue, size: 16),
+                                ),
+                                const SizedBox(width: 8),
+                                const Text(
+                                  "Total SalesMan",
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 16),
+                            const Padding(
+                              padding: EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                              child: Text(
+                                "6",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        width: 170,
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                          border:
+                              Border.all(color: Colors.grey.withOpacity(0.3)),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.2),
+                              blurRadius: 3,
+                              offset: const Offset(0, 3),
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                CircleAvatar(
+                                  radius: 12,
+                                  backgroundColor:
+                                      Colors.purple.withOpacity(0.2),
+                                  child: const Icon(Icons.app_registration,
+                                      color: Colors.purple, size: 16),
+                                ),
+                                const SizedBox(width: 8),
+                                const Text(
+                                  "Registrations",
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 16),
+                            const Padding(
+                              padding: EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                              child: Text(
+                                "10",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        width: 170,
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                          border:
+                              Border.all(color: Colors.grey.withOpacity(0.3)),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.2),
+                              blurRadius: 3,
+                              offset: const Offset(0, 3),
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                CircleAvatar(
+                                  radius: 12,
+                                  backgroundColor:
+                                      Colors.orange.withOpacity(0.2),
+                                  child: const Icon(Icons.oil_barrel_outlined,
+                                      color: Colors.orange, size: 16),
+                                ),
+                                const SizedBox(width: 8),
+                                const Text(
+                                  "Total OIL Sales",
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 16),
+                            const Padding(
+                              padding: EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                              child: Text(
+                                "₹ 78 K",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text(
-                        "New Arrivals",
+                        "Recent Registration Entries",
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -226,74 +332,181 @@ class HomePageView extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 10),
-                  SizedBox(
-                    height: 220,
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      children: state.newArrivals.map((product) {
-                        return Container(
-                          width: 165,
-                          margin: const EdgeInsets.only(right: 20),
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey[300]!),
-                            borderRadius: BorderRadius.circular(8),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: state.register.length,
+                    itemBuilder: (context, index) {
+                      final entries = state.register[index];
+                      return InkWell(
+                        onTap: () {},
+                        child: Card(
+                          color: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
                           ),
-                          child: Column(
+                          margin: const EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 2),
+                          child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Container(
-                                height: 120,
-                                decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.vertical(
-                                      top: Radius.circular(8)),
-                                  image: DecorationImage(
-                                    image: AssetImage("${product['image']}"),
-                                    fit: BoxFit.cover,
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(8.0),
+                                child: Image.asset(
+                                  entries["image"],
+                                  width: 80,
+                                  height: 80,
+                                  fit: BoxFit.contain,
+                                  errorBuilder: (context, error, stackTrace) {
+                                    return const SizedBox(
+                                      width: 80,
+                                      height: 80,
+                                      child: Center(
+                                        child: Text(
+                                          "No Image",
+                                          style: TextStyle(fontSize: 11),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                              const SizedBox(width: 10),
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.4,
+                                        child: Text(
+                                          entries["name"],
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 5),
+                                      Text(
+                                        "${entries['price']}",
+                                        style: const TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.green,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 5),
+                                      Row(
+                                        children: [
+                                          const Text(
+                                            "SM : ",
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          Text(
+                                            "${entries['salesperson']}",
+                                            style: const TextStyle(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Text(
+                                        entries["date"],
+                                        style: const TextStyle(
+                                            fontSize: 11,
+                                            fontWeight: FontWeight.bold,
+                                            color: Color.fromARGB(
+                                                255, 138, 137, 137)),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "${product['name']}",
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: const TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                padding: const EdgeInsets.only(right: 15),
+                                child: Center(
+                                  heightFactor: 2.1,
+                                  child: TextButton(
+                                    onPressed: () {},
+                                    child: const Text(
+                                      "View Details",
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold),
                                     ),
-                                    Text(
-                                      "${product['price']}",
-                                      style: const TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.green,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 4),
-                                    Row(
-                                      children: [
-                                        const Icon(Icons.star,
-                                            color: Colors.orange, size: 16),
-                                        const SizedBox(width: 4),
-                                        Text(
-                                          "${product['rating']} (${product['reviews']})",
-                                          style: const TextStyle(fontSize: 12),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
+                                  ),
                                 ),
                               ),
                             ],
                           ),
-                        );
-                      }).toList(),
-                    ),
+                        ),
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        "Sales Persons",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {},
+                        child: const Text("See all"),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: ListView.separated(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: state.salesperson.length,
+                        separatorBuilder: (context, index) => const Divider(),
+                        itemBuilder: (context, index) {
+                          final product = state.salesperson[index];
+                          return ListTile(
+                            leading: CircleAvatar(
+                              backgroundImage:
+                                  AssetImage("${product['profile']}"),
+                            ),
+                            title: Text(
+                              "${product['name']}",
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                            ),
+                            subtitle: Text(
+                              "Salesman-id ${product['id']}",
+                              style: const TextStyle(
+                                color: Colors.grey,
+                                fontSize: 14,
+                              ),
+                            ),
+                            trailing: IconButton(
+                              icon: const Icon(Icons.arrow_forward_ios),
+                              onPressed: () {
+                                // Handle mail icon tap
+                              },
+                            ),
+                          );
+                        }),
                   ),
                 ],
               ),
