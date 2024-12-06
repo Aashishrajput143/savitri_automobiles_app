@@ -467,7 +467,10 @@ class HomePageView extends StatelessWidget {
                         ),
                       ),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamed(
+                              context, Routes.salespersonsprofile);
+                        },
                         child: const Text("See all"),
                       ),
                     ],

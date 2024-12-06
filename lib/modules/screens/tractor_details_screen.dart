@@ -27,12 +27,12 @@ class TractorDetailsScreen extends StatelessWidget {
           elevation: 0,
           centerTitle: true,
           leading: IconButton(
-            icon: Icon(Icons.arrow_back, color: Colors.black),
+            icon: const Icon(Icons.arrow_back, color: Colors.black),
             onPressed: () => Navigator.pop(context),
           ),
           actions: [
             IconButton(
-              icon: Icon(Icons.share, color: Colors.black),
+              icon: const Icon(Icons.share, color: Colors.black),
               onPressed: () {},
             ),
           ],
@@ -42,25 +42,25 @@ class TractorDetailsScreen extends StatelessWidget {
             return Container(
               color: Colors.white,
               child: ListView(
-                padding: EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(16.0),
                 children: [
                   Image.asset(
                     AppImages.swaraj735FE,
                     height: 250,
                     fit: BoxFit.cover,
                   ),
-                  SizedBox(height: 16.0),
-                  Text(
+                  const SizedBox(height: 16.0),
+                  const Text(
                     'Swaraj XT 6135E-135 HP Tractor',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(height: 4),
-                  Text(
+                  const SizedBox(height: 4),
+                  const Text(
                     'Tractors',
                     style: TextStyle(color: Colors.grey, fontSize: 16),
                   ),
-                  SizedBox(height: 8),
-                  Row(
+                  const SizedBox(height: 8),
+                  const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Row(
@@ -82,11 +82,11 @@ class TractorDetailsScreen extends StatelessWidget {
                     ],
                   ),
                   Divider(height: 32, color: Colors.grey[300]),
-                  Text(
+                  const Text(
                     'Product Details',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Text(
                     'The popular 75hp SEN is back and better than ever. Whether spraying, trimming, mowing, fruit handling, or transport—the SEN narrow frame glides easily through orchards and vineyards. Confidently tackle...\n\nRead more',
                     style: TextStyle(fontSize: 14, color: Colors.grey[700]),
@@ -96,14 +96,14 @@ class TractorDetailsScreen extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
+                      const Text(
                         'Review (50)',
                         style: TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                       TextButton(
                         onPressed: () {},
-                        child: Text('See all',
+                        child: const Text('See all',
                             style: TextStyle(color: Colors.blue)),
                       ),
                     ],
@@ -114,8 +114,8 @@ class TractorDetailsScreen extends StatelessWidget {
                       CircleAvatar(
                         backgroundImage: AssetImage(AppImages.swaraj735XT),
                       ),
-                      SizedBox(width: 8),
-                      Column(
+                      const SizedBox(width: 8),
+                      const Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text('Moinur Rahman',
@@ -125,7 +125,7 @@ class TractorDetailsScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Text(
                     'Tractor exceeded my expectations with its powerful performance, robust build, and advanced features. The spacious cabin and intuitive controls make it a pleasure to drive, while its...',
                     style: TextStyle(color: Colors.grey[700]),

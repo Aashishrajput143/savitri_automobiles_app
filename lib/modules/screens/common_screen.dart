@@ -50,7 +50,7 @@ class CommonScreen extends StatelessWidget {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
-            label: "Profile",
+            label: "SalesMan",
           ),
         ],
       ),
