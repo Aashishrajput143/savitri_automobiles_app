@@ -7,7 +7,7 @@ class ReviewCubit extends Cubit<ReviewState> {
   Future<void> fetchSalesEntries() async {
     try {
       emit(ReviewLoading());
-      await Future.delayed(const Duration(seconds: 2));
+      await Future.delayed(const Duration(seconds: 1));
       emit(ReviewSuccess(
         message: "Sales entries fetched successfully!",
       ));
