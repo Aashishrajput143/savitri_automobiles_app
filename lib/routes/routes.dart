@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:savitri_automobiles_admin/modules/screens/Sales_Screen/sales_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/add_sales_entry_screen.dart';
-import 'package:savitri_automobiles_admin/modules/screens/inventory_screen.dart';
+import 'package:savitri_automobiles_admin/modules/screens/inventory_screen/inventory_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/login_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/notification_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/registration_listing.dart';
+import 'package:savitri_automobiles_admin/modules/screens/review_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/sales_entry_listing_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/sales_home_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/sales_person_screen.dart';
@@ -28,6 +30,8 @@ class Routes {
   static const String saleHome = '/saleHome';
   static const String addSalesEntry = '/addSalesEntry';
   static const String salesEntryListing = '/salesEntryListing';
+  static const String salesscreen = '/salesscreen';
+  static const String review = '/review';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -48,11 +52,15 @@ class Routes {
       case inventory:
         return MaterialPageRoute(builder: (_) => const InventoryScreen());
       case addSalesEntry:
-        return MaterialPageRoute(builder: (_) => SalesEntryScreen());
+        return MaterialPageRoute(builder: (_) => const SalesEntryScreen());
       case salesEntryListing:
-        return MaterialPageRoute(builder: (_) => SalesEntryListing());
+        return MaterialPageRoute(builder: (_) => const SalesEntryListing());
       case saleHome:
         return MaterialPageRoute(builder: (_) => const SalesHomeScreen());
+      case salesscreen:
+        return MaterialPageRoute(builder: (_) => const SalesScreen());
+      case review:
+        return MaterialPageRoute(builder: (_) => const ReviewScreen());
       case registration:
         return MaterialPageRoute(
             builder: (_) => const RegistrationListingScreen());

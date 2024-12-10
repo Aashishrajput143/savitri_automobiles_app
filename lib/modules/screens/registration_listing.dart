@@ -22,6 +22,7 @@ class RegistrationPageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CommonScreen(
+      tabs: 1,
       autoimplement: false,
       appBarTitle: const Padding(
         padding: EdgeInsets.symmetric(horizontal: 5.0),
@@ -51,6 +52,10 @@ class RegistrationPageView extends StatelessWidget {
           color: Colors.black,
         ),
       ],
+      bottomtabs: const PreferredSize(
+        preferredSize: Size.fromHeight(0),
+        child: SizedBox.shrink(),
+      ),
       body: BlocBuilder<RegistrationCubit, RegistrationState>(
         builder: (context, state) {
           return Container(
@@ -75,7 +80,9 @@ class RegistrationPageView extends StatelessWidget {
                   itemBuilder: (context, index) {
                     final entries = state.register[index];
                     return InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.pushNamed(context, Routes.review);
+                      },
                       child: Card(
                         color: Colors.white,
                         shape: RoundedRectangleBorder(

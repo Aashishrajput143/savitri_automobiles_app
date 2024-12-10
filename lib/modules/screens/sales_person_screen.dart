@@ -22,6 +22,11 @@ class SalesPersonPageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CommonScreen(
+      bottomtabs: const PreferredSize(
+        preferredSize: Size.fromHeight(0),
+        child: SizedBox.shrink(),
+      ),
+      tabs: 1,
       autoimplement: false,
       appBarTitle: const Padding(
         padding: EdgeInsets.symmetric(horizontal: 5.0),

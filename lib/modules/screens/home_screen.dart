@@ -40,6 +40,11 @@ class HomePageView extends StatelessWidget {
         return true; // Exit the app
       },
       child: CommonScreen(
+        bottomtabs: const PreferredSize(
+          preferredSize: Size.fromHeight(0),
+          child: SizedBox.shrink(),
+        ),
+        tabs: 1,
         centertitle: false,
         autoimplement: false,
         appBarTitle: Padding(
@@ -145,7 +150,9 @@ class HomePageView extends StatelessWidget {
                           ),
                         ),
                         TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.pushNamed(context, Routes.salesscreen);
+                          },
                           child: const Text("See all"),
                         ),
                       ],
@@ -153,58 +160,63 @@ class HomePageView extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Container(
-                          width: 170,
-                          padding: const EdgeInsets.all(16),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(12),
-                            border:
-                                Border.all(color: Colors.grey.withOpacity(0.3)),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.2),
-                                blurRadius: 3,
-                                offset: const Offset(0, 3),
-                              ),
-                            ],
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  CircleAvatar(
-                                    radius: 12,
-                                    backgroundColor:
-                                        Colors.green.withOpacity(0.2),
-                                    child: const Icon(Icons.bar_chart,
-                                        color: Colors.green, size: 16),
-                                  ),
-                                  const SizedBox(width: 8),
-                                  const Text(
-                                    "Tractor Sales",
+                        InkWell(
+                          onTap: () {
+                            Navigator.pushNamed(context, Routes.salesscreen);
+                          },
+                          child: Container(
+                            width: 170,
+                            padding: const EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(
+                                  color: Colors.grey.withOpacity(0.3)),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.2),
+                                  blurRadius: 3,
+                                  offset: const Offset(0, 3),
+                                ),
+                              ],
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    CircleAvatar(
+                                      radius: 12,
+                                      backgroundColor:
+                                          Colors.green.withOpacity(0.2),
+                                      child: const Icon(Icons.bar_chart,
+                                          color: Colors.green, size: 16),
+                                    ),
+                                    const SizedBox(width: 8),
+                                    const Text(
+                                      "Tractor Sales",
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 16),
+                                const Padding(
+                                  padding: EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                                  child: Text(
+                                    "₹ 15 Lakh",
                                     style: TextStyle(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w600,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
                                       color: Colors.black,
                                     ),
                                   ),
-                                ],
-                              ),
-                              const SizedBox(height: 16),
-                              const Padding(
-                                padding: EdgeInsets.fromLTRB(5.0, 0, 0, 0),
-                                child: Text(
-                                  "₹ 15 Lakh",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                    color: Colors.black,
-                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                         InkWell(
@@ -417,7 +429,9 @@ class HomePageView extends StatelessWidget {
                       itemBuilder: (context, index) {
                         final entries = state.register[index];
                         return InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.pushNamed(context, Routes.review);
+                          },
                           child: Card(
                             color: Colors.white,
                             shape: RoundedRectangleBorder(

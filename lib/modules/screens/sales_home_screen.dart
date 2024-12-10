@@ -200,82 +200,87 @@ class SalesHomeScreen extends StatelessWidget {
                         itemCount: recentlyAdded.length,
                         itemBuilder: (context, index) {
                           final item = recentlyAdded[index];
-                          return Container(
-                            margin: const EdgeInsets.only(right: 10),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(color: Colors.grey[300]!),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  height: 100,
-                                  width: 160,
-                                  decoration: BoxDecoration(
-                                    borderRadius: const BorderRadius.vertical(
-                                        top: Radius.circular(8)),
-                                    image: DecorationImage(
-                                      image: AssetImage("${item['image']}"),
-                                      fit: BoxFit.cover,
+                          return InkWell(
+                            onTap: () {
+                              Navigator.pushNamed(context, Routes.review);
+                            },
+                            child: Container(
+                              margin: const EdgeInsets.only(right: 10),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                border: Border.all(color: Colors.grey[300]!),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    height: 100,
+                                    width: 160,
+                                    decoration: BoxDecoration(
+                                      borderRadius: const BorderRadius.vertical(
+                                          top: Radius.circular(8)),
+                                      image: DecorationImage(
+                                        image: AssetImage("${item['image']}"),
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "${item['name']}",
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      Text(
-                                        "${item['price']}",
-                                        style: const TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.green,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      const SizedBox(height: 4),
-                                      Row(
-                                        children: [
-                                          const Text(
-                                            "Owner : ",
-                                            style: TextStyle(
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          Text(
-                                            "${item['Buyer']}",
-                                            style: const TextStyle(
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      Text(
-                                        item["date"],
-                                        style: const TextStyle(
-                                            fontSize: 11,
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "${item['name']}",
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: const TextStyle(
+                                            fontSize: 14,
                                             fontWeight: FontWeight.bold,
-                                            color: Color.fromARGB(
-                                                255, 138, 137, 137)),
-                                      ),
-                                    ],
+                                          ),
+                                        ),
+                                        Text(
+                                          "${item['price']}",
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.green,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 4),
+                                        Row(
+                                          children: [
+                                            const Text(
+                                              "Owner : ",
+                                              style: TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            Text(
+                                              "${item['Buyer']}",
+                                              style: const TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Text(
+                                          item["date"],
+                                          style: const TextStyle(
+                                              fontSize: 11,
+                                              fontWeight: FontWeight.bold,
+                                              color: Color.fromARGB(
+                                                  255, 138, 137, 137)),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           );
                         },

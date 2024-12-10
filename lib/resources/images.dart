@@ -11,6 +11,15 @@ class AppImages {
   static get tractor735FEePS => 'assets/images/735FEePS.png';
   static get tractor => 'assets/images/tractor.png';
   static get profile => 'assets/images/Profile.png';
+  static get cultivator => 'assets/images/cultivator.png';
+  static get harrow => 'assets/images/harrow.png';
+  static get plough => 'assets/images/plough.png';
+  static get rotary => 'assets/images/rotary.png';
+  static get volvo => 'assets/images/Volvo.png';
+  static get pillowblock => 'assets/images/pillowblock.png';
+  static get electronicclutch => 'assets/images/electronicclutch.png';
+  static get fuelfilter => 'assets/images/fuelfilter.png';
+  static get gearbox => 'assets/images/Gearbox.png';
 
   //icons
   static get searchIcon => 'assets/icons/searchIcon.svg';
