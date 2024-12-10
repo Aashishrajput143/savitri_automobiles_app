@@ -22,11 +22,16 @@ class LoginScreen extends StatelessWidget {
         create: (context) => LoginCubit(),
         child: BlocConsumer<LoginCubit, LoginState>(
           listener: (context, state) {
-            if (state is LoginSuccess) {
+            if (state is LoginSuccessAdmin) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text(state.message)),
               );
               Navigator.pushReplacementNamed(context, Routes.home);
+            } else if (state is LoginSuccessSales) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(state.message)),
+              );
+              Navigator.pushReplacementNamed(context, Routes.saleHome);
             } else if (state is LoginError) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text(state.message)),

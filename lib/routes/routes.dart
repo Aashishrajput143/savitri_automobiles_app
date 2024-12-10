@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:savitri_automobiles_admin/modules/screens/add_sales_entry_screen.dart';
+import 'package:savitri_automobiles_admin/modules/screens/inventory_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/login_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/notification_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/registration_listing.dart';
+import 'package:savitri_automobiles_admin/modules/screens/sales_entry_listing_screen.dart';
+import 'package:savitri_automobiles_admin/modules/screens/sales_home_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/sales_person_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/search_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/tractor_details_screen.dart';
@@ -20,6 +24,10 @@ class Routes {
   static const String tractordetails = '/tractordetails';
   static const String notification = '/notification';
   static const String registration = '/registration';
+  static const String inventory = '/inventory';
+  static const String saleHome = '/saleHome';
+  static const String addSalesEntry = '/addSalesEntry';
+  static const String salesEntryListing = '/salesEntryListing';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -37,6 +45,14 @@ class Routes {
         return MaterialPageRoute(builder: (_) => const TractorDetailsScreen());
       case notification:
         return MaterialPageRoute(builder: (_) => const NotificationScreen());
+      case inventory:
+        return MaterialPageRoute(builder: (_) => const InventoryScreen());
+      case addSalesEntry:
+        return MaterialPageRoute(builder: (_) => SalesEntryScreen());
+      case salesEntryListing:
+        return MaterialPageRoute(builder: (_) => SalesEntryListing());
+      case saleHome:
+        return MaterialPageRoute(builder: (_) => const SalesHomeScreen());
       case registration:
         return MaterialPageRoute(
             builder: (_) => const RegistrationListingScreen());

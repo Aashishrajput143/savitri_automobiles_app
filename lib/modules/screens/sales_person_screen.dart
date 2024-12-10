@@ -26,7 +26,7 @@ class SalesPersonPageView extends StatelessWidget {
       appBarTitle: const Padding(
         padding: EdgeInsets.symmetric(horizontal: 5.0),
         child: Text(
-          "Sales Persons Profile",
+          "Sales Executives",
           style: TextStyle(
             color: Colors.black,
             fontSize: 20,
@@ -54,51 +54,53 @@ class SalesPersonPageView extends StatelessWidget {
           return Container(
             height: MediaQuery.of(context).size.height,
             color: Colors.white,
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: state.salesperson.length,
-                      itemBuilder: (context, index) {
-                        final product = state.salesperson[index];
-                        return Column(
-                          children: [
-                            ListTile(
-                              leading: CircleAvatar(
-                                backgroundImage:
-                                    AssetImage("${product['profile']}"),
-                              ),
-                              title: Text(
-                                "${product['name']}",
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
-                                ),
-                              ),
-                              subtitle: Text(
-                                "Salesman-id ${product['id']}",
-                                style: const TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 14,
-                                ),
-                              ),
-                              trailing: IconButton(
-                                icon: const Icon(Icons.arrow_forward_ios),
-                                onPressed: () {
-                                  // Handle mail icon tap
-                                },
+            padding: const EdgeInsets.fromLTRB(16.0, 0, 16, 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 20),
+                const Text(
+                  "Sales Executive Details",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: state.salesperson.length,
+                    itemBuilder: (context, index) {
+                      final product = state.salesperson[index];
+                      return Column(
+                        children: [
+                          ListTile(
+                            leading: CircleAvatar(
+                              backgroundImage:
+                                  AssetImage("${product['profile']}"),
+                            ),
+                            title: Text(
+                              "${product['name']}",
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
                               ),
                             ),
-                            const Divider()
-                          ],
-                        );
-                      }),
-                ),
-              ),
+                            subtitle: Text(
+                              "Salesman-id ${product['id']}",
+                              style: const TextStyle(
+                                color: Colors.grey,
+                                fontSize: 14,
+                              ),
+                            ),
+                            trailing: const Icon(Icons.arrow_forward_ios),
+                          ),
+                          const Divider()
+                        ],
+                      );
+                    }),
+              ],
             ),
           );
         },
@@ -110,27 +112,11 @@ class SalesPersonPageView extends StatelessWidget {
         } else if (index == 1) {
           Navigator.pushReplacementNamed(context, Routes.registration);
         } else if (index == 2) {
-          Navigator.pushReplacementNamed(context, Routes.home);
+          Navigator.pushReplacementNamed(context, Routes.inventory);
         } else if (index == 3) {
           Navigator.pushReplacementNamed(context, Routes.salespersonsprofile);
         }
       },
-    );
-  }
-
-  Widget _buildOptionRow({required String title, required Widget trailing}) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            title,
-            style: TextStyle(fontWeight: FontWeight.w500),
-          ),
-          trailing,
-        ],
-      ),
     );
   }
 }

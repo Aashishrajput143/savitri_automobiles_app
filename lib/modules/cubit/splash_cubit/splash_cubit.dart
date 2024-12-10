@@ -6,8 +6,7 @@ class SplashCubit extends Cubit<SplashState> {
 
   Future<void> loadResources() async {
     emit(SplashLoading());
-    await Future.delayed(
-        const Duration(seconds: 4)); // Simulate resource loading
+    await Future.delayed(const Duration(seconds: 4));
     emit(SplashLoaded());
   }
 }

@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:savitri_automobiles_admin/modules/cubit/registration_cubit/registration_cubit.dart';
+import 'package:savitri_automobiles_admin/modules/cubit/inventory_cubit/inventory_cubit.dart';
 import 'package:savitri_automobiles_admin/modules/screens/common_screen.dart';
 import 'package:savitri_automobiles_admin/routes/routes.dart';
 
-class RegistrationListingScreen extends StatelessWidget {
-  const RegistrationListingScreen({super.key});
+class InventoryScreen extends StatelessWidget {
+  const InventoryScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => RegistrationCubit(),
-      child: const RegistrationPageView(),
+      create: (_) => InventoryCubit(),
+      child: const InventoryPageView(),
     );
   }
 }
 
-class RegistrationPageView extends StatelessWidget {
-  const RegistrationPageView({super.key});
+class InventoryPageView extends StatelessWidget {
+  const InventoryPageView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class RegistrationPageView extends StatelessWidget {
       appBarTitle: const Padding(
         padding: EdgeInsets.symmetric(horizontal: 5.0),
         child: Text(
-          "Registrations",
+          "Inventory",
           style: TextStyle(
             color: Colors.black,
             fontSize: 20,
@@ -51,7 +51,7 @@ class RegistrationPageView extends StatelessWidget {
           color: Colors.black,
         ),
       ],
-      body: BlocBuilder<RegistrationCubit, RegistrationState>(
+      body: BlocBuilder<InventoryCubit, InventoryState>(
         builder: (context, state) {
           return Container(
             height: MediaQuery.of(context).size.height,
@@ -62,7 +62,7 @@ class RegistrationPageView extends StatelessWidget {
               children: [
                 const SizedBox(height: 20),
                 const Text(
-                  "Tractor Registrations",
+                  "Tractor Inventory",
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -71,9 +71,9 @@ class RegistrationPageView extends StatelessWidget {
                 const SizedBox(height: 10),
                 ListView.builder(
                   shrinkWrap: true,
-                  itemCount: state.register.length,
+                  itemCount: state.featuredProducts.length,
                   itemBuilder: (context, index) {
-                    final entries = state.register[index];
+                    final entries = state.featuredProducts[index];
                     return InkWell(
                       onTap: () {},
                       child: Card(
@@ -139,14 +139,14 @@ class RegistrationPageView extends StatelessWidget {
                                     Row(
                                       children: [
                                         const Text(
-                                          "SM : ",
+                                          "Stock Available : ",
                                           style: TextStyle(
                                             fontSize: 12,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
                                         Text(
-                                          "${entries['salesperson']}",
+                                          "${entries['stock']}",
                                           style: const TextStyle(
                                             fontSize: 12,
                                             fontWeight: FontWeight.bold,
@@ -154,28 +154,25 @@ class RegistrationPageView extends StatelessWidget {
                                         ),
                                       ],
                                     ),
-                                    Text(
-                                      entries["date"],
-                                      style: const TextStyle(
-                                          fontSize: 11,
-                                          fontWeight: FontWeight.bold,
-                                          color: Color.fromARGB(
-                                              255, 138, 137, 137)),
-                                    ),
                                   ],
                                 ),
                               ),
                             ),
-                            const Padding(
-                              padding: EdgeInsets.only(right: 15),
+                            Padding(
+                              padding: const EdgeInsets.only(right: 15),
                               child: Center(
-                                heightFactor: 5,
-                                child: Text(
-                                  "View Details",
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      color: Color.fromARGB(255, 119, 33, 135),
-                                      fontWeight: FontWeight.bold),
+                                heightFactor: 2,
+                                child: TextButton(
+                                  onPressed: () {
+                                    Navigator.pushNamed(
+                                        context, Routes.tractordetails);
+                                  },
+                                  child: const Text(
+                                    "Update",
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold),
+                                  ),
                                 ),
                               ),
                             ),
@@ -185,19 +182,20 @@ class RegistrationPageView extends StatelessWidget {
                     );
                   },
                 ),
+                const SizedBox(height: 20),
               ],
             ),
           );
         },
       ),
-      currentIndex: 1,
+      currentIndex: 2,
       onBottomNavTap: (index) {
         if (index == 0) {
           Navigator.pushReplacementNamed(context, Routes.home);
         } else if (index == 1) {
           Navigator.pushReplacementNamed(context, Routes.registration);
         } else if (index == 2) {
-          Navigator.pushReplacementNamed(context, Routes.inventory);
+          Navigator.pushReplacementNamed(context, Routes.home);
         } else if (index == 3) {
           Navigator.pushReplacementNamed(context, Routes.salespersonsprofile);
         }

@@ -81,6 +81,26 @@ class TractorDetailsScreen extends StatelessWidget {
                       ),
                     ],
                   ),
+                  const SizedBox(height: 8),
+                  const Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Stock Available : ',
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(right: 38.0),
+                        child: Text(
+                          '07 Stock',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                   Divider(height: 32, color: Colors.grey[300]),
                   const Text(
                     'Product Details',
@@ -88,7 +108,7 @@ class TractorDetailsScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'The popular 75hp SEN is back and better than ever. Whether spraying, trimming, mowing, fruit handling, or transport—the SEN narrow frame glides easily through orchards and vineyards. Confidently tackle...\n\nRead more',
+                    'The popular 75hp SEN is back and better than ever. Whether spraying, trimming, mowing, fruit handling, or transport—the SEN narrow frame glides easily through orchards and vineyards',
                     style: TextStyle(fontSize: 14, color: Colors.grey[700]),
                   ),
                   Divider(height: 32, color: Colors.grey[300]),

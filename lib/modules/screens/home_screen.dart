@@ -73,9 +73,55 @@ class HomePageView extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.only(right: 25),
-            child: CircleAvatar(
-              backgroundImage: AssetImage(AppImages.profile),
-              radius: 15,
+            child: PopupMenuButton<String>(
+              color: Colors.white,
+              offset: Offset(0, 50),
+              menuPadding: EdgeInsets.symmetric(vertical: 3),
+              onSelected: (value) {
+                if (value == 'logout') {
+                  // Handle logout logic here
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) => AlertDialog(
+                      title: const Text("Logout"),
+                      content: const Text("Are you sure you want to logout?"),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text("Cancel"),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                            // Perform logout action
+                            Navigator.pushReplacementNamed(
+                                context, Routes.login);
+                          },
+                          child: const Text("Logout"),
+                        ),
+                      ],
+                    ),
+                  );
+                }
+              },
+              icon: CircleAvatar(
+                backgroundImage: AssetImage(AppImages.profile),
+                radius: 15,
+              ),
+              itemBuilder: (BuildContext context) => [
+                const PopupMenuItem<String>(
+                  value: 'logout',
+                  child: Row(
+                    children: [
+                      Icon(Icons.logout, color: Colors.black),
+                      SizedBox(width: 8),
+                      Text("Logout"),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
         ],
@@ -137,7 +183,7 @@ class HomePageView extends StatelessWidget {
                                   ),
                                   const SizedBox(width: 8),
                                   const Text(
-                                    "Total Sales",
+                                    "Tractor Sales",
                                     style: TextStyle(
                                       fontSize: 13,
                                       fontWeight: FontWeight.w600,
@@ -161,58 +207,64 @@ class HomePageView extends StatelessWidget {
                             ],
                           ),
                         ),
-                        Container(
-                          width: 170,
-                          padding: const EdgeInsets.all(16),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(12),
-                            border:
-                                Border.all(color: Colors.grey.withOpacity(0.3)),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.2),
-                                blurRadius: 3,
-                                offset: const Offset(0, 3),
-                              ),
-                            ],
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  CircleAvatar(
-                                    radius: 12,
-                                    backgroundColor:
-                                        Colors.blue.withOpacity(0.2),
-                                    child: const Icon(Icons.person,
-                                        color: Colors.blue, size: 16),
-                                  ),
-                                  const SizedBox(width: 8),
-                                  const Text(
-                                    "Total SalesMan",
+                        InkWell(
+                          onTap: () {
+                            Navigator.pushNamed(
+                                context, Routes.salespersonsprofile);
+                          },
+                          child: Container(
+                            width: 170,
+                            padding: const EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(
+                                  color: Colors.grey.withOpacity(0.3)),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.2),
+                                  blurRadius: 3,
+                                  offset: const Offset(0, 3),
+                                ),
+                              ],
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    CircleAvatar(
+                                      radius: 12,
+                                      backgroundColor:
+                                          Colors.blue.withOpacity(0.2),
+                                      child: const Icon(Icons.person,
+                                          color: Colors.blue, size: 16),
+                                    ),
+                                    const SizedBox(width: 8),
+                                    const Text(
+                                      "Total SalesMan",
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 16),
+                                const Padding(
+                                  padding: EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                                  child: Text(
+                                    "6",
                                     style: TextStyle(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w600,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
                                       color: Colors.black,
                                     ),
                                   ),
-                                ],
-                              ),
-                              const SizedBox(height: 16),
-                              const Padding(
-                                padding: EdgeInsets.fromLTRB(5.0, 0, 0, 0),
-                                child: Text(
-                                  "6",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                    color: Colors.black,
-                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ],
@@ -223,58 +275,63 @@ class HomePageView extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Container(
-                          width: 170,
-                          padding: const EdgeInsets.all(16),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(12),
-                            border:
-                                Border.all(color: Colors.grey.withOpacity(0.3)),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.2),
-                                blurRadius: 3,
-                                offset: const Offset(0, 3),
-                              ),
-                            ],
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  CircleAvatar(
-                                    radius: 12,
-                                    backgroundColor:
-                                        Colors.purple.withOpacity(0.2),
-                                    child: const Icon(Icons.app_registration,
-                                        color: Colors.purple, size: 16),
-                                  ),
-                                  const SizedBox(width: 8),
-                                  const Text(
-                                    "Registrations",
+                        InkWell(
+                          onTap: () {
+                            Navigator.pushNamed(context, Routes.registration);
+                          },
+                          child: Container(
+                            width: 170,
+                            padding: const EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(
+                                  color: Colors.grey.withOpacity(0.3)),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.2),
+                                  blurRadius: 3,
+                                  offset: const Offset(0, 3),
+                                ),
+                              ],
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    CircleAvatar(
+                                      radius: 12,
+                                      backgroundColor:
+                                          Colors.purple.withOpacity(0.2),
+                                      child: const Icon(Icons.app_registration,
+                                          color: Colors.purple, size: 16),
+                                    ),
+                                    const SizedBox(width: 8),
+                                    const Text(
+                                      "Registrations",
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 16),
+                                const Padding(
+                                  padding: EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                                  child: Text(
+                                    "10",
                                     style: TextStyle(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w600,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
                                       color: Colors.black,
                                     ),
                                   ),
-                                ],
-                              ),
-                              const SizedBox(height: 16),
-                              const Padding(
-                                padding: EdgeInsets.fromLTRB(5.0, 0, 0, 0),
-                                child: Text(
-                                  "10",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                    color: Colors.black,
-                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                         Container(
@@ -307,7 +364,7 @@ class HomePageView extends StatelessWidget {
                                   ),
                                   const SizedBox(width: 8),
                                   const Text(
-                                    "Total OIL Sales",
+                                    "Services Sales",
                                     style: TextStyle(
                                       fontSize: 13,
                                       fontWeight: FontWeight.w600,
@@ -454,18 +511,17 @@ class HomePageView extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 15),
+                                const Padding(
+                                  padding: EdgeInsets.only(right: 15),
                                   child: Center(
-                                    heightFactor: 2.1,
-                                    child: TextButton(
-                                      onPressed: () {},
-                                      child: const Text(
-                                        "View Details",
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.bold),
-                                      ),
+                                    heightFactor: 5,
+                                    child: Text(
+                                      "View Details",
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color:
+                                              Color.fromARGB(255, 119, 33, 135),
+                                          fontWeight: FontWeight.bold),
                                     ),
                                   ),
                                 ),
@@ -524,12 +580,7 @@ class HomePageView extends StatelessWidget {
                                   fontSize: 14,
                                 ),
                               ),
-                              trailing: IconButton(
-                                icon: const Icon(Icons.arrow_forward_ios),
-                                onPressed: () {
-                                  // Handle mail icon tap
-                                },
-                              ),
+                              trailing: const Icon(Icons.arrow_forward_ios),
                             );
                           }),
                     ),
@@ -546,7 +597,7 @@ class HomePageView extends StatelessWidget {
           } else if (index == 1) {
             Navigator.pushNamed(context, Routes.registration);
           } else if (index == 2) {
-            Navigator.pushNamed(context, Routes.home);
+            Navigator.pushNamed(context, Routes.inventory);
           } else if (index == 3) {
             Navigator.pushNamed(context, Routes.salespersonsprofile);
           }

@@ -11,8 +11,10 @@ class LoginCubit extends Cubit<LoginState> {
       await Future.delayed(const Duration(seconds: 2));
 
       // Example response handling
-      if (email == 'user123@gmail.com' && password == 'password123') {
-        emit(LoginSuccess(message: 'Login Successful'));
+      if (email == 'admin123@gmail.com' && password == 'password123') {
+        emit(LoginSuccessAdmin(message: 'Login Successful'));
+      } else if (email == 'user123@gmail.com' && password == 'password123') {
+        emit(LoginSuccessSales(message: 'Login Successful'));
       } else {
         emit(LoginError(message: 'Invalid email or password'));
       }

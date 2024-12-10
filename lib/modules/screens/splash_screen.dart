@@ -17,7 +17,7 @@ class SplashScreen extends StatelessWidget {
         child: BlocListener<SplashCubit, SplashState>(
           listener: (context, state) {
             if (state is SplashLoaded) {
-              Navigator.pushReplacementNamed(context, Routes.home);
+              Navigator.pushReplacementNamed(context, Routes.saleHome);
             }
           },
           child: Stack(
