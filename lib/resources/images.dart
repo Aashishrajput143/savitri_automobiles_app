@@ -20,6 +20,10 @@ class AppImages {
   static get electronicclutch => 'assets/images/electronicclutch.png';
   static get fuelfilter => 'assets/images/fuelfilter.png';
   static get gearbox => 'assets/images/Gearbox.png';
+  static get motul => 'assets/images/motul.png';
+  static get gtx => 'assets/images/gtx.png';
+  static get edge => 'assets/images/edge.png';
+  static get magnetic => 'assets/images/magnetic.png';
 
   //icons
   static get searchIcon => 'assets/icons/searchIcon.svg';

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:savitri_automobiles_admin/modules/cubit/inventory_cubit/inventory_tab_cubit.dart';
 import 'package:savitri_automobiles_admin/modules/screens/common_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/inventory_screen/implements_inventory_screen.dart';
+import 'package:savitri_automobiles_admin/modules/screens/inventory_screen/oil_inventory_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/inventory_screen/spareparts_inventory_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/inventory_screen/tractor_inventory_screen.dart';
 import 'package:savitri_automobiles_admin/routes/routes.dart';
@@ -75,7 +76,7 @@ class InventoryPageView extends StatelessWidget {
               TractorInventoryScreen(),
               ImplementsInventoryScreen(),
               SparePartsInventoryScreen(),
-              Center(child: Text('Oil Stock Content')),
+              OilInventoryScreen(),
             ],
           );
         },
