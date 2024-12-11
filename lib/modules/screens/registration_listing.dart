@@ -22,6 +22,7 @@ class RegistrationPageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CommonScreen(
+      initialtab: 0,
       tabs: 1,
       autoimplement: false,
       appBarTitle: const Padding(
@@ -206,7 +207,7 @@ class RegistrationPageView extends StatelessWidget {
         } else if (index == 2) {
           Navigator.pushReplacementNamed(context, Routes.inventory);
         } else if (index == 3) {
-          Navigator.pushReplacementNamed(context, Routes.salespersonsprofile);
+          Navigator.pushReplacementNamed(context, Routes.executive);
         }
       },
     );

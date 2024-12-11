@@ -9,6 +9,7 @@ class CommonScreen extends StatelessWidget {
   final bool centertitle;
   final bool autoimplement;
   final int tabs;
+  final int initialtab;
   final PreferredSizeWidget bottomtabs;
 
   const CommonScreen({
@@ -21,12 +22,14 @@ class CommonScreen extends StatelessWidget {
     required this.onBottomNavTap,
     required this.autoimplement,
     required this.tabs,
+    required this.initialtab,
     required this.bottomtabs,
   });
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
+      initialIndex: initialtab,
       length: tabs,
       child: Scaffold(
         appBar: AppBar(

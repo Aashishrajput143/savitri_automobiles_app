@@ -23,6 +23,7 @@ class TractorPageView extends StatelessWidget {
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
     return CommonScreen(
+      initialtab: 0,
       bottomtabs: const PreferredSize(
         preferredSize: Size.fromHeight(0),
         child: SizedBox.shrink(),

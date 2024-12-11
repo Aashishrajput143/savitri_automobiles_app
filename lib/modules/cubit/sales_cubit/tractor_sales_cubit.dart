@@ -1,44 +1,37 @@
-import 'package:bloc/bloc.dart';
-import 'package:savitri_automobiles_admin/resources/images.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TractorSalesState {
-  final List<Map<String, dynamic>> featuredProducts;
+  final List<Map<String, dynamic>> tractorData;
+  final List<Map<String, dynamic>> accessoryData;
 
-  TractorSalesState({
-    required this.featuredProducts,
-  });
+  TractorSalesState({required this.tractorData, required this.accessoryData});
 }
 
 class TractorSalesCubit extends Cubit<TractorSalesState> {
   TractorSalesCubit()
       : super(
           TractorSalesState(
-            featuredProducts: [
-              {
-                "name": "Cultivator",
-                "price": "₹80,590",
-                "image": AppImages.cultivator,
-                "stock": 5,
-              },
-              {
-                "name": "Plough",
-                "price": "₹70,000",
-                "image": AppImages.plough,
-                "stock": 7,
-              },
-              {
-                "name": "Rotary",
-                "price": "₹1,80,590",
-                "image": AppImages.rotary,
-                "stock": 4,
-              },
-              {
-                "name": "Harrow",
-                "price": "₹90,000",
-                "image": AppImages.harrow,
-                "stock": 8,
-              },
-            ],
+            tractorData: [],
+            accessoryData: [],
           ),
         );
+
+  void loadChartData() {
+    final tractorSales = [
+      {'month': 'Jan', 'sales': 10},
+      {'month': 'Feb', 'sales': 20},
+      {'month': 'Mar', 'sales': 15},
+      {'month': 'Apr', 'sales': 25},
+    ];
+
+    final accessorySales = [
+      {'month': 'Jan', 'sales': 5},
+      {'month': 'Feb', 'sales': 10},
+      {'month': 'Mar', 'sales': 8},
+      {'month': 'Apr', 'sales': 12},
+    ];
+
+    emit(TractorSalesState(
+        tractorData: tractorSales, accessoryData: accessorySales));
+  }
 }

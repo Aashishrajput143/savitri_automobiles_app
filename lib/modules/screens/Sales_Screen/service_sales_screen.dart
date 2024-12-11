@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:savitri_automobiles_admin/modules/cubit/sales_cubit/service_sales_cubit.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 class ServiceSalesScreen extends StatelessWidget {
   const ServiceSalesScreen({super.key});
@@ -8,7 +9,7 @@ class ServiceSalesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => ServiceSalesCubit(),
+      create: (_) => ServiceSalesCubit()..loadChartData(),
       child: const ServiceSalesPageView(),
     );
   }
@@ -23,7 +24,7 @@ class ServiceSalesPageView extends StatelessWidget {
       builder: (context, state) {
         return SingleChildScrollView(
           child: Container(
-            height: MediaQuery.of(context).size.height,
+            height: MediaQuery.of(context).size.height * 0.8,
             color: Colors.white,
             padding: const EdgeInsets.fromLTRB(16.0, 0, 16, 16),
             child: Column(
@@ -32,7 +33,7 @@ class ServiceSalesPageView extends StatelessWidget {
                 const Padding(
                   padding: EdgeInsets.symmetric(vertical: 15.0),
                   child: Text(
-                    "Service Analytics",
+                    "Services Analytics",
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
@@ -148,8 +149,71 @@ class ServiceSalesPageView extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(
-                  height: 20,
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 20.0),
+                  child: Text(
+                    "Services Graph ",
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 300,
+                  child: SfCartesianChart(
+                    primaryXAxis: const CategoryAxis(
+                      edgeLabelPlacement: EdgeLabelPlacement.shift,
+                      interval: 1,
+                    ),
+                    legend: const Legend(
+                      isVisible: true,
+                      position: LegendPosition.bottom,
+                    ),
+                    tooltipBehavior: TooltipBehavior(enable: true),
+                    series: <CartesianSeries>[
+                      ColumnSeries<Map<String, dynamic>, String>(
+                        name: 'Spare Parts',
+                        dataSource: state.sparePartData,
+                        xValueMapper: (Map<String, dynamic> data, _) =>
+                            data['month'] as String,
+                        yValueMapper: (Map<String, dynamic> data, _) =>
+                            data['sales'] as num,
+                        gradient: const LinearGradient(
+                          colors: [
+                            Color.fromARGB(255, 37, 153, 255),
+                            Color.fromARGB(255, 74, 255, 216),
+                          ],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                        ),
+                        dataLabelSettings: const DataLabelSettings(
+                          isVisible: true,
+                          labelAlignment: ChartDataLabelAlignment.outer,
+                        ),
+                      ),
+                      ColumnSeries<Map<String, dynamic>, String>(
+                        name: 'OIL',
+                        dataSource: state.oilData,
+                        xValueMapper: (Map<String, dynamic> data, _) =>
+                            data['month'] as String,
+                        yValueMapper: (Map<String, dynamic> data, _) =>
+                            data['sales'] as num,
+                        gradient: const LinearGradient(
+                          colors: [
+                            Color.fromARGB(255, 255, 102, 102),
+                            Color.fromARGB(255, 255, 204, 204),
+                          ],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                        ),
+                        dataLabelSettings: const DataLabelSettings(
+                          isVisible: true,
+                          labelAlignment: ChartDataLabelAlignment.outer,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),

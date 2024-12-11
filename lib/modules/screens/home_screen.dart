@@ -40,6 +40,7 @@ class HomePageView extends StatelessWidget {
         return true; // Exit the app
       },
       child: CommonScreen(
+        initialtab: 0,
         bottomtabs: const PreferredSize(
           preferredSize: Size.fromHeight(0),
           child: SizedBox.shrink(),
@@ -221,8 +222,7 @@ class HomePageView extends StatelessWidget {
                         ),
                         InkWell(
                           onTap: () {
-                            Navigator.pushNamed(
-                                context, Routes.salespersonsprofile);
+                            Navigator.pushNamed(context, Routes.executive);
                           },
                           child: Container(
                             width: 170,
@@ -346,58 +346,66 @@ class HomePageView extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Container(
-                          width: 170,
-                          padding: const EdgeInsets.all(16),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(12),
-                            border:
-                                Border.all(color: Colors.grey.withOpacity(0.3)),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.2),
-                                blurRadius: 3,
-                                offset: const Offset(0, 3),
-                              ),
-                            ],
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  CircleAvatar(
-                                    radius: 12,
-                                    backgroundColor:
-                                        Colors.orange.withOpacity(0.2),
-                                    child: const Icon(Icons.oil_barrel_outlined,
-                                        color: Colors.orange, size: 16),
-                                  ),
-                                  const SizedBox(width: 8),
-                                  const Text(
-                                    "Services Sales",
+                        InkWell(
+                          onTap: () {
+                            Navigator.pushNamed(context, Routes.salesscreen,
+                                arguments: 1);
+                          },
+                          child: Container(
+                            width: 170,
+                            padding: const EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(
+                                  color: Colors.grey.withOpacity(0.3)),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.2),
+                                  blurRadius: 3,
+                                  offset: const Offset(0, 3),
+                                ),
+                              ],
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    CircleAvatar(
+                                      radius: 12,
+                                      backgroundColor:
+                                          Colors.orange.withOpacity(0.2),
+                                      child: const Icon(
+                                          Icons.oil_barrel_outlined,
+                                          color: Colors.orange,
+                                          size: 16),
+                                    ),
+                                    const SizedBox(width: 8),
+                                    const Text(
+                                      "Services Sales",
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 16),
+                                const Padding(
+                                  padding: EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                                  child: Text(
+                                    "₹ 78 K",
                                     style: TextStyle(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w600,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
                                       color: Colors.black,
                                     ),
                                   ),
-                                ],
-                              ),
-                              const SizedBox(height: 16),
-                              const Padding(
-                                padding: EdgeInsets.fromLTRB(5.0, 0, 0, 0),
-                                child: Text(
-                                  "₹ 78 K",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                    color: Colors.black,
-                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ],
@@ -558,8 +566,7 @@ class HomePageView extends StatelessWidget {
                         ),
                         TextButton(
                           onPressed: () {
-                            Navigator.pushNamed(
-                                context, Routes.salespersonsprofile);
+                            Navigator.pushNamed(context, Routes.executive);
                           },
                           child: const Text("See all"),
                         ),
@@ -613,7 +620,7 @@ class HomePageView extends StatelessWidget {
           } else if (index == 2) {
             Navigator.pushNamed(context, Routes.inventory);
           } else if (index == 3) {
-            Navigator.pushNamed(context, Routes.salespersonsprofile);
+            Navigator.pushNamed(context, Routes.executive);
           }
         },
       ),

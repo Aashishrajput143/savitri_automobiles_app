@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:savitri_automobiles_admin/modules/cubit/inventory_cubit/stock_price_manage_cubit.dart';
 import 'package:savitri_automobiles_admin/modules/cubit/inventory_cubit/tractor_inventory_cubit.dart';
 import 'package:savitri_automobiles_admin/routes/routes.dart';
 
@@ -44,19 +45,22 @@ class TractorInventoryPageView extends StatelessWidget {
                   itemCount: state.featuredProducts.length,
                   itemBuilder: (context, index) {
                     final entries = state.featuredProducts[index];
-                    return InkWell(
-                      onTap: () {},
-                      child: Card(
-                        color: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        margin: const EdgeInsets.symmetric(
-                            vertical: 10.0, horizontal: 2),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
+                    return Card(
+                      color: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      margin: const EdgeInsets.symmetric(
+                          vertical: 10.0, horizontal: 2),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              Navigator.pushNamed(
+                                  context, Routes.tractordetails);
+                            },
+                            child: Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 8.0),
                               child: ClipRRect(
@@ -82,10 +86,16 @@ class TractorInventoryPageView extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            const SizedBox(width: 10),
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.all(10.0),
+                          ),
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 5.0, vertical: 10),
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                      context, Routes.tractordetails);
+                                },
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -132,26 +142,69 @@ class TractorInventoryPageView extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 15),
-                              child: Center(
-                                heightFactor: 2,
-                                child: TextButton(
-                                  onPressed: () {
-                                    Navigator.pushNamed(
-                                        context, Routes.tractordetails);
-                                  },
-                                  child: const Text(
-                                    "Update",
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.bold),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(right: 5, top: 5),
+                            child: Container(
+                              height: MediaQuery.of(context).size.height * 0.1,
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 8, vertical: 4),
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Colors.grey),
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              child: Column(
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {},
+                                    child: const Icon(Icons.add, size: 22),
                                   ),
-                                ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8),
+                                    child: Text('${entries['stock']}',
+                                        style: const TextStyle(fontSize: 13)),
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {},
+                                    child: const Icon(Icons.remove, size: 22),
+                                  ),
+                                ],
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                          BlocProvider(
+                            create: (_) => StockPriceFormCubit(),
+                            child: BlocBuilder<StockPriceFormCubit,
+                                Map<String, dynamic>>(
+                              builder: (context, state) {
+                                return Padding(
+                                  padding: const EdgeInsets.only(right: 10),
+                                  child: Center(
+                                    heightFactor: 2,
+                                    child: TextButton(
+                                      onPressed: () {
+                                        showUpdateDialog(context);
+                                      },
+                                      child: const Text(
+                                        "View",
+                                        style: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        ],
                       ),
                     );
                   },
@@ -160,6 +213,84 @@ class TractorInventoryPageView extends StatelessWidget {
               const SizedBox(height: 20),
             ],
           ),
+        );
+      },
+    );
+  }
+
+  void showUpdateDialog(BuildContext context) {
+    final cubit = context.read<StockPriceFormCubit>();
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Update Details"),
+          content: Form(
+            key: cubit.formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextFormField(
+                  controller: cubit.priceController,
+                  decoration: InputDecoration(
+                    labelText: "Price Update",
+                  ),
+                  keyboardType: TextInputType.number,
+                  onChanged: (value) {
+                    cubit.updatePrice(value);
+                  },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Please enter a price";
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(height: 10),
+                TextFormField(
+                  controller: cubit.stockController,
+                  decoration: InputDecoration(
+                    labelText: "Stock Update",
+                  ),
+                  keyboardType: TextInputType.number,
+                  onChanged: (value) {
+                    cubit.updateStock(value);
+                  },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Please enter stock";
+                    }
+                    return null;
+                  },
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text("Cancel"),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                if (cubit.formKey.currentState!.validate()) {
+                  final price = cubit.priceController.text;
+                  final stock = cubit.stockController.text;
+
+                  print("Price: $price, Stock: $stock");
+
+                  cubit.updatePrice(price);
+                  cubit.updateStock(stock);
+
+                  Navigator.pop(context);
+                }
+              },
+              child: Text("Update"),
+            ),
+          ],
         );
       },
     );

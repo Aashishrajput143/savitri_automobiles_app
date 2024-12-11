@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:savitri_automobiles_admin/modules/cubit/inventory_cubit/inventory_tab_cubit.dart';
 import 'package:savitri_automobiles_admin/modules/cubit/sales_cubit/sales_tab_cubit.dart';
 import 'package:savitri_automobiles_admin/modules/screens/Sales_Screen/service_sales_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/Sales_Screen/tractor_sales_screen.dart';
@@ -23,7 +22,10 @@ class SalesPageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final initialtab = ModalRoute.of(context)?.settings.arguments as int? ?? 0;
+    print('Received arguments: $initialtab');
     return DefaultTabController(
+      initialIndex: initialtab,
       length: 2,
       child: Scaffold(
         appBar: AppBar(
@@ -59,10 +61,8 @@ class SalesPageView extends StatelessWidget {
             ),
           ],
           bottom: TabBar(
-            //tabAlignment: TabAlignment.start,
-            //isScrollable: true,
             onTap: (index) {
-              context.read<InventoryTabCubit>().changeTab(index);
+              context.read<SalesTabCubit>().changeTab(index);
             },
             tabs: const [
               Tab(text: 'Tractor & Implements'),

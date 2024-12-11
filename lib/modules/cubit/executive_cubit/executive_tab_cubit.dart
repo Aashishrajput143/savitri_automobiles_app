@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class SalesTabCubit extends Cubit<int> {
-  SalesTabCubit() : super(0);
+class ExecutiveTabCubit extends Cubit<int> {
+  ExecutiveTabCubit() : super(0);
 
   void changeTab(int index) {
     print("Tab Changed");

@@ -8,7 +8,7 @@ import 'package:savitri_automobiles_admin/modules/screens/registration_listing.d
 import 'package:savitri_automobiles_admin/modules/screens/review_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/sales_entry_listing_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/sales_home_screen.dart';
-import 'package:savitri_automobiles_admin/modules/screens/sales_person_screen.dart';
+import 'package:savitri_automobiles_admin/modules/screens/Executive/executive_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/search_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/tractor_details_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/tractor_screen.dart';
@@ -22,7 +22,7 @@ class Routes {
   static const String login = '/login';
   static const String search = '/search';
   static const String tractorlisting = '/tractorlisting';
-  static const String salespersonsprofile = '/salespersonsprofile';
+  static const String executive = '/executive';
   static const String tractordetails = '/tractordetails';
   static const String notification = '/notification';
   static const String registration = '/registration';
@@ -58,15 +58,15 @@ class Routes {
       case saleHome:
         return MaterialPageRoute(builder: (_) => const SalesHomeScreen());
       case salesscreen:
-        return MaterialPageRoute(builder: (_) => const SalesScreen());
+        return MaterialPageRoute(
+            builder: (_) => const SalesScreen(), settings: settings);
       case review:
         return MaterialPageRoute(builder: (_) => const ReviewScreen());
       case registration:
         return MaterialPageRoute(
             builder: (_) => const RegistrationListingScreen());
-      case salespersonsprofile:
-        return MaterialPageRoute(
-            builder: (_) => const SalesPersonListingScreen());
+      case executive:
+        return MaterialPageRoute(builder: (_) => const ExecutiveScreen());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

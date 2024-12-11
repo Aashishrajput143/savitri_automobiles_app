@@ -1,44 +1,36 @@
-import 'package:bloc/bloc.dart';
-import 'package:savitri_automobiles_admin/resources/images.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ServiceSalesState {
-  final List<Map<String, dynamic>> featuredProducts;
+  final List<Map<String, dynamic>> sparePartData;
+  final List<Map<String, dynamic>> oilData;
 
-  ServiceSalesState({
-    required this.featuredProducts,
-  });
+  ServiceSalesState({required this.sparePartData, required this.oilData});
 }
 
 class ServiceSalesCubit extends Cubit<ServiceSalesState> {
   ServiceSalesCubit()
       : super(
           ServiceSalesState(
-            featuredProducts: [
-              {
-                "name": "Cultivator",
-                "price": "₹80,590",
-                "image": AppImages.cultivator,
-                "stock": 5,
-              },
-              {
-                "name": "Plough",
-                "price": "₹70,000",
-                "image": AppImages.plough,
-                "stock": 7,
-              },
-              {
-                "name": "Rotary",
-                "price": "₹1,80,590",
-                "image": AppImages.rotary,
-                "stock": 4,
-              },
-              {
-                "name": "Harrow",
-                "price": "₹90,000",
-                "image": AppImages.harrow,
-                "stock": 8,
-              },
-            ],
+            sparePartData: [],
+            oilData: [],
           ),
         );
+
+  void loadChartData() {
+    final sparepartsSales = [
+      {'month': 'Jan', 'sales': 100},
+      {'month': 'Feb', 'sales': 200},
+      {'month': 'Mar', 'sales': 150},
+      {'month': 'Apr', 'sales': 250},
+    ];
+
+    final oilSales = [
+      {'month': 'Jan', 'sales': 50},
+      {'month': 'Feb', 'sales': 100},
+      {'month': 'Mar', 'sales': 80},
+      {'month': 'Apr', 'sales': 120},
+    ];
+
+    emit(ServiceSalesState(sparePartData: sparepartsSales, oilData: oilSales));
+  }
 }

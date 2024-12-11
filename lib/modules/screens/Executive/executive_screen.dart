@@ -1,38 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:savitri_automobiles_admin/modules/cubit/inventory_cubit/inventory_tab_cubit.dart';
+import 'package:savitri_automobiles_admin/modules/cubit/executive_cubit/executive_tab_cubit.dart';
+import 'package:savitri_automobiles_admin/modules/screens/Executive/collection_executive_screen.dart';
+import 'package:savitri_automobiles_admin/modules/screens/Executive/sales_executive_screen.dart';
+import 'package:savitri_automobiles_admin/modules/screens/Executive/service_executive_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/common_screen.dart';
-import 'package:savitri_automobiles_admin/modules/screens/inventory_screen/implements_inventory_screen.dart';
-import 'package:savitri_automobiles_admin/modules/screens/inventory_screen/oil_inventory_screen.dart';
-import 'package:savitri_automobiles_admin/modules/screens/inventory_screen/spareparts_inventory_screen.dart';
-import 'package:savitri_automobiles_admin/modules/screens/inventory_screen/tractor_inventory_screen.dart';
 import 'package:savitri_automobiles_admin/routes/routes.dart';
 
-class InventoryScreen extends StatelessWidget {
-  const InventoryScreen({super.key});
+class ExecutiveScreen extends StatelessWidget {
+  const ExecutiveScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => InventoryTabCubit(),
-      child: const InventoryPageView(),
+      create: (_) => ExecutiveTabCubit(),
+      child: const ExecutivePageView(),
     );
   }
 }
 
-class InventoryPageView extends StatelessWidget {
-  const InventoryPageView({super.key});
+class ExecutivePageView extends StatelessWidget {
+  const ExecutivePageView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return CommonScreen(
       initialtab: 0,
-      tabs: 4,
+      tabs: 3,
       autoimplement: false,
       appBarTitle: const Padding(
         padding: EdgeInsets.symmetric(horizontal: 5.0),
         child: Text(
-          "Inventory",
+          "Executives",
           style: TextStyle(
             color: Colors.black,
             fontSize: 20,
@@ -58,38 +57,34 @@ class InventoryPageView extends StatelessWidget {
         ),
       ],
       bottomtabs: TabBar(
-        tabAlignment: TabAlignment.start,
-        isScrollable: true,
         onTap: (index) {
-          context.read<InventoryTabCubit>().changeTab(index);
+          context.read<ExecutiveTabCubit>().changeTab(index);
         },
         tabs: const [
-          SizedBox(width: 60, child: Tab(text: 'Tractor')),
-          SizedBox(width: 80, child: Tab(text: 'Implements')),
-          SizedBox(width: 70, child: Tab(text: 'Spareparts')),
-          SizedBox(width: 40, child: Tab(text: 'Oil')),
+          Tab(text: 'Sales'),
+          Tab(text: 'Service'),
+          Tab(text: 'Collection'),
         ],
       ),
-      body: BlocBuilder<InventoryTabCubit, int>(
+      body: BlocBuilder<ExecutiveTabCubit, int>(
         builder: (context, state) {
           return const TabBarView(
             children: [
-              TractorInventoryScreen(),
-              ImplementsInventoryScreen(),
-              SparePartsInventoryScreen(),
-              OilInventoryScreen(),
+              SalesExecutiveScreen(),
+              ServiceExecutiveScreen(),
+              CollectionExecutiveScreen(),
             ],
           );
         },
       ),
-      currentIndex: 2,
+      currentIndex: 3,
       onBottomNavTap: (index) {
         if (index == 0) {
           Navigator.pushReplacementNamed(context, Routes.home);
         } else if (index == 1) {
           Navigator.pushReplacementNamed(context, Routes.registration);
         } else if (index == 2) {
-          Navigator.pushReplacementNamed(context, Routes.home);
+          Navigator.pushReplacementNamed(context, Routes.inventory);
         } else if (index == 3) {
           Navigator.pushReplacementNamed(context, Routes.executive);
         }
