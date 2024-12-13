@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:savitri_automobiles_admin/modules/cubit/sale_entry_listing/sales_entry_cubit.dart';
+import 'package:savitri_automobiles_admin/modules/cubit/service_entry_listing/service_entry_cubit.dart';
 import 'package:savitri_automobiles_admin/routes/routes.dart';
 
-class SalesEntryListing extends StatelessWidget {
-  const SalesEntryListing({super.key});
+class ServiceEntryListing extends StatelessWidget {
+  const ServiceEntryListing({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (_) => SalesEntryCubit(), child: const SaleEntryListingPage());
+        create: (_) => ServiceEntryCubit(),
+        child: const SaleEntryListingPage());
   }
 }
 
@@ -20,7 +21,7 @@ class SaleEntryListingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Sales Entries'),
+        title: const Text('Service Entries'),
         backgroundColor: Colors.white,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
@@ -55,21 +56,21 @@ class SaleEntryListingPage extends StatelessWidget {
         ],
       ),
       body: BlocProvider(
-        create: (_) => SalesEntryCubit()..fetchSalesEntries(),
-        child: BlocBuilder<SalesEntryCubit, SalesEntryState>(
+        create: (_) => ServiceEntryCubit()..fetchServiceEntries(),
+        child: BlocBuilder<ServiceEntryCubit, ServiceEntryState>(
           builder: (context, state) {
-            if (state is SalesEntryLoading) {
+            if (state is ServiceEntryLoading) {
               return const Center(child: CircularProgressIndicator());
-            } else if (state is SalesEntrySuccess) {
-              if (state.salesEntryListing.isEmpty) {
+            } else if (state is ServiceEntrySuccess) {
+              if (state.serviceEntryListing.isEmpty) {
                 return const Center(child: Text("No tractors available."));
               }
               return Container(
                 color: Colors.white,
                 child: ListView.builder(
-                  itemCount: state.salesEntryListing.length,
+                  itemCount: state.serviceEntryListing.length,
                   itemBuilder: (context, index) {
-                    final tractor = state.salesEntryListing[index];
+                    final tractor = state.serviceEntryListing[index];
                     return InkWell(
                       onTap: () {
                         Navigator.pushNamed(context, Routes.review);
@@ -222,7 +223,7 @@ class SaleEntryListingPage extends StatelessWidget {
                   },
                 ),
               );
-            } else if (state is SalesEntryFailure) {
+            } else if (state is ServiceEntryFailure) {
               return Center(child: Text(state.errorMessage));
             }
             return const SizedBox.shrink();

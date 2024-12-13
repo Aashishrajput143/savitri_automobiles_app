@@ -32,6 +32,11 @@ class LoginScreen extends StatelessWidget {
                 SnackBar(content: Text(state.message)),
               );
               Navigator.pushReplacementNamed(context, Routes.saleHome);
+            } else if (state is LoginSuccessService) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(state.message)),
+              );
+              Navigator.pushReplacementNamed(context, Routes.serviceHome);
             } else if (state is LoginError) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text(state.message)),

@@ -18,6 +18,15 @@ class LoginSuccessSales extends LoginState {
   List<Object?> get props => [message];
 }
 
+class LoginSuccessService extends LoginState {
+  final String message;
+
+  LoginSuccessService({required this.message});
+
+  @override
+  List<Object?> get props => [message];
+}
+
 class LoginSuccessAdmin extends LoginState {
   final String message;
 

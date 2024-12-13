@@ -13,8 +13,10 @@ class LoginCubit extends Cubit<LoginState> {
       // Example response handling
       if (email == 'admin123@gmail.com' && password == 'password123') {
         emit(LoginSuccessAdmin(message: 'Login Successful'));
-      } else if (email == 'user123@gmail.com' && password == 'password123') {
+      } else if (email == 'sales123@gmail.com' && password == 'password123') {
         emit(LoginSuccessSales(message: 'Login Successful'));
+      } else if (email == 'service123@gmail.com' && password == 'password123') {
+        emit(LoginSuccessService(message: 'Login Successful'));
       } else {
         emit(LoginError(message: 'Invalid email or password'));
       }

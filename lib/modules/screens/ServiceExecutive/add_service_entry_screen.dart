@@ -1,16 +1,13 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:multi_select_flutter/dialog/multi_select_dialog_field.dart';
-import 'package:multi_select_flutter/multi_select_flutter.dart';
-import 'package:multi_select_flutter/util/multi_select_item.dart';
 import 'package:savitri_automobiles_admin/modules/cubit/add_sale_entry_cubit/add_sale_cubit.dart';
 import 'package:savitri_automobiles_admin/modules/cubit/add_sale_entry_cubit/add_sale_state.dart';
 
 import '../../../routes/routes.dart';
 
-class SalesEntryScreen extends StatelessWidget {
-  const SalesEntryScreen({super.key});
+class ServiceEntryScreen extends StatelessWidget {
+  const ServiceEntryScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -18,7 +15,7 @@ class SalesEntryScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
-          title: const Text("Add Sales Entry"),
+          title: const Text("Add Service Entry"),
           centerTitle: false,
           actions: [
             Padding(
@@ -137,177 +134,6 @@ class SalesEntryScreen extends StatelessWidget {
                               cubit.addressController, "Enter Address"),
                           const SizedBox(height: 40),
 
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: CheckboxListTile(
-                              title: const Text("Include Exchange Item"),
-                              value: state.isChecked,
-                              onChanged: (value) {
-                                cubit.toggleExchangeItem(value ?? false);
-                              },
-                            ),
-                          ),
-
-                          // Exchange Item Details
-                          if (state.isChecked) ...[
-                            const SizedBox(height: 40),
-                            const Text(
-                              "Exchange Item Details",
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold),
-                            ),
-                            const Divider(thickness: 1.5),
-                            const SizedBox(height: 8),
-                            // _buildDetailRowWithTextField(
-                            //     "Name", cubit.exchangeItemController,"Enter name"),
-                            _buildDetailRowWithTextField(
-                                "Model",
-                                cubit.exchangeItemController,
-                                "Enter Tractor Model"),
-                            _buildDetailRowWithTextField("Brand",
-                                cubit.exchangeItemController, "Enter Brand"),
-                            _buildDetailRowWithTextField(
-                                "Vehicle Age",
-                                cubit.exchangeItemController,
-                                "Enter Vehicle Age"),
-                            _buildDetailRowWithTextField(
-                                "Vehicle Type",
-                                cubit.exchangeItemController,
-                                "Enter Vehicle Type"),
-                            _buildDetailRowWithTextField(
-                                "Vehicle Amount",
-                                cubit.exchangeItemController,
-                                "Enter Vehicle Amount"),
-                          ],
-                          const SizedBox(height: 40),
-                          const Text(
-                            "Registration Details",
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold),
-                          ),
-                          const Divider(thickness: 1.5),
-                          const SizedBox(height: 8),
-                          DropdownSearch<String>(
-                            key: cubit.dropDownKeyRegistration,
-                            selectedItem: "Select registration",
-                            items: (value, c) => ["COMMERCIAL", "AGRICULTURE"],
-                            decoratorProps: const DropDownDecoratorProps(
-                              decoration: InputDecoration(
-                                labelText: 'Select Registration',
-                                border: OutlineInputBorder(),
-                              ),
-                            ),
-                            popupProps: const PopupProps.menu(
-                              fit: FlexFit.loose,
-                              constraints: BoxConstraints(),
-                            ),
-                            onChanged: (value) {
-                              print("Selected tractor model: $value");
-                              context
-                                  .read<AddSaleCubit>()
-                                  .selectRegistrationType(value);
-                            },
-                          ),
-                          const SizedBox(height: 8),
-                          TextField(
-                            keyboardType: const TextInputType.numberWithOptions(
-                                decimal: true),
-                            maxLength: 5,
-                            controller: cubit.registrationCostController,
-                            decoration: const InputDecoration(
-                              label: Text("Registration cost"),
-                              counterText: "",
-                              border: OutlineInputBorder(),
-                              hintText: "Enter Registration Cost",
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          TextField(
-                            keyboardType: TextInputType.text,
-                            controller: cubit.registrationNumberController,
-                            decoration: const InputDecoration(
-                              label: Text("Registration Number"),
-                              counterText: "",
-                              border: OutlineInputBorder(),
-                              hintText: "Enter Registration Number",
-                            ),
-                          ),
-                          const SizedBox(height: 40),
-                          const Text(
-                            "Equipments",
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold),
-                          ),
-                          const Divider(thickness: 1.5),
-                          const SizedBox(height: 8),
-
-                          MultiSelectDialogField(
-                            items: context
-                                .read<AddSaleCubit>()
-                                .state
-                                .availableEquipments
-                                .map((equipment) {
-                              final price = context
-                                      .read<AddSaleCubit>()
-                                      .state
-                                      .equipmentPrices[equipment] ??
-                                  0.0;
-                              return MultiSelectItem<String>(
-                                equipment,
-                                "$equipment  -  ₹$price",
-                              );
-                            }).toList(),
-                            title: const Text("Equipments"),
-                            selectedColor: Colors.black,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(5)),
-                              border: Border.all(
-                                color: Colors.grey,
-                                width: 1,
-                              ),
-                            ),
-                            buttonText: const Text(
-                              "Equipments",
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 16,
-                              ),
-                            ),
-                            initialValue: context
-                                .read<AddSaleCubit>()
-                                .state
-                                .selectedEquipments,
-                            onConfirm: (results) {
-                              context
-                                  .read<AddSaleCubit>()
-                                  .updateSelectedEquipments(
-                                      results.cast<String>());
-                            },
-                            chipDisplay: MultiSelectChipDisplay(
-                              items: context
-                                  .read<AddSaleCubit>()
-                                  .state
-                                  .selectedEquipments
-                                  .map((name) {
-                                print(name);
-                                return MultiSelectItem<String>(
-                                  name,
-                                  name,
-                                );
-                              }).toList(),
-                              chipColor: Colors.grey[300],
-                              textStyle: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 12,
-                              ),
-                              chipWidth:
-                                  MediaQuery.of(context).size.width * 0.32,
-                            ),
-                          ),
-
-                          const SizedBox(height: 40),
                           const Text(
                             "Insurance Details",
                             style: TextStyle(
@@ -408,10 +234,6 @@ class SalesEntryScreen extends StatelessWidget {
                               "Enter Payment Amount"),
                           _buildDetailRowWithTextField("Due Amount",
                               cubit.dueAmountController, "Enter Due Amount"),
-                          _buildDetailRowWithTextField(
-                              "Finance Interest",
-                              cubit.loanInterestController,
-                              "Enter Finance Interest"),
 
                           const SizedBox(height: 40),
 

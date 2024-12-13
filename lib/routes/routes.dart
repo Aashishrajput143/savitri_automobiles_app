@@ -3,6 +3,9 @@ import 'package:savitri_automobiles_admin/modules/screens/Admin/Executive/execut
 import 'package:savitri_automobiles_admin/modules/screens/Admin/Sales_Screen/sales_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/SalesExecutive/add_sales_entry_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/Admin/inventory_screen/inventory_screen.dart';
+import 'package:savitri_automobiles_admin/modules/screens/ServiceExecutive/add_service_entry_screen.dart';
+import 'package:savitri_automobiles_admin/modules/screens/ServiceExecutive/service_entry_listing_screen.dart';
+import 'package:savitri_automobiles_admin/modules/screens/ServiceExecutive/service_home_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/login_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/notification_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/Admin/Registration/registration_listing.dart';
@@ -32,6 +35,9 @@ class Routes {
   static const String salesscreen = '/salesscreen';
   static const String review = '/review';
   static const String executivedetails = '/executivedetails';
+  static const String serviceHome = '/serviceHome';
+  static const String serviceEntrylisiting = '/serviceEntrylisiting';
+  static const String addServiceEntry = '/addServiceEntry';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -55,6 +61,12 @@ class Routes {
         return MaterialPageRoute(builder: (_) => const SalesEntryListing());
       case saleHome:
         return MaterialPageRoute(builder: (_) => const SalesHomeScreen());
+      case serviceHome:
+        return MaterialPageRoute(builder: (_) => const ServiceHomeScreen());
+      case serviceEntrylisiting:
+        return MaterialPageRoute(builder: (_) => const ServiceEntryListing());
+      case addServiceEntry:
+        return MaterialPageRoute(builder: (_) => const ServiceEntryScreen());
       case salesscreen:
         return MaterialPageRoute(
             builder: (_) => const SalesScreen(), settings: settings);
