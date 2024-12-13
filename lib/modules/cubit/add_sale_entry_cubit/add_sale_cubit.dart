@@ -44,9 +44,19 @@ class AddSaleCubit extends Cubit<AddSaleState> {
               "Cultivator",
               "Loader",
               "Sprayer",
-              "Combine harvester",
-              "Super Seeder"
+              "harvester",
+              "Seeder"
             ],
+            equipmentPrices: {
+              "Harrow": "25,000",
+              "Baler": "25,000",
+              "Plough": "25,000",
+              "Cultivator": "25,000",
+              "Loader": "25,000",
+              "Sprayer": "25,000",
+              "harvester": "25,000",
+              "Seeder": "25,000"
+            },
             selectedEquipments: [],
             selectedTractor: null,
             isChecked: false,
@@ -90,6 +100,17 @@ class AddSaleCubit extends Cubit<AddSaleState> {
     );
 
     emit(state.copyWith(selectedTractor: selected.isEmpty ? null : selected));
+  }
+
+  void addEquipment(String equipment) {
+    final updated = List<String>.from(state.selectedEquipments)..add(equipment);
+    emit(state.copyWith(selectedEquipments: updated));
+  }
+
+  void removeEquipment(String equipment) {
+    final updated = List<String>.from(state.selectedEquipments)
+      ..remove(equipment);
+    emit(state.copyWith(selectedEquipments: updated));
   }
 
   void toggleExchangeItem(bool value) {

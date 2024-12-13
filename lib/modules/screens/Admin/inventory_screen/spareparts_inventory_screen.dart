@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:savitri_automobiles_admin/modules/cubit/inventory_cubit/spareparts_inventory_cubit.dart';
-import 'package:savitri_automobiles_admin/routes/routes.dart';
 
 class SparePartsInventoryScreen extends StatelessWidget {
   const SparePartsInventoryScreen({super.key});
@@ -133,13 +132,12 @@ class SparePartsInventoryPageView extends StatelessWidget {
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(right: 15),
+                              padding: const EdgeInsets.only(right: 10),
                               child: Center(
                                 heightFactor: 2,
                                 child: TextButton(
                                   onPressed: () {
-                                    Navigator.pushNamed(
-                                        context, Routes.tractordetails);
+                                    showUpdateDialog(context, index, state);
                                   },
                                   child: const Text(
                                     "Update",
@@ -157,6 +155,80 @@ class SparePartsInventoryPageView extends StatelessWidget {
                   },
                 ),
               ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void showUpdateDialog(BuildContext context, int index, state) {
+    final cubit = context.read<SparePartsInventoryCubit>();
+    cubit.priceController.text = state.featuredProducts[index]["price"];
+    cubit.stockController.text =
+        state.featuredProducts[index]["stock"].toString();
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: Colors.white,
+          title: const Text("Update Inventory"),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextFormField(
+                controller: cubit.priceController,
+                decoration: const InputDecoration(
+                  labelText: "Update Price",
+                ),
+                keyboardType: TextInputType.number,
+              ),
+              const SizedBox(height: 10),
+              TextFormField(
+                controller: cubit.stockController,
+                decoration: const InputDecoration(
+                  labelText: "Update Stock",
+                ),
+                keyboardType: TextInputType.number,
+              ),
+              const SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text("Cancel"),
+                  ),
+                  ElevatedButton(
+                    style: const ButtonStyle(
+                        backgroundColor: WidgetStatePropertyAll(Colors.green)),
+                    onPressed: () {
+                      final price = cubit.priceController.text;
+                      final stock = cubit.stockController.text;
+
+                      try {
+                        final parsedStock = int.tryParse(stock);
+                        if (parsedStock == null)
+                          throw Exception("Invalid stock value");
+
+                        cubit.updateProduct(index, price, parsedStock);
+
+                        Navigator.pop(context);
+                      } catch (e) {
+                        print("Error: $e");
+                      }
+                    },
+                    child: const Text(
+                      "Update",
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ],
+              )
             ],
           ),
         );

@@ -1,37 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:savitri_automobiles_admin/modules/cubit/executive_cubit/executive_tab_cubit.dart';
-import 'package:savitri_automobiles_admin/modules/screens/Executive/collection_executive_screen.dart';
-import 'package:savitri_automobiles_admin/modules/screens/Executive/sales_executive_screen.dart';
-import 'package:savitri_automobiles_admin/modules/screens/Executive/service_executive_screen.dart';
+import 'package:savitri_automobiles_admin/modules/cubit/registration_cubit/registration_tab_cubit.dart';
+import 'package:savitri_automobiles_admin/modules/screens/Admin/Registration/service_listing.dart';
+import 'package:savitri_automobiles_admin/modules/screens/Admin/Registration/tractor_listing.dart';
 import 'package:savitri_automobiles_admin/modules/screens/common_screen.dart';
 import 'package:savitri_automobiles_admin/routes/routes.dart';
 
-class ExecutiveScreen extends StatelessWidget {
-  const ExecutiveScreen({super.key});
+class RegistrationListingScreen extends StatelessWidget {
+  const RegistrationListingScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => ExecutiveTabCubit(),
-      child: const ExecutivePageView(),
+      create: (_) => RegistrationTabCubit(),
+      child: const RegistrationPageView(),
     );
   }
 }
 
-class ExecutivePageView extends StatelessWidget {
-  const ExecutivePageView({super.key});
+class RegistrationPageView extends StatelessWidget {
+  const RegistrationPageView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return CommonScreen(
       initialtab: 0,
-      tabs: 3,
+      tabs: 2,
       autoimplement: false,
       appBarTitle: const Padding(
         padding: EdgeInsets.symmetric(horizontal: 5.0),
         child: Text(
-          "Executives",
+          "Registrations",
           style: TextStyle(
             color: Colors.black,
             fontSize: 20,
@@ -58,26 +57,24 @@ class ExecutivePageView extends StatelessWidget {
       ],
       bottomtabs: TabBar(
         onTap: (index) {
-          context.read<ExecutiveTabCubit>().changeTab(index);
+          context.read<RegistrationTabCubit>().changeTab(index);
         },
         tabs: const [
-          Tab(text: 'Sales'),
-          Tab(text: 'Service'),
-          Tab(text: 'Collection'),
+          Tab(text: 'Tractor & Implements'),
+          Tab(text: 'Services'),
         ],
       ),
-      body: BlocBuilder<ExecutiveTabCubit, int>(
+      body: BlocBuilder<RegistrationTabCubit, int>(
         builder: (context, state) {
           return const TabBarView(
             children: [
-              SalesExecutiveScreen(),
-              ServiceExecutiveScreen(),
-              CollectionExecutiveScreen(),
+              TractorListingScreen(),
+              ServiceListingScreen(),
             ],
           );
         },
       ),
-      currentIndex: 3,
+      currentIndex: 1,
       onBottomNavTap: (index) {
         if (index == 0) {
           Navigator.pushReplacementNamed(context, Routes.home);

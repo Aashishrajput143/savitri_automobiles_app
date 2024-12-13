@@ -506,7 +506,7 @@ class HomePageView extends StatelessWidget {
                                         Row(
                                           children: [
                                             const Text(
-                                              "SM : ",
+                                              "Salesman : ",
                                               style: TextStyle(
                                                 fontSize: 12,
                                                 fontWeight: FontWeight.bold,
@@ -521,6 +521,7 @@ class HomePageView extends StatelessWidget {
                                             ),
                                           ],
                                         ),
+                                        const SizedBox(height: 5),
                                         Text(
                                           entries["date"],
                                           style: const TextStyle(
@@ -536,7 +537,7 @@ class HomePageView extends StatelessWidget {
                                 const Padding(
                                   padding: EdgeInsets.only(right: 15),
                                   child: Center(
-                                    heightFactor: 5,
+                                    heightFactor: 5.5,
                                     child: Text(
                                       "View Details",
                                       style: TextStyle(
@@ -558,7 +559,7 @@ class HomePageView extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         const Text(
-                          "Sales Persons",
+                          "Sales Executive",
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -582,26 +583,30 @@ class HomePageView extends StatelessWidget {
                           separatorBuilder: (context, index) => const Divider(),
                           itemBuilder: (context, index) {
                             final product = state.salesperson[index];
-                            return ListTile(
-                              leading: CircleAvatar(
-                                backgroundImage:
-                                    AssetImage("${product['profile']}"),
-                              ),
-                              title: Text(
-                                "${product['name']}",
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
+                            return InkWell(
+                              child: ListTile(
+                                onTap: () => Navigator.pushNamed(
+                                    context, Routes.executivedetails),
+                                leading: CircleAvatar(
+                                  backgroundImage:
+                                      AssetImage("${product['profile']}"),
                                 ),
-                              ),
-                              subtitle: Text(
-                                "Salesman-id ${product['id']}",
-                                style: const TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 14,
+                                title: Text(
+                                  "${product['name']}",
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                  ),
                                 ),
+                                subtitle: Text(
+                                  "Salesman-id ${product['id']}",
+                                  style: const TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                                trailing: const Icon(Icons.arrow_forward_ios),
                               ),
-                              trailing: const Icon(Icons.arrow_forward_ios),
                             );
                           }),
                     ),

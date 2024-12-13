@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:savitri_automobiles_admin/modules/cubit/executive_cubit/collection_executive_cubit.dart';
+import 'package:savitri_automobiles_admin/routes/routes.dart';
 
 class CollectionExecutiveScreen extends StatelessWidget {
   const CollectionExecutiveScreen({super.key});
@@ -43,31 +44,35 @@ class CollectionExecutivePageView extends StatelessWidget {
                   itemCount: state.collectionExecutive.length,
                   itemBuilder: (context, index) {
                     final product = state.collectionExecutive[index];
-                    return Column(
-                      children: [
-                        ListTile(
-                          leading: CircleAvatar(
-                            backgroundImage:
-                                AssetImage("${product['profile']}"),
-                          ),
-                          title: Text(
-                            "${product['name']}",
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
+                    return InkWell(
+                      onTap: () =>
+                          Navigator.pushNamed(context, Routes.executivedetails),
+                      child: Column(
+                        children: [
+                          ListTile(
+                            leading: CircleAvatar(
+                              backgroundImage:
+                                  AssetImage("${product['profile']}"),
                             ),
-                          ),
-                          subtitle: Text(
-                            "Salesman-id ${product['id']}",
-                            style: const TextStyle(
-                              color: Colors.grey,
-                              fontSize: 14,
+                            title: Text(
+                              "${product['name']}",
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
                             ),
+                            subtitle: Text(
+                              "Executive-id ${product['id']}",
+                              style: const TextStyle(
+                                color: Colors.grey,
+                                fontSize: 14,
+                              ),
+                            ),
+                            trailing: const Icon(Icons.arrow_forward_ios),
                           ),
-                          trailing: const Icon(Icons.arrow_forward_ios),
-                        ),
-                        const Divider()
-                      ],
+                          const Divider()
+                        ],
+                      ),
                     );
                   }),
             ],

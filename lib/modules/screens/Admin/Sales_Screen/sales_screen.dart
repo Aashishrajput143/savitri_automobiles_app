@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:savitri_automobiles_admin/modules/cubit/sales_cubit/sales_tab_cubit.dart';
-import 'package:savitri_automobiles_admin/modules/screens/Sales_Screen/service_sales_screen.dart';
-import 'package:savitri_automobiles_admin/modules/screens/Sales_Screen/tractor_sales_screen.dart';
+import 'package:savitri_automobiles_admin/modules/screens/Admin/Sales_Screen/service_sales_screen.dart';
+import 'package:savitri_automobiles_admin/modules/screens/Admin/Sales_Screen/tractor_sales_screen.dart';
 import 'package:savitri_automobiles_admin/routes/routes.dart';
 
 class SalesScreen extends StatelessWidget {

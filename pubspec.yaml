@@ -51,6 +51,7 @@ dependencies:
   bloc: ^8.1.4
   icons_launcher: ^3.0.0
   syncfusion_flutter_charts: ^24.1.46
+  dropdown_button2: ^2.3.9
   
 dev_dependencies:
 

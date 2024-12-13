@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:savitri_automobiles_admin/modules/screens/Sales_Screen/sales_screen.dart';
-import 'package:savitri_automobiles_admin/modules/screens/add_sales_entry_screen.dart';
-import 'package:savitri_automobiles_admin/modules/screens/inventory_screen/inventory_screen.dart';
+import 'package:savitri_automobiles_admin/modules/screens/Admin/Executive/executive_details_screen.dart';
+import 'package:savitri_automobiles_admin/modules/screens/Admin/Sales_Screen/sales_screen.dart';
+import 'package:savitri_automobiles_admin/modules/screens/SalesExecutive/add_sales_entry_screen.dart';
+import 'package:savitri_automobiles_admin/modules/screens/Admin/inventory_screen/inventory_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/login_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/notification_screen.dart';
-import 'package:savitri_automobiles_admin/modules/screens/registration_listing.dart';
+import 'package:savitri_automobiles_admin/modules/screens/Admin/Registration/registration_listing.dart';
 import 'package:savitri_automobiles_admin/modules/screens/review_screen.dart';
-import 'package:savitri_automobiles_admin/modules/screens/sales_entry_listing_screen.dart';
-import 'package:savitri_automobiles_admin/modules/screens/sales_home_screen.dart';
-import 'package:savitri_automobiles_admin/modules/screens/Executive/executive_screen.dart';
+import 'package:savitri_automobiles_admin/modules/screens/SalesExecutive/sales_entry_listing_screen.dart';
+import 'package:savitri_automobiles_admin/modules/screens/SalesExecutive/sales_home_screen.dart';
+import 'package:savitri_automobiles_admin/modules/screens/Admin/Executive/executive_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/search_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/tractor_details_screen.dart';
-import 'package:savitri_automobiles_admin/modules/screens/tractor_screen.dart';
 
-import '../modules/screens/home_screen.dart';
+import '../modules/screens/Admin/home_screen.dart';
 import '../modules/screens/splash_screen.dart';
 
 class Routes {
@@ -21,7 +21,6 @@ class Routes {
   static const String home = '/home';
   static const String login = '/login';
   static const String search = '/search';
-  static const String tractorlisting = '/tractorlisting';
   static const String executive = '/executive';
   static const String tractordetails = '/tractordetails';
   static const String notification = '/notification';
@@ -32,6 +31,7 @@ class Routes {
   static const String salesEntryListing = '/salesEntryListing';
   static const String salesscreen = '/salesscreen';
   static const String review = '/review';
+  static const String executivedetails = '/executivedetails';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -43,8 +43,6 @@ class Routes {
         return MaterialPageRoute(builder: (_) => LoginScreen());
       case search:
         return MaterialPageRoute(builder: (_) => const SearchScreen());
-      case tractorlisting:
-        return MaterialPageRoute(builder: (_) => const TractorScreen());
       case tractordetails:
         return MaterialPageRoute(builder: (_) => const TractorDetailsScreen());
       case notification:
@@ -60,8 +58,12 @@ class Routes {
       case salesscreen:
         return MaterialPageRoute(
             builder: (_) => const SalesScreen(), settings: settings);
+      case executivedetails:
+        return MaterialPageRoute(
+            builder: (_) => const ExecutiveDetailsScreen());
       case review:
-        return MaterialPageRoute(builder: (_) => const ReviewScreen());
+        return MaterialPageRoute(
+            builder: (_) => const ReviewScreen(), settings: settings);
       case registration:
         return MaterialPageRoute(
             builder: (_) => const RegistrationListingScreen());
