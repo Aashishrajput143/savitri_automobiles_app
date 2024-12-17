@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:savitri_automobiles_admin/modules/cubit/executive_cubit/executive_tab_cubit.dart';
+import 'package:savitri_automobiles_admin/modules/cubit/Admin_cubit/executive_cubit/executive_tab_cubit.dart';
 import 'package:savitri_automobiles_admin/modules/screens/Admin/Executive/collection_executive_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/Admin/Executive/sales_executive_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/Admin/Executive/service_executive_screen.dart';

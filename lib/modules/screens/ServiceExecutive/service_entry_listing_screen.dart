@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:savitri_automobiles_admin/modules/cubit/service_entry_listing/service_entry_cubit.dart';
+import 'package:savitri_automobiles_admin/modules/cubit/Serviceman_cubit/service_entry_listing/service_entry_cubit.dart';
 import 'package:savitri_automobiles_admin/routes/routes.dart';
 
 class ServiceEntryListing extends StatelessWidget {
@@ -63,7 +63,7 @@ class SaleEntryListingPage extends StatelessWidget {
               return const Center(child: CircularProgressIndicator());
             } else if (state is ServiceEntrySuccess) {
               if (state.serviceEntryListing.isEmpty) {
-                return const Center(child: Text("No tractors available."));
+                return const Center(child: Text("No Service available."));
               }
               return Container(
                 color: Colors.white,
@@ -73,7 +73,7 @@ class SaleEntryListingPage extends StatelessWidget {
                     final tractor = state.serviceEntryListing[index];
                     return InkWell(
                       onTap: () {
-                        Navigator.pushNamed(context, Routes.review);
+                        Navigator.pushNamed(context, Routes.servicereview);
                       },
                       child: Container(
                         decoration: BoxDecoration(

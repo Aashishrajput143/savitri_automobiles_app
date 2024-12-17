@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:savitri_automobiles_admin/modules/cubit/inventory_cubit/inventory_tab_cubit.dart';
+import 'package:savitri_automobiles_admin/modules/cubit/Admin_cubit/inventory_cubit/inventory_tab_cubit.dart';
 import 'package:savitri_automobiles_admin/modules/screens/common_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/Admin/inventory_screen/implements_inventory_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/Admin/inventory_screen/oil_inventory_screen.dart';

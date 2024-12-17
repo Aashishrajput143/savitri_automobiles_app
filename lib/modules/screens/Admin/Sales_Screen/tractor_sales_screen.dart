@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:savitri_automobiles_admin/modules/cubit/sales_cubit/tractor_sales_cubit.dart';
+import 'package:savitri_automobiles_admin/modules/cubit/Admin_cubit/sales_cubit/tractor_sales_cubit.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class TractorSalesScreen extends StatelessWidget {

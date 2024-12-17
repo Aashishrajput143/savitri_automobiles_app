@@ -30,14 +30,14 @@ class HomeCubit extends Cubit<HomeState> {
             featuredProducts: [
               {
                 "name": "Swaraj 735FE",
-                "price": "₹16,80,590",
+                "price": 1680590,
                 "image": AppImages.swaraj735FE,
                 "rating": 4.5,
                 "reviews": 256
               },
               {
                 "name": "Swaraj 735XT",
-                "price": "₹36,00,000",
+                "price": 3600000,
                 "image": AppImages.swaraj735XT,
                 "rating": 4.8,
                 "reviews": 122
@@ -46,21 +46,21 @@ class HomeCubit extends Cubit<HomeState> {
             register: [
               {
                 "name": "Swaraj 735FE",
-                "price": "₹16,80,590",
+                "price": 1680590,
                 "image": AppImages.swaraj735FE,
                 "salesperson": "Rajendra Singh",
                 "date": "20 Oct 2024"
               },
               {
                 "name": "Swaraj 735XT",
-                "price": "₹36,00,000",
+                "price": 3600000,
                 "image": AppImages.swaraj735XT,
                 "salesperson": "Pawan Kumar",
                 "date": "15 Aug 2024"
               },
               {
                 "name": "Swaraj 735FEePS",
-                "price": "₹26,00,000",
+                "price": 2600000,
                 "image": AppImages.tractor735FEePS,
                 "salesperson": "Nipendra Singh",
                 "date": "25 Jul 2024"

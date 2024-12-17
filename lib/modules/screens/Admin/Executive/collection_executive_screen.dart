@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:savitri_automobiles_admin/modules/cubit/executive_cubit/collection_executive_cubit.dart';
+import 'package:savitri_automobiles_admin/modules/cubit/Admin_cubit/executive_cubit/collection_executive_cubit.dart';
 import 'package:savitri_automobiles_admin/routes/routes.dart';
 
 class CollectionExecutiveScreen extends StatelessWidget {

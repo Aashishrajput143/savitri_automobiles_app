@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:savitri_automobiles_admin/modules/cubit/registration_cubit/registration_cubit.dart';
+import 'package:savitri_automobiles_admin/modules/cubit/Admin_cubit/registration_cubit/registration_cubit.dart';
 import 'package:savitri_automobiles_admin/routes/routes.dart';
 
 class ServiceListingScreen extends StatelessWidget {
@@ -45,7 +45,7 @@ class ServicePageView extends StatelessWidget {
                   final entries = state.register[index];
                   return InkWell(
                     onTap: () {
-                      Navigator.pushNamed(context, Routes.review);
+                      Navigator.pushNamed(context, Routes.servicereview);
                     },
                     child: Card(
                       color: Colors.white,

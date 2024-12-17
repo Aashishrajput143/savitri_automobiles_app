@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:savitri_automobiles_admin/modules/cubit/sales_home_cubit/sales_home_cubit.dart';
-import 'package:savitri_automobiles_admin/modules/cubit/sales_home_cubit/sales_home_states.dart';
+import 'package:savitri_automobiles_admin/modules/cubit/Salesman_cubit/sales_home_cubit/sales_home_cubit.dart';
+import 'package:savitri_automobiles_admin/modules/cubit/Salesman_cubit/sales_home_cubit/sales_home_states.dart';
 import 'package:savitri_automobiles_admin/resources/images.dart';
 import '../../../routes/routes.dart';
 
@@ -206,7 +206,8 @@ class SalesHomeScreen extends StatelessWidget {
                             final item = recentlyAdded[index];
                             return InkWell(
                               onTap: () {
-                                Navigator.pushNamed(context, Routes.review);
+                                Navigator.pushNamed(
+                                    context, Routes.salesreview);
                               },
                               child: Container(
                                 margin: const EdgeInsets.only(

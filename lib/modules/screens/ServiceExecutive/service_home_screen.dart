@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:savitri_automobiles_admin/modules/cubit/service_home_cubit/service_home_cubit.dart';
-import 'package:savitri_automobiles_admin/modules/cubit/service_home_cubit/service_home_states.dart';
+import 'package:savitri_automobiles_admin/modules/cubit/Serviceman_cubit/service_home_cubit/service_home_cubit.dart';
+import 'package:savitri_automobiles_admin/modules/cubit/Serviceman_cubit/service_home_cubit/service_home_states.dart';
 import 'package:savitri_automobiles_admin/resources/images.dart';
 import '../../../routes/routes.dart';
 
@@ -213,7 +213,10 @@ class ServiceHomeScreen extends StatelessWidget {
                             margin: const EdgeInsets.symmetric(
                                 vertical: 10.0, horizontal: 2),
                             child: InkWell(
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.pushNamed(
+                                    context, Routes.servicereview);
+                              },
                               child: Container(
                                 decoration: BoxDecoration(
                                   color: Colors.white,

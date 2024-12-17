@@ -4,12 +4,13 @@ import 'package:savitri_automobiles_admin/modules/screens/Admin/Sales_Screen/sal
 import 'package:savitri_automobiles_admin/modules/screens/SalesExecutive/add_sales_entry_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/Admin/inventory_screen/inventory_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/ServiceExecutive/add_service_entry_screen.dart';
+import 'package:savitri_automobiles_admin/modules/screens/ServiceExecutive/review_service_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/ServiceExecutive/service_entry_listing_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/ServiceExecutive/service_home_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/login_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/notification_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/Admin/Registration/registration_listing.dart';
-import 'package:savitri_automobiles_admin/modules/screens/review_screen.dart';
+import 'package:savitri_automobiles_admin/modules/screens/SalesExecutive/review_sales_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/SalesExecutive/sales_entry_listing_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/SalesExecutive/sales_home_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/Admin/Executive/executive_screen.dart';
@@ -33,7 +34,8 @@ class Routes {
   static const String addSalesEntry = '/addSalesEntry';
   static const String salesEntryListing = '/salesEntryListing';
   static const String salesscreen = '/salesscreen';
-  static const String review = '/review';
+  static const String salesreview = '/salesreview';
+  static const String servicereview = '/servicereview';
   static const String executivedetails = '/executivedetails';
   static const String serviceHome = '/serviceHome';
   static const String serviceEntrylisiting = '/serviceEntrylisiting';
@@ -46,7 +48,7 @@ class Routes {
       case home:
         return MaterialPageRoute(builder: (_) => const HomeScreen());
       case login:
-        return MaterialPageRoute(builder: (_) => LoginScreen());
+        return MaterialPageRoute(builder: (_) => const LoginScreen());
       case search:
         return MaterialPageRoute(builder: (_) => const SearchScreen());
       case tractordetails:
@@ -67,15 +69,18 @@ class Routes {
         return MaterialPageRoute(builder: (_) => const ServiceEntryListing());
       case addServiceEntry:
         return MaterialPageRoute(builder: (_) => const ServiceEntryScreen());
+      case servicereview:
+        return MaterialPageRoute(
+            builder: (_) => const ReviewServiceScreen(), settings: settings);
       case salesscreen:
         return MaterialPageRoute(
             builder: (_) => const SalesScreen(), settings: settings);
       case executivedetails:
         return MaterialPageRoute(
             builder: (_) => const ExecutiveDetailsScreen());
-      case review:
+      case salesreview:
         return MaterialPageRoute(
-            builder: (_) => const ReviewScreen(), settings: settings);
+            builder: (_) => const ReviewSalesScreen(), settings: settings);
       case registration:
         return MaterialPageRoute(
             builder: (_) => const RegistrationListingScreen());

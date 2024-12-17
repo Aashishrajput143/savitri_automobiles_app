@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:savitri_automobiles_admin/modules/cubit/sale_entry_listing/sales_entry_cubit.dart';
+import 'package:savitri_automobiles_admin/modules/cubit/Salesman_cubit/sale_entry_listing/sales_entry_cubit.dart';
 import 'package:savitri_automobiles_admin/routes/routes.dart';
 
 class SalesEntryListing extends StatelessWidget {
@@ -72,7 +72,7 @@ class SaleEntryListingPage extends StatelessWidget {
                     final tractor = state.salesEntryListing[index];
                     return InkWell(
                       onTap: () {
-                        Navigator.pushNamed(context, Routes.review);
+                        Navigator.pushNamed(context, Routes.salesreview);
                       },
                       child: Container(
                         decoration: BoxDecoration(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:savitri_automobiles_admin/modules/cubit/registration_cubit/registration_tab_cubit.dart';
+import 'package:savitri_automobiles_admin/modules/cubit/Admin_cubit/registration_cubit/registration_tab_cubit.dart';
 import 'package:savitri_automobiles_admin/modules/screens/Admin/Registration/service_listing.dart';
 import 'package:savitri_automobiles_admin/modules/screens/Admin/Registration/tractor_listing.dart';
 import 'package:savitri_automobiles_admin/modules/screens/common_screen.dart';

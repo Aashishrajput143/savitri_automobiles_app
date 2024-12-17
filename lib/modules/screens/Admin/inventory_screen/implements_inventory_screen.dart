@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:savitri_automobiles_admin/modules/cubit/inventory_cubit/implements_inventory_cubit.dart';
+import 'package:savitri_automobiles_admin/modules/cubit/Admin_cubit/inventory_cubit/implements_inventory_cubit.dart';
 
 class ImplementsInventoryScreen extends StatelessWidget {
   const ImplementsInventoryScreen({super.key});

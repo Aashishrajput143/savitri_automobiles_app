@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'sales_home_states.dart';
-import '../../../resources/images.dart';
+import '../../../../resources/images.dart';
 
 class SalesHomeCubit extends Cubit<SalesHomeStates> {
   final List<Map<String, dynamic>> recentlyAdded;

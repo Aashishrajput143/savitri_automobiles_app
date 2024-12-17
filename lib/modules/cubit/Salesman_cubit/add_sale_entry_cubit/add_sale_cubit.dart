@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
-import 'package:savitri_automobiles_admin/modules/cubit/add_sale_entry_cubit/add_sale_state.dart';
+import 'package:savitri_automobiles_admin/modules/cubit/Salesman_cubit/add_sale_entry_cubit/add_sale_state.dart';
 
 class AddSaleCubit extends Cubit<AddSaleState> {
   AddSaleCubit()

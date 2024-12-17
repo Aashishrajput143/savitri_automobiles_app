@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:savitri_automobiles_admin/modules/cubit/executive_cubit/executive_details_cubit.dart';
+import 'package:savitri_automobiles_admin/modules/cubit/Admin_cubit/executive_cubit/executive_details_cubit.dart';
 import 'package:savitri_automobiles_admin/routes/routes.dart';
 
 class ExecutiveDetailsScreen extends StatelessWidget {
@@ -205,7 +205,7 @@ class ExecutiveDetailsPageView extends StatelessWidget {
                       final entries = state.register[index];
                       return InkWell(
                         onTap: () {
-                          Navigator.pushNamed(context, Routes.review);
+                          Navigator.pushNamed(context, Routes.salesreview);
                         },
                         child: Card(
                           color: Colors.white,

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:savitri_automobiles_admin/modules/cubit/home_cubit/home_cubit.dart';
+import 'package:savitri_automobiles_admin/modules/cubit/Admin_cubit/home_cubit/home_cubit.dart';
 import 'package:savitri_automobiles_admin/modules/screens/common_screen.dart';
 import 'package:savitri_automobiles_admin/resources/images.dart';
+import 'package:savitri_automobiles_admin/resources/priceformatter.dart';
 import 'package:savitri_automobiles_admin/routes/routes.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -438,7 +439,7 @@ class HomePageView extends StatelessWidget {
                         final entries = state.register[index];
                         return InkWell(
                           onTap: () {
-                            Navigator.pushNamed(context, Routes.review);
+                            Navigator.pushNamed(context, Routes.salesreview);
                           },
                           child: Card(
                             color: Colors.white,
@@ -495,7 +496,7 @@ class HomePageView extends StatelessWidget {
                                         ),
                                         const SizedBox(height: 5),
                                         Text(
-                                          "${entries['price']}",
+                                          "₹${PriceFormatter.formatPrice(entries['price'])}",
                                           style: const TextStyle(
                                             fontSize: 14,
                                             color: Colors.green,

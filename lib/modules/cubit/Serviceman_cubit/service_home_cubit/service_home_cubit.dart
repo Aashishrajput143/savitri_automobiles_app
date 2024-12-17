@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
-import 'package:savitri_automobiles_admin/modules/cubit/service_home_cubit/service_home_states.dart';
-import '../../../resources/images.dart';
+import 'package:savitri_automobiles_admin/modules/cubit/Serviceman_cubit/service_home_cubit/service_home_states.dart';
+import '../../../../resources/images.dart';
 
 class ServiceHomeCubit extends Cubit<ServiceHomeStates> {
   final List<Map<String, dynamic>> recentlyAdded;
