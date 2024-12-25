@@ -4,7 +4,7 @@ import 'package:savitri_automobiles_admin/modules/cubit/Admin_cubit/home_cubit/h
 import 'package:savitri_automobiles_admin/modules/cubit/Salesman_cubit/sales_home_cubit/sales_home_cubit.dart';
 import 'package:savitri_automobiles_admin/modules/cubit/Salesman_cubit/sales_home_cubit/sales_home_states.dart';
 import 'package:savitri_automobiles_admin/resources/images.dart';
-import 'package:savitri_automobiles_admin/resources/priceformatter.dart';
+import 'package:savitri_automobiles_admin/resources/formatter.dart';
 import '../../../routes/routes.dart';
 
 class SalesHomeScreen extends StatelessWidget {
@@ -229,7 +229,10 @@ class SalesHomeScreen extends StatelessWidget {
                             child: InkWell(
                               onTap: () {
                                 Navigator.pushNamed(
-                                    context, Routes.salesreview);
+                                  context,
+                                  Routes.salespreview,
+                                  arguments: entries?.sId ?? "",
+                                );
                               },
                               child: Container(
                                 decoration: BoxDecoration(

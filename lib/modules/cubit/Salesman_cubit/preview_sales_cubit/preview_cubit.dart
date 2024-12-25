@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
-import 'package:savitri_automobiles_admin/modules/cubit/Salesman_cubit/review_sales_cubit/review_state.dart';
+import 'package:savitri_automobiles_admin/modules/cubit/Salesman_cubit/preview_sales_cubit/preview_state.dart';
 import 'package:savitri_automobiles_admin/modules/model/getsalesentrydetailsmodel.dart';
 import 'package:savitri_automobiles_admin/modules/repository/Sales_repository.dart';
 
@@ -10,11 +10,11 @@ import '../../../../common/commonmethods.dart';
 import '../../../../data/response/status.dart';
 import '../../../../resources/strings.dart';
 
-class ReviewCubit extends Cubit<ReviewState> {
+class PreviewCubit extends Cubit<PreviewState> {
   final repository = SalesRepository();
 
-  ReviewCubit() : super(ReviewLoading()) {
-    getDetailsData("6763d0cddf12be477bbdfe24");
+  PreviewCubit(String id) : super(PreviewLoading()) {
+    getDetailsData(id);
   }
 
   void setError(String value) => error = value;
@@ -34,7 +34,7 @@ class ReviewCubit extends Cubit<ReviewState> {
       try {
         GetSalesEntryDetailsModel response =
             await repository.getSalesEntriesDetails(id);
-        emit(ReviewSuccess(getSalesDetailsByIDModel: response));
+        emit(PreviewSuccess(getSalesDetailsByIDModel: response));
 
         setRxRequestStatus(Status.COMPLETED);
         Utils.printLog("Response===> ${response.toString()}");
@@ -45,20 +45,20 @@ class ReviewCubit extends Cubit<ReviewState> {
         if (error.toString().contains("{")) {
           var errorResponse = json.decode(error.toString());
           if (errorResponse is Map && errorResponse.containsKey('message')) {
-            emit(ReviewError(message: errorResponse['message']));
+            emit(PreviewError(message: errorResponse['message']));
             return;
           } else {
-            emit(ReviewError(message: "An unexpected error occurred."));
+            emit(PreviewError(message: "An unexpected error occurred."));
             return;
           }
         } else {
           Utils.printLog("Error===> ${error.toString()}");
-          emit(ReviewError(message: "${error.toString()} Login failed..."));
+          emit(PreviewError(message: "${error.toString()} Login failed..."));
           return;
         }
       }
     } else {
-      emit(ReviewError(message: appStrings.weUnableCheckData));
+      emit(PreviewError(message: appStrings.weUnableCheckData));
       return;
     }
   }

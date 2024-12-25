@@ -35,6 +35,7 @@ class Data {
   bool? isExchange;
   int? exchangeAmount;
   ExchangeItem? exchangeItem;
+  int? transportationCost;
   int? tractorBasePrice;
   int? paidAmount;
   int? dueAmount;
@@ -61,6 +62,7 @@ class Data {
       this.isExchange,
       this.exchangeAmount,
       this.exchangeItem,
+      this.transportationCost,
       this.tractorBasePrice,
       this.paidAmount,
       this.dueAmount,
@@ -99,6 +101,7 @@ class Data {
     exchangeItem = json['exchangeItem'] != null
         ? new ExchangeItem.fromJson(json['exchangeItem'])
         : null;
+    transportationCost = json['transportationCost'];
     tractorBasePrice = json['tractorBasePrice'];
     paidAmount = json['paidAmount'];
     dueAmount = json['dueAmount'];
@@ -138,6 +141,7 @@ class Data {
     if (this.exchangeItem != null) {
       data['exchangeItem'] = this.exchangeItem!.toJson();
     }
+    data['transportationCost'] = this.transportationCost;
     data['tractorBasePrice'] = this.tractorBasePrice;
     data['paidAmount'] = this.paidAmount;
     data['dueAmount'] = this.dueAmount;
@@ -204,6 +208,8 @@ class Tractor {
   dynamic coolingSystem;
   dynamic fuelType;
   dynamic fuelCapacity;
+  dynamic features;
+  dynamic yearOfManufacture;
 
   Tractor(
       {this.sId,
@@ -214,7 +220,9 @@ class Tractor {
       this.numberOfCylinders,
       this.coolingSystem,
       this.fuelType,
-      this.fuelCapacity});
+      this.fuelCapacity,
+      this.yearOfManufacture,
+      this.features});
 
   Tractor.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
@@ -226,6 +234,8 @@ class Tractor {
     coolingSystem = json['coolingSystem'];
     fuelType = json['fuelType'];
     fuelCapacity = json['fuelCapacity'];
+    yearOfManufacture = json['yearOfManufacture'];
+    features = json['features'];
   }
 
   Map<String, dynamic> toJson() {
@@ -239,6 +249,8 @@ class Tractor {
     data['coolingSystem'] = this.coolingSystem;
     data['fuelType'] = this.fuelType;
     data['fuelCapacity'] = this.fuelCapacity;
+    data['yearOfManufacture'] = this.yearOfManufacture;
+    data['features'] = this.features;
     return data;
   }
 }

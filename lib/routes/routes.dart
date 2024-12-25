@@ -3,6 +3,7 @@ import 'package:savitri_automobiles_admin/modules/screens/Admin/Executive/execut
 import 'package:savitri_automobiles_admin/modules/screens/Admin/Sales_Screen/sales_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/SalesExecutive/add_sales_entry_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/Admin/inventory_screen/inventory_screen.dart';
+import 'package:savitri_automobiles_admin/modules/screens/SalesExecutive/review_sales_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/ServiceExecutive/add_service_entry_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/ServiceExecutive/review_service_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/ServiceExecutive/service_entry_listing_screen.dart';
@@ -10,7 +11,6 @@ import 'package:savitri_automobiles_admin/modules/screens/ServiceExecutive/servi
 import 'package:savitri_automobiles_admin/modules/screens/login_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/notification_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/Admin/Registration/registration_listing.dart';
-import 'package:savitri_automobiles_admin/modules/screens/SalesExecutive/review_sales_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/SalesExecutive/sales_entry_listing_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/SalesExecutive/sales_home_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/Admin/Executive/executive_screen.dart';
@@ -18,6 +18,7 @@ import 'package:savitri_automobiles_admin/modules/screens/search_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/tractor_details_screen.dart';
 
 import '../modules/screens/Admin/home_screen.dart';
+import '../modules/screens/SalesExecutive/preview_sales_screen.dart';
 import '../modules/screens/splash_screen.dart';
 
 class Routes {
@@ -32,9 +33,10 @@ class Routes {
   static const String inventory = '/inventory';
   static const String saleHome = '/saleHome';
   static const String addSalesEntry = '/addSalesEntry';
+  static const String reviewSalesEntry = '/reviewSalesEntry';
   static const String salesEntryListing = '/salesEntryListing';
   static const String salesscreen = '/salesscreen';
-  static const String salesreview = '/salesreview';
+  static const String salespreview = '/salespreview';
   static const String servicereview = '/servicereview';
   static const String executivedetails = '/executivedetails';
   static const String serviceHome = '/serviceHome';
@@ -78,9 +80,12 @@ class Routes {
       case executivedetails:
         return MaterialPageRoute(
             builder: (_) => const ExecutiveDetailsScreen());
-      case salesreview:
+      case reviewSalesEntry:
         return MaterialPageRoute(
             builder: (_) => const ReviewSalesScreen(), settings: settings);
+      case salespreview:
+        return MaterialPageRoute(
+            builder: (_) => const PreviewSalesScreen(), settings: settings);
       case registration:
         return MaterialPageRoute(
             builder: (_) => const RegistrationListingScreen());

@@ -1,25 +1,25 @@
 import 'package:equatable/equatable.dart';
 import 'package:savitri_automobiles_admin/modules/model/getsalesentrydetailsmodel.dart';
 
-abstract class ReviewState extends Equatable {
+abstract class PreviewState extends Equatable {
   @override
   List<Object?> get props => [];
 }
 
-class ReviewInitial extends ReviewState {}
+class PreviewInitial extends PreviewState {}
 
-class ReviewLoading extends ReviewState {}
+class PreviewLoading extends PreviewState {}
 
-class ReviewSuccess extends ReviewState {
+class PreviewSuccess extends PreviewState {
   final GetSalesEntryDetailsModel getSalesDetailsByIDModel;
 
-  ReviewSuccess({required this.getSalesDetailsByIDModel});
+  PreviewSuccess({required this.getSalesDetailsByIDModel});
 }
 
-class ReviewError extends ReviewState {
+class PreviewError extends PreviewState {
   final String message;
 
-  ReviewError({required this.message});
+  PreviewError({required this.message});
 
   @override
   List<Object?> get props => [message];

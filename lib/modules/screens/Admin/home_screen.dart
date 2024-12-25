@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:savitri_automobiles_admin/modules/cubit/Admin_cubit/home_cubit/home_cubit.dart';
 import 'package:savitri_automobiles_admin/modules/screens/common_screen.dart';
 import 'package:savitri_automobiles_admin/resources/images.dart';
-import 'package:savitri_automobiles_admin/resources/priceformatter.dart';
+import 'package:savitri_automobiles_admin/resources/formatter.dart';
 import 'package:savitri_automobiles_admin/routes/routes.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -439,7 +439,7 @@ class HomePageView extends StatelessWidget {
                         final entries = state.register[index];
                         return InkWell(
                           onTap: () {
-                            Navigator.pushNamed(context, Routes.salesreview);
+                            Navigator.pushNamed(context, Routes.salespreview);
                           },
                           child: Card(
                             color: Colors.white,

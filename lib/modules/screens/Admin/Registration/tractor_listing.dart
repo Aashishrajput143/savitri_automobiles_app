@@ -45,7 +45,7 @@ class TractorPageView extends StatelessWidget {
                   final entries = state.register[index];
                   return InkWell(
                     onTap: () {
-                      Navigator.pushNamed(context, Routes.salesreview);
+                      Navigator.pushNamed(context, Routes.salespreview);
                     },
                     child: Card(
                       color: Colors.white,

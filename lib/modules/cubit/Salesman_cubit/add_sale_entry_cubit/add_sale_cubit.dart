@@ -40,18 +40,16 @@ class AddSaleCubit extends Cubit<AddSaleState> {
   final TextEditingController insuranceProviderController =
       TextEditingController();
   final TextEditingController insuranceCostController = TextEditingController();
-  final TextEditingController paymentMethodController = TextEditingController();
   final TextEditingController registrationCostController =
       TextEditingController();
   final TextEditingController paidAmountController = TextEditingController();
-  final TextEditingController dueAmountController = TextEditingController();
   final TextEditingController transportationCostController =
       TextEditingController();
   final TextEditingController financeamountController = TextEditingController();
-  final TextEditingController financetenureController = TextEditingController();
 
   var dropDownKey = GlobalKey<DropdownSearchState>();
-  var dropDownKeyDiscount = GlobalKey<DropdownSearchState>();
+  var dropDownKeyfinance = GlobalKey<DropdownSearchState>();
+  var dropDownKeypaymentmethod = GlobalKey<DropdownSearchState>();
   var dropDownKeyRegistration = GlobalKey<DropdownSearchState>();
 
   void selectTractor(String id) {
@@ -77,6 +75,18 @@ class AddSaleCubit extends Cubit<AddSaleState> {
     print("object1 $type");
     print("object2 $type");
     emit(state.copyWith(registrationType: type));
+  }
+
+  void selectFinanceTenure(String? year) {
+    print("object1 $year");
+    print("object2 $year");
+    emit(state.copyWith(finance: year));
+  }
+
+  void selectpaymentMethod(String? type) {
+    print("object1 $type");
+    print("object2 $type");
+    emit(state.copyWith(paymentmethod: type));
   }
 
   void updateSelectedEquipments(List<String> selected) {
@@ -219,12 +229,9 @@ class AddSaleCubit extends Cubit<AddSaleState> {
                     : "0")
                 : 0,
           },
-        "paymentMethod": paymentMethodController.text,
+        "paymentMethod": state.paymentmethod,
         "paidAmount": double.parse(paidAmountController.text.isNotEmpty
             ? paidAmountController.text
-            : "0"),
-        "dueAmount": double.parse(dueAmountController.text.isNotEmpty
-            ? dueAmountController.text
             : "0"),
         "registration": {
           "registrationType": state.registrationType,
@@ -247,20 +254,24 @@ class AddSaleCubit extends Cubit<AddSaleState> {
           "amount": double.parse(financeamountController.text.isNotEmpty
               ? financeamountController.text
               : "0"),
-          "tenure": financetenureController.text
+          "tenure": state.finance
         }
       };
 
       try {
         AddSalesEntryModel response =
             await salesrepository.addSalesEntryApi(requestData);
+        emit(state.copyWith(addSalesEntryModel: response));
+        Navigator.pushReplacementNamed(
+          context,
+          Routes.reviewSalesEntry,
+          arguments: state.addSalesEntryModel?.data?.id ?? "",
+        );
 
         setRxRequestStatus(Status.COMPLETED);
         setAddSalesEntrydata(response);
         Utils.printLog("Response===> ${response.toString()}");
         emit(AddSaleSuccess("Successfully Add Entry..."));
-        Navigator.pushReplacementNamed(context, Routes.salesreview,
-            arguments: true);
       } catch (error) {
         setRxRequestStatus(Status.ERROR);
         setError(error.toString());

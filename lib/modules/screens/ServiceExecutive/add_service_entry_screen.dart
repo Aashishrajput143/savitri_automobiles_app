@@ -1,10 +1,12 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:savitri_automobiles_admin/modules/cubit/Serviceman_cubit/add_service_entry_cubit/add_service_cubit.dart';
 import 'package:savitri_automobiles_admin/modules/cubit/Serviceman_cubit/add_service_entry_cubit/add_service_state.dart';
 import 'package:savitri_automobiles_admin/modules/cubit/Serviceman_cubit/add_service_entry_cubit/add_spareparts_cubit.dart';
 import 'package:savitri_automobiles_admin/modules/cubit/Serviceman_cubit/add_service_entry_cubit/add_spareparts_state.dart';
+import 'package:savitri_automobiles_admin/resources/formatter.dart';
 
 import '../../../routes/routes.dart';
 
@@ -523,6 +525,44 @@ class ServiceEntryScreen extends StatelessWidget {
     );
   }
 
+  Widget _buildDetailAmountRowWithTextField(
+      String label, TextEditingController controller, String hint) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Expanded(
+            flex: 2,
+            child: Text(
+              label,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            flex: 3,
+            child: TextField(
+              inputFormatters: [
+                FilteringTextInputFormatter.digitsOnly,
+                LengthLimitingTextInputFormatter(8),
+                RangeInputFormatter(),
+              ],
+              controller: controller,
+              decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  hintText: hint,
+                  hintStyle: const TextStyle(fontSize: 13)),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildDetailRowWithTextField(
       String label, TextEditingController controller, String hint) {
     return Padding(
@@ -544,6 +584,13 @@ class ServiceEntryScreen extends StatelessWidget {
           Expanded(
             flex: 3,
             child: TextField(
+              inputFormatters: [
+                NoLeadingSpaceFormatter(),
+                RemoveTrailingPeriodsFormatter(),
+                SpecialCharacterValidator(),
+                EmojiInputFormatter(),
+                LengthLimitingTextInputFormatter(50)
+              ],
               controller: controller,
               decoration: InputDecoration(
                   border: const OutlineInputBorder(),

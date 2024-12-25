@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:savitri_automobiles_admin/modules/cubit/Salesman_cubit/sale_entry_listing/sales_entry_cubit.dart';
 import 'package:savitri_automobiles_admin/resources/images.dart';
-import 'package:savitri_automobiles_admin/resources/priceformatter.dart';
+import 'package:savitri_automobiles_admin/resources/formatter.dart';
 import 'package:savitri_automobiles_admin/routes/routes.dart';
 
 class SalesEntryListing extends StatelessWidget {
@@ -73,7 +73,11 @@ class SaleEntryListingPage extends StatelessWidget {
                   final entries = state.getSalesEntries?.data?.docs?[index];
                   return InkWell(
                     onTap: () {
-                      Navigator.pushNamed(context, Routes.salesreview);
+                      Navigator.pushNamed(
+                        context,
+                        Routes.salespreview,
+                        arguments: entries?.sId ?? "",
+                      );
                     },
                     child: Container(
                       decoration: BoxDecoration(
