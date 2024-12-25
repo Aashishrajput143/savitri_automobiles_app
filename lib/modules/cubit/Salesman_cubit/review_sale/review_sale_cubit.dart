@@ -214,7 +214,23 @@ class ReviewCubit extends Cubit<ReviewState> {
   }
 
   void updateSelectedEquipments(List<String> selected) {
-    emit(state.copyWith(selectedEquipments: selected));
+    print(selected);
+    List<String> names = [];
+    List<String> prices = [];
+    List<String> id = [];
+
+    for (var item in selected) {
+      List<String> parts = item.split(',');
+      if (parts.length >= 3) {
+        id.add(parts[0]);
+        names.add(parts[1]);
+        prices.add(parts[2]);
+      }
+    }
+    emit(state.copyWith(
+        selectedEquipments: id,
+        selectedEquipmentsname: names,
+        selectedEquipmentsprice: prices));
   }
 
   void setError(String value) => error = value;

@@ -476,24 +476,35 @@ class ReviewPage extends StatelessWidget {
                       const Divider(thickness: 1.5),
                       const SizedBox(height: 8),
                       if (state.equipmenteditcheck == false) ...[
-                        for (int i = 0;
-                            i <
-                                (state.getSalesEntryDetailsModel?.data
-                                        ?.equipments?.length ??
-                                    0);
-                            i++)
-                          _buildDetailRow(
-                              state.getSalesEntryDetailsModel?.data
-                                      ?.equipments?[i].modelName ??
-                                  "Not Available",
-                              "₹${PriceFormatter.formatPrice(state.getSalesEntryDetailsModel?.data?.equipments?[i].price ?? 0)} "),
+                        if (state.selectedEquipmentsname?.isEmpty ?? true) ...[
+                          for (int i = 0;
+                              i <
+                                  (state.getSalesEntryDetailsModel?.data
+                                          ?.equipments?.length ??
+                                      0);
+                              i++)
+                            _buildDetailRow(
+                                state.getSalesEntryDetailsModel?.data
+                                        ?.equipments?[i].modelName ??
+                                    "Not Available",
+                                "₹${PriceFormatter.formatPrice(state.getSalesEntryDetailsModel?.data?.equipments?[i].price ?? 0)} "),
+                        ] else if (state.selectedEquipmentsname?.isNotEmpty ??
+                            true) ...[
+                          for (int i = 0;
+                              i < (state.selectedEquipmentsname?.length ?? 0);
+                              i++)
+                            _buildDetailRow(
+                                state.selectedEquipmentsname?[i] ??
+                                    "Not Available",
+                                "₹${PriceFormatter.formatPrice(int.parse(state.selectedEquipmentsprice?[i] ?? "0"))} "),
+                        ]
                       ],
                       if (state.equipmenteditcheck ?? false) ...[
                         MultiSelectDialogField(
                           items: state.getimplementmodel?.data?.docs
                                   ?.map((equipment) {
                                 return MultiSelectItem<String>(
-                                  equipment.sId.toString(),
+                                  "${equipment.sId},${equipment.modelName},${equipment.price}",
                                   "${equipment.modelName.toString()}  (₹${PriceFormatter.formatPrice(equipment.price ?? 0)})",
                                 );
                               }).toList() ??

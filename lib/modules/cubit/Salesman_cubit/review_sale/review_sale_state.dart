@@ -9,6 +9,8 @@ class ReviewState {
   final Docstractor? selectedTractor;
   final String? selectedTractormodel;
   final List<String>? selectedEquipments;
+  final List<String>? selectedEquipmentsname;
+  final List<String>? selectedEquipmentsprice;
   final bool? isChecked;
   final String? registrationType;
   final String? paymentmethod;
@@ -27,6 +29,8 @@ class ReviewState {
   final bool? paymenteditcheck;
   ReviewState({
     this.getimplementmodel,
+    this.selectedEquipmentsname,
+    this.selectedEquipmentsprice,
     this.paymentmethod,
     this.getSalesEntryDetailsModel,
     this.finance,
@@ -55,8 +59,9 @@ class ReviewState {
     GetImplementModel? getimplementmodel,
     GetSalesEntryDetailsModel? getSalesEntryDetailsModel,
     String? selectedTractormodel,
-    Map<String, String>? equipmentPrices,
     List<String>? selectedEquipments,
+    List<String>? selectedEquipmentsname,
+    List<String>? selectedEquipmentsprice,
     Docstractor? selectedTractor,
     bool? isChecked,
     String? registrationType,
@@ -69,7 +74,7 @@ class ReviewState {
     bool? customereditcheck,
     bool? registrationeditcheck,
     bool? exhangeeditcheck,
-    final bool? equipmenteditcheck,
+    bool? equipmenteditcheck,
     bool? insuranceeditcheck,
     bool? financeeditcheck,
     bool? transportationeditcheck,
@@ -80,6 +85,10 @@ class ReviewState {
       gettractormodel: gettractormodel ?? this.gettractormodel,
       selectedTractormodel: selectedTractormodel ?? this.selectedTractormodel,
       selectedEquipments: selectedEquipments ?? this.selectedEquipments,
+      selectedEquipmentsname:
+          selectedEquipmentsname ?? this.selectedEquipmentsname,
+      selectedEquipmentsprice:
+          selectedEquipmentsprice ?? this.selectedEquipmentsprice,
       selectedTractor: selectedTractor ?? this.selectedTractor,
       isChecked: isChecked ?? this.isChecked,
       registrationType: registrationType ?? this.registrationType,
@@ -113,6 +122,8 @@ class ReviewState {
         other.paymentmethod == paymentmethod &&
         other.gettractormodel == gettractormodel &&
         other.selectedEquipments == selectedEquipments &&
+        other.selectedEquipmentsname == selectedEquipmentsname &&
+        other.selectedEquipmentsprice == selectedEquipmentsprice &&
         other.selectedTractor == selectedTractor &&
         other.registrationType == registrationType &&
         other.getSalesEntryDetailsModel == getSalesEntryDetailsModel &&
@@ -141,6 +152,8 @@ class ReviewState {
         paymentmethod.hashCode ^
         selectedTractor.hashCode ^
         getSalesEntryDetailsModel.hashCode ^
+        selectedEquipmentsname.hashCode ^
+        selectedEquipmentsprice.hashCode ^
         isChecked.hashCode ^
         isLoading.hashCode ^
         isSuccess.hashCode ^
@@ -168,6 +181,8 @@ class ReviewError extends ReviewState {
   ReviewError(String message)
       : super(
           selectedEquipments: [],
+          selectedEquipmentsname: [],
+          selectedEquipmentsprice: [],
           selectedTractor: null,
           isChecked: false,
           tractoreditcheck: false,
@@ -191,6 +206,8 @@ class ReviewLoading extends ReviewState {
   ReviewLoading()
       : super(
           selectedEquipments: [],
+          selectedEquipmentsname: [],
+          selectedEquipmentsprice: [],
           selectedTractor: null,
           finance: "3 Months",
           paymentmethod: "CASH",
