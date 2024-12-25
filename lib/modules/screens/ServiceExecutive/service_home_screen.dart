@@ -12,104 +12,89 @@ class ServiceHomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => ServiceHomeCubit(),
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          title: const Text("Service Data"),
-          centerTitle: false,
-          automaticallyImplyLeading: false,
-          actions: [
-            IconButton(
-              onPressed: () {
-                Navigator.pushNamed(context, Routes.search);
-              },
-              icon: const Icon(Icons.search),
-              color: Colors.black,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(right: 12),
-              child: IconButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, Routes.notification);
-                },
-                icon: const Icon(Icons.notifications_outlined),
-                color: Colors.black,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(right: 25),
-              child: PopupMenuButton<String>(
-                color: Colors.white,
-                offset: Offset(0, 50),
-                menuPadding: EdgeInsets.symmetric(vertical: 3),
-                onSelected: (value) {
-                  if (value == 'logout') {
-                    // Handle logout logic here
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) => AlertDialog(
-                        title: const Text("Logout"),
-                        content: const Text("Are you sure you want to logout?"),
-                        actions: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: const Text("Cancel"),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                              // Perform logout action
-                              Navigator.pushReplacementNamed(
-                                  context, Routes.login);
-                            },
-                            child: const Text("Logout"),
-                          ),
-                        ],
-                      ),
-                    );
-                  }
-                },
-                icon: CircleAvatar(
-                  backgroundImage: AssetImage(AppImages.profile),
-                  radius: 15,
+      child: BlocBuilder<ServiceHomeCubit, ServiceHomeStates>(
+        builder: (context, state) {
+          DateTime? lastBackPressTime;
+          final cubit = context.read<ServiceHomeCubit>();
+          //final recentlyAdded = cubit.getRecentlyAdded();
+          return Scaffold(
+            appBar: AppBar(
+              backgroundColor: Colors.white,
+              title: const Text("Service Data"),
+              centerTitle: false,
+              automaticallyImplyLeading: false,
+              actions: [
+                IconButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, Routes.search);
+                  },
+                  icon: const Icon(Icons.search),
+                  color: Colors.black,
                 ),
-                itemBuilder: (BuildContext context) => [
-                  const PopupMenuItem<String>(
-                    value: 'logout',
-                    child: Row(
-                      children: [
-                        Icon(Icons.logout, color: Colors.black),
-                        SizedBox(width: 8),
-                        Text("Logout"),
-                      ],
-                    ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 12),
+                  child: IconButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, Routes.notification);
+                    },
+                    icon: const Icon(Icons.notifications_outlined),
+                    color: Colors.black,
                   ),
-                ],
-              ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 25),
+                  child: PopupMenuButton<String>(
+                    color: Colors.white,
+                    offset: const Offset(0, 50),
+                    menuPadding: const EdgeInsets.symmetric(vertical: 3),
+                    onSelected: (value) {
+                      if (value == 'logout') {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) => AlertDialog(
+                            title: const Text("Logout"),
+                            content:
+                                const Text("Are you sure you want to logout?"),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: const Text("Cancel"),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                  cubit.logoutApi(context);
+                                },
+                                child: const Text("Logout"),
+                              ),
+                            ],
+                          ),
+                        );
+                      }
+                    },
+                    icon: CircleAvatar(
+                      backgroundImage: AssetImage(AppImages.profile),
+                      radius: 15,
+                    ),
+                    itemBuilder: (BuildContext context) => [
+                      const PopupMenuItem<String>(
+                        value: 'logout',
+                        child: Row(
+                          children: [
+                            Icon(Icons.logout, color: Colors.black),
+                            SizedBox(width: 8),
+                            Text("Logout"),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-        body: BlocConsumer<ServiceHomeCubit, ServiceHomeStates>(
-          listener: (context, state) {
-            if (state is ServiceHomeSuccess) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(state.message)),
-              );
-            } else if (state is ServiceHomeError) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(state.message)),
-              );
-            }
-          },
-          builder: (context, state) {
-            final cubit = context.read<ServiceHomeCubit>();
-            final recentlyAdded = cubit.getRecentlyAdded();
-            final topSellingTractor = cubit.getTopSellingTractor();
-
-            DateTime? lastBackPressTime;
-            return WillPopScope(
+            body: WillPopScope(
               onWillPop: () async {
                 final now = DateTime.now();
                 if (lastBackPressTime == null ||
@@ -138,7 +123,7 @@ class ServiceHomeScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Total Service Entries: ${topSellingTractor.length + recentlyAdded.length}",
+                            "Total Service Entries: 8",
                             style: Theme.of(context)
                                 .textTheme
                                 .headlineMedium
@@ -149,10 +134,7 @@ class ServiceHomeScreen extends StatelessWidget {
                           ),
                         ],
                       ),
-
                       const SizedBox(height: 30),
-
-                      // Add Sales Entry Button
                       Container(
                         width: double.infinity,
                         padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -202,9 +184,9 @@ class ServiceHomeScreen extends StatelessWidget {
                       ListView.builder(
                         physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
-                        itemCount: recentlyAdded.length,
+                        itemCount: 5,
                         itemBuilder: (context, index) {
-                          final entries = recentlyAdded[index];
+                          //final entries = recentlyAdded[index];
                           return Card(
                             color: Colors.white,
                             shape: RoundedRectangleBorder(
@@ -237,7 +219,7 @@ class ServiceHomeScreen extends StatelessWidget {
                                     ClipRRect(
                                       borderRadius: BorderRadius.circular(8.0),
                                       child: Image.asset(
-                                        entries["image"],
+                                        AppImages.swaraj735XT,
                                         width: 80,
                                         height: 80,
                                         fit: BoxFit.contain,
@@ -270,29 +252,29 @@ class ServiceHomeScreen extends StatelessWidget {
                                                       .size
                                                       .width *
                                                   0.4,
-                                              child: Text(
-                                                entries["name"],
-                                                style: const TextStyle(
+                                              child: const Text(
+                                                "Swaraj 735XT10",
+                                                style: TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 14,
                                                 ),
                                               ),
                                             ),
                                             const SizedBox(height: 5),
-                                            Text(
-                                              "${entries['price']}",
-                                              style: const TextStyle(
+                                            const Text(
+                                              "₹16,00,000",
+                                              style: TextStyle(
                                                 fontSize: 14,
                                                 color: Colors.green,
                                                 fontWeight: FontWeight.bold,
                                               ),
                                             ),
                                             const SizedBox(height: 5),
-                                            Row(
+                                            const Row(
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
-                                                const Text(
+                                                Text(
                                                   overflow: TextOverflow.clip,
                                                   "Owner : ",
                                                   style: TextStyle(
@@ -304,8 +286,8 @@ class ServiceHomeScreen extends StatelessWidget {
                                                   width: 95,
                                                   child: Text(
                                                     overflow: TextOverflow.clip,
-                                                    "${entries['Buyer']}",
-                                                    style: const TextStyle(
+                                                    "Surendra Singh",
+                                                    style: TextStyle(
                                                       fontSize: 12,
                                                       fontWeight:
                                                           FontWeight.bold,
@@ -315,9 +297,9 @@ class ServiceHomeScreen extends StatelessWidget {
                                               ],
                                             ),
                                             const SizedBox(height: 3),
-                                            Text(
-                                              entries["date"],
-                                              style: const TextStyle(
+                                            const Text(
+                                              "20 Oct 2024",
+                                              style: TextStyle(
                                                   fontSize: 11,
                                                   fontWeight: FontWeight.bold,
                                                   color: Color.fromARGB(
@@ -352,9 +334,9 @@ class ServiceHomeScreen extends StatelessWidget {
                   ),
                 ),
               ),
-            );
-          },
-        ),
+            ),
+          );
+        },
       ),
     );
   }

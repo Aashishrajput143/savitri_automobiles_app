@@ -7,6 +7,7 @@ class AppUrl {
 
   //Authenication
   static String login = '$baseUrl/api/user/login';
+  static String logout = '$baseUrl/api/logout/currentSession';
 
   // Post
   static String gettractor = '$baseUrl/api/tractor/get-all';

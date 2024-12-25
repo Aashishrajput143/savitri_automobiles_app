@@ -12,6 +12,15 @@ class SalesHomeLoading extends SalesHomeStates {
   const SalesHomeLoading();
 }
 
+class SalesHomeLogout extends SalesHomeStates {
+  final String message;
+
+  const SalesHomeLogout({required this.message});
+
+  @override
+  List<Object?> get props => [];
+}
+
 class SalesHomeLoaded extends SalesHomeStates {
   final GetSalesEntryModel getSalesEntries;
   const SalesHomeLoaded({required this.getSalesEntries});

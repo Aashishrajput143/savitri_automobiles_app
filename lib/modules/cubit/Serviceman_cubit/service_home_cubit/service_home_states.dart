@@ -1,18 +1,23 @@
 import 'package:equatable/equatable.dart';
 
 abstract class ServiceHomeStates extends Equatable {
-  const ServiceHomeStates(); // Immutable abstract state
+  const ServiceHomeStates();
 
   @override
   List<Object?> get props => [];
 }
 
-class ServiceHomeInitial extends ServiceHomeStates {
-  const ServiceHomeInitial();
-}
-
 class ServiceHomeLoading extends ServiceHomeStates {
   const ServiceHomeLoading();
+}
+
+class ServiceHomeLogout extends ServiceHomeStates {
+  final String message;
+
+  const ServiceHomeLogout({required this.message});
+
+  @override
+  List<Object?> get props => [];
 }
 
 class ServiceHomeSuccess extends ServiceHomeStates {
