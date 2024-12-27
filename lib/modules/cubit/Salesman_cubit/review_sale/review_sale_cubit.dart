@@ -500,6 +500,16 @@ class ReviewCubit extends Cubit<ReviewState> {
             "0";
 
     emit(state.copyWith(
+        selectedEquipments: state.getSalesEntryDetailsModel?.data?.equipments
+                ?.map((equipment) => equipment.sId.toString())
+                .toList() ??
+            []));
+
+    print("sekeslkfnsnfks===========${state.selectedEquipments}");
+    print(
+        "sekeslkfnsnsfdsfsdfks===========${state.getSalesEntryDetailsModel?.data?.equipments?.map((equipment) => equipment.sId.toString()).toList() ?? []}");
+
+    emit(state.copyWith(
         isChecked: state.getSalesEntryDetailsModel?.data?.isExchange ?? false));
 
     emit(state.copyWith(

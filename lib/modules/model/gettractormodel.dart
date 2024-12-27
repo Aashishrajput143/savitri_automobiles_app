@@ -71,6 +71,7 @@ class Data {
 }
 
 class Docstractor {
+  Transmission? transmission;
   String? sId;
   String? modelName;
   String? brandName;
@@ -102,9 +103,11 @@ class Docstractor {
   String? createdAt;
   String? updatedAt;
   int? iV;
+  int? quantity;
 
   Docstractor(
-      {this.sId,
+      {this.transmission,
+      this.sId,
       this.modelName,
       this.brandName,
       this.yearOfManufacture,
@@ -134,9 +137,13 @@ class Docstractor {
       this.status,
       this.createdAt,
       this.updatedAt,
-      this.iV});
+      this.iV,
+      this.quantity});
 
   Docstractor.fromJson(Map<String, dynamic> json) {
+    transmission = json['transmission'] != null
+        ? new Transmission.fromJson(json['transmission'])
+        : null;
     sId = json['_id'];
     modelName = json['modelName'];
     brandName = json['brandName'];
@@ -168,10 +175,14 @@ class Docstractor {
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     iV = json['__v'];
+    quantity = json['quantity'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.transmission != null) {
+      data['transmission'] = this.transmission!.toJson();
+    }
     data['_id'] = this.sId;
     data['modelName'] = this.modelName;
     data['brandName'] = this.brandName;
@@ -203,6 +214,48 @@ class Docstractor {
     data['createdAt'] = this.createdAt;
     data['updatedAt'] = this.updatedAt;
     data['__v'] = this.iV;
+    data['quantity'] = this.quantity;
+    return data;
+  }
+}
+
+class Transmission {
+  Pto? pto;
+
+  Transmission({this.pto});
+
+  Transmission.fromJson(Map<String, dynamic> json) {
+    pto = json['pto'] != null ? new Pto.fromJson(json['pto']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.pto != null) {
+      data['pto'] = this.pto!.toJson();
+    }
+    return data;
+  }
+}
+
+class Pto {
+  dynamic speeds;
+
+  Pto({this.speeds});
+
+  Pto.fromJson(Map<String, dynamic> json) {
+    if (json['speeds'] != null) {
+      speeds = <Null>[];
+      json['speeds'].forEach((v) {
+        speeds!.add();
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.speeds != null) {
+      data['speeds'] = this.speeds!.map((v) => v.toJson()).toList();
+    }
     return data;
   }
 }

@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:savitri_automobiles_admin/modules/model/getserviceentrymodel.dart';
 
 abstract class ServiceHomeStates extends Equatable {
   const ServiceHomeStates();
@@ -18,6 +19,14 @@ class ServiceHomeLogout extends ServiceHomeStates {
 
   @override
   List<Object?> get props => [];
+}
+
+class ServiceHomeLoaded extends ServiceHomeStates {
+  final GetServiceEntryModel getServiceEntries;
+  const ServiceHomeLoaded({required this.getServiceEntries});
+
+  @override
+  List<Object?> get props => [getServiceEntries];
 }
 
 class ServiceHomeSuccess extends ServiceHomeStates {

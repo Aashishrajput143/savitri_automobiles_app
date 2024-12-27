@@ -15,6 +15,11 @@ class AppUrl {
   static String addsalesentry = '$baseUrl/api/sales/sales-entry';
   static String getsalesentry = '$baseUrl/api/sales/get-all-sales';
   static String getsalesentrydetails = '$baseUrl/api/sales/get/';
+  static String getspareparts = '$baseUrl/api/sparePart/get-all';
+  static String getserviceentry = '$baseUrl/api/service/get-all-service';
+  static String getoil = '$baseUrl/api/oil/get-all';
+  static String addserviceentry = '$baseUrl/api/service/service-entry';
+  static String getserviceentrydetail = '$baseUrl/api/service/get/';
 
   // static String getcategory =
   //     '$baseUrl/api/category/getallcategory?page=1&pageSize=10';

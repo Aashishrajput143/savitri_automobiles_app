@@ -527,10 +527,7 @@ class ReviewPage extends StatelessWidget {
                               fontSize: 16,
                             ),
                           ),
-                          initialValue: state.selectedEquipments ??
-                              state.getSalesEntryDetailsModel?.data
-                                  ?.equipments ??
-                              [],
+                          initialValue: state.selectedEquipments ?? [],
                           onConfirm: (results) {
                             print(results);
                             cubit.updateSelectedEquipments(
@@ -583,7 +580,7 @@ class ReviewPage extends StatelessWidget {
                       ),
                       const Divider(thickness: 1.5),
                       const SizedBox(height: 8),
-                      if (state.registrationeditcheck == false) ...[
+                      if (state.insuranceeditcheck == false) ...[
                         _buildDetailRow("Insurance Provider",
                             cubit.insuranceProviderController.text),
                         _buildDetailRow("Insurance Cost",
@@ -770,7 +767,7 @@ class ReviewPage extends StatelessWidget {
                       ),
                       const Divider(thickness: 1.5),
                       const SizedBox(height: 8),
-                      if (state.transportationeditcheck == false) ...[
+                      if (state.paymenteditcheck == false) ...[
                         _buildDetailRow(
                             "Payment Method",
                             state.paymentmethod ??
@@ -781,7 +778,7 @@ class ReviewPage extends StatelessWidget {
                         _buildDetailRow("Due Amount",
                             "₹${PriceFormatter.formatPrice(cubit.dueamount(cubit.calculateTotalAmount(state, cubit), int.parse(cubit.paidAmountController.text.isNotEmpty ? cubit.paidAmountController.text : "0"), int.parse(cubit.financeamountController.text.isNotEmpty ? cubit.financeamountController.text : "0")))}"),
                       ],
-                      if (state.transportationeditcheck ?? false) ...[
+                      if (state.paymenteditcheck ?? false) ...[
                         DropdownSearch<String>(
                           key: cubit.dropDownKeypaymentmethod,
                           selectedItem: "Select Payment Method",

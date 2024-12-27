@@ -5,7 +5,7 @@ import 'package:savitri_automobiles_admin/modules/screens/SalesExecutive/add_sal
 import 'package:savitri_automobiles_admin/modules/screens/Admin/inventory_screen/inventory_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/SalesExecutive/review_sales_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/ServiceExecutive/add_service_entry_screen.dart';
-import 'package:savitri_automobiles_admin/modules/screens/ServiceExecutive/review_service_screen.dart';
+import 'package:savitri_automobiles_admin/modules/screens/ServiceExecutive/preview_service_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/ServiceExecutive/service_entry_listing_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/ServiceExecutive/service_home_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/login_screen.dart';
@@ -73,7 +73,7 @@ class Routes {
         return MaterialPageRoute(builder: (_) => const ServiceEntryScreen());
       case servicereview:
         return MaterialPageRoute(
-            builder: (_) => const ReviewServiceScreen(), settings: settings);
+            builder: (_) => const PreviewServiceScreen(), settings: settings);
       case salesscreen:
         return MaterialPageRoute(
             builder: (_) => const SalesScreen(), settings: settings);

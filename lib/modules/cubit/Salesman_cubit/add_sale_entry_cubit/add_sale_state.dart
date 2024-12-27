@@ -107,11 +107,16 @@ class AddSaleSuccess extends AddSaleState {
         );
 }
 
+class AddSaleSuccessloading extends AddSaleState {
+  AddSaleSuccessloading()
+      : super(
+          message: "Updated....",
+        );
+}
+
 class AddSaleError extends AddSaleState {
   AddSaleError(String message)
       : super(
-          selectedEquipments: [],
-          selectedTractor: null,
           isChecked: false,
           registrationType: "",
           paymentmethod: "",
@@ -124,8 +129,6 @@ class AddSaleError extends AddSaleState {
 class AddSaleLoading extends AddSaleState {
   AddSaleLoading()
       : super(
-          selectedEquipments: [],
-          selectedTractor: null,
           finance: "3 Months",
           paymentmethod: "CASH",
           isChecked: false,

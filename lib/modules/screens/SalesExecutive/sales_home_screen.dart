@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:savitri_automobiles_admin/modules/cubit/Admin_cubit/home_cubit/home_state.dart';
 import 'package:savitri_automobiles_admin/modules/cubit/Salesman_cubit/sales_home_cubit/sales_home_cubit.dart';
 import 'package:savitri_automobiles_admin/modules/cubit/Salesman_cubit/sales_home_cubit/sales_home_states.dart';
 import 'package:savitri_automobiles_admin/resources/images.dart';
@@ -108,7 +107,7 @@ class SalesHomeScreen extends StatelessWidget {
                 builder: (context, state) {
               final cubit = context.read<SalesHomeCubit>();
               DateTime? lastBackPressTime;
-              if (state is HomeLoading) {
+              if (state is SalesHomeLoading) {
                 return WillPopScope(
                   onWillPop: () async {
                     final now = DateTime.now();
@@ -375,8 +374,11 @@ class SalesHomeScreen extends StatelessWidget {
                                           heightFactor: 2,
                                           child: TextButton(
                                             onPressed: () {
-                                              Navigator.pushNamed(context,
-                                                  Routes.tractordetails);
+                                              Navigator.pushNamed(
+                                                context,
+                                                Routes.salespreview,
+                                                arguments: entries?.sId ?? "",
+                                              );
                                             },
                                             child: const Icon(
                                                 Icons.arrow_forward_ios),

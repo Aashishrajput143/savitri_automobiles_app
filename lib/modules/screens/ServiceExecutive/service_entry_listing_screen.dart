@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:savitri_automobiles_admin/modules/cubit/Serviceman_cubit/service_entry_listing/service_entry_cubit.dart';
+import 'package:savitri_automobiles_admin/modules/cubit/Serviceman_cubit/service_entry_listing/service_entry_state.dart';
+import 'package:savitri_automobiles_admin/resources/formatter.dart';
+import 'package:savitri_automobiles_admin/resources/images.dart';
 import 'package:savitri_automobiles_admin/routes/routes.dart';
 
 class ServiceEntryListing extends StatelessWidget {
@@ -56,24 +59,29 @@ class SaleEntryListingPage extends StatelessWidget {
         ],
       ),
       body: BlocProvider(
-        create: (_) => ServiceEntryCubit()..fetchServiceEntries(),
+        create: (_) => ServiceEntryCubit(),
         child: BlocBuilder<ServiceEntryCubit, ServiceEntryState>(
           builder: (context, state) {
+            final cubit = context.read<ServiceEntryCubit>();
             if (state is ServiceEntryLoading) {
               return const Center(child: CircularProgressIndicator());
-            } else if (state is ServiceEntrySuccess) {
-              if (state.serviceEntryListing.isEmpty) {
+            } else if (state is ServiceEntryLoaded) {
+              if (state.getServiceEntries.data?.docs?.isEmpty ?? true) {
                 return const Center(child: Text("No Service available."));
               }
               return Container(
                 color: Colors.white,
                 child: ListView.builder(
-                  itemCount: state.serviceEntryListing.length,
+                  itemCount: state.getServiceEntries.data?.docs?.length,
                   itemBuilder: (context, index) {
-                    final tractor = state.serviceEntryListing[index];
+                    final tractor = state.getServiceEntries.data?.docs?[index];
                     return InkWell(
                       onTap: () {
-                        Navigator.pushNamed(context, Routes.servicereview);
+                        Navigator.pushNamed(
+                          context,
+                          Routes.servicereview,
+                          arguments: tractor?.sId ?? "",
+                        );
                       },
                       child: Container(
                         decoration: BoxDecoration(
@@ -95,21 +103,22 @@ class SaleEntryListingPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const SizedBox(height: 8),
-                            const Padding(
+                            Padding(
                               padding: EdgeInsets.symmetric(horizontal: 10.0),
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(
-                                    "Tractor Details",
+                                  const Text(
+                                    "Service Tractor Details",
                                     style: TextStyle(
                                         fontSize: 11,
                                         fontWeight: FontWeight.bold),
                                   ),
                                   Text(
-                                    "20 Oct 2024",
-                                    style: TextStyle(
+                                    cubit.getdate(
+                                        tractor?.createdAt ?? "", true),
+                                    style: const TextStyle(
                                         fontSize: 11,
                                         fontWeight: FontWeight.bold,
                                         color: Color.fromARGB(255, 64, 64, 64)),
@@ -125,7 +134,7 @@ class SaleEntryListingPage extends StatelessWidget {
                                 ClipRRect(
                                   borderRadius: BorderRadius.circular(8.0),
                                   child: Image.asset(
-                                    tractor["image"],
+                                    AppImages.swaraj735FE,
                                     width: 80,
                                     height: 80,
                                     fit: BoxFit.contain,
@@ -158,15 +167,14 @@ class SaleEntryListingPage extends StatelessWidget {
                                                   .width *
                                               0.4,
                                           child: Text(
-                                            tractor["name"],
+                                            tractor?.tractor?.modelName ??
+                                                "Not Available",
                                             style: const TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 14,
                                             ),
                                           ),
                                         ),
-                                        const SizedBox(height: 5),
-                                        Text("Model: ${tractor["model"]}"),
                                         const SizedBox(height: 5),
                                         Row(
                                           children: [
@@ -177,7 +185,7 @@ class SaleEntryListingPage extends StatelessWidget {
                                               ),
                                             ),
                                             Text(
-                                              "₹${tractor['price']}",
+                                              "₹${PriceFormatter.formatPrice(tractor?.totalCost ?? 0)} ",
                                               style: const TextStyle(
                                                 fontSize: 14,
                                                 color: Colors.green,
@@ -186,6 +194,13 @@ class SaleEntryListingPage extends StatelessWidget {
                                             ),
                                           ],
                                         ),
+                                        const SizedBox(height: 5),
+                                        Text(
+                                          "Servicetype: ${tractor?.serviceType ?? "Not Available"}",
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                          ),
+                                        )
                                       ],
                                     ),
                                   ),
@@ -209,12 +224,14 @@ class SaleEntryListingPage extends StatelessWidget {
                               ),
                             ),
                             const Divider(thickness: 1.5),
-                            ListTile(
-                              title: Text("xyz"),
-                              subtitle:
-                                  Text("Number: 123455666\nAddress: Noida"),
-                              isThreeLine: true,
-                              onTap: () {},
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 8.0),
+                              child: ListTile(
+                                subtitle: Text(
+                                    "Customer Name: ${tractor?.customerName ?? "Not Available"}\nContact Number: ${tractor?.customerContact ?? "Not Available"}\nAddress: ${tractor?.customerAddress ?? "Not Available"}"),
+                                isThreeLine: true,
+                                onTap: () {},
+                              ),
                             ),
                           ],
                         ),
@@ -223,8 +240,8 @@ class SaleEntryListingPage extends StatelessWidget {
                   },
                 ),
               );
-            } else if (state is ServiceEntryFailure) {
-              return Center(child: Text(state.errorMessage));
+            } else if (state is ServiceEntryError) {
+              return Center(child: Text(state.message));
             }
             return const SizedBox.shrink();
           },

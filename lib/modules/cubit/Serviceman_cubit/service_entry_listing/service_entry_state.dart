@@ -1,14 +1,20 @@
-part of 'service_entry_cubit.dart';
+import 'package:equatable/equatable.dart';
+import 'package:savitri_automobiles_admin/modules/model/getserviceentrymodel.dart';
 
-@immutable
-abstract class ServiceEntryState {
-  final List<Map<String, dynamic>> serviceEntryListing;
+abstract class ServiceEntryState extends Equatable {
+  const ServiceEntryState();
 
-  const ServiceEntryState({this.serviceEntryListing = const []});
+  @override
+  List<Object?> get props => [];
 }
 
 class ServiceEntryInitial extends ServiceEntryState {
   const ServiceEntryInitial();
+}
+
+class ServiceEntryLoaded extends ServiceEntryState {
+  final GetServiceEntryModel getServiceEntries;
+  const ServiceEntryLoaded({required this.getServiceEntries});
 }
 
 class ServiceEntryLoading extends ServiceEntryState {
@@ -20,15 +26,13 @@ class ServiceEntrySuccess extends ServiceEntryState {
 
   const ServiceEntrySuccess({
     required this.message,
-    super.serviceEntryListing,
   });
 }
 
-class ServiceEntryFailure extends ServiceEntryState {
-  final String errorMessage;
+class ServiceEntryError extends ServiceEntryState {
+  final String message;
 
-  const ServiceEntryFailure({
-    required this.errorMessage,
-    super.serviceEntryListing,
+  const ServiceEntryError({
+    required this.message,
   });
 }
