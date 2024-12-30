@@ -40,7 +40,7 @@ class AddServiceCubit extends Cubit<AddServiceState> {
       (tractor) => tractor.sId == id,
     );
     if (selectedTractor != null) {
-      print("Selected Tractor: ${selectedTractor.sId}"); // Debug log
+      print("Selected Tractor: ${selectedTractor.sId}");
 
       emit(state.copyWith(
           selectedTractormodel: selectedTractor.sId,
@@ -62,6 +62,11 @@ class AddServiceCubit extends Cubit<AddServiceState> {
     emit(state.copyWith(paymentmethod: type));
   }
 
+  void totalserviceamount(int value) {
+    print("object1 $value");
+    emit(state.copyWith(servicechargeamount: value));
+  }
+
   String? selectedPart;
   final TextEditingController qtyController = TextEditingController();
   FocusNode focusNode = FocusNode();
@@ -75,7 +80,12 @@ class AddServiceCubit extends Cubit<AddServiceState> {
         updatedList.indexWhere((item) => item['name'] == partName);
 
     if (existingIndex != -1) {
-      updatedList[existingIndex]['quantity'] = quantity;
+      int currentQuantity =
+          int.tryParse(updatedList[existingIndex]['quantity'] ?? "0") ?? 0;
+
+      int updatedQuantity = currentQuantity + (int.tryParse(quantity) ?? 0);
+
+      updatedList[existingIndex]['quantity'] = updatedQuantity.toString();
     } else {
       updatedList.add({
         'name': partName,
@@ -93,11 +103,27 @@ class AddServiceCubit extends Cubit<AddServiceState> {
       };
     }).toList();
 
+    double totalPrice = transformedparts.fold(0.0, (sum, item) {
+      double cost = item["cost"] is double
+          ? item["cost"]
+          : double.tryParse(item["cost"].toString()) ?? 0.0;
+
+      int quantity = item["quantity"] is int
+          ? item["quantity"]
+          : int.tryParse(item["quantity"].toString()) ?? 0;
+
+      return sum + (cost * quantity);
+    });
+
+    print("Total Price: $totalPrice");
+
     print(transformedparts);
     selectedPart = null;
     emit(state.copyWith(
         selectedspareparts: updatedList,
-        selectedsparepartsdetails: transformedparts));
+        selectedsparepartsdetails: transformedparts,
+        totalsparepartsprice: totalPrice));
+
     print(state.selectedspareparts);
     print(selectedPart);
     selectedPart = null;
@@ -110,6 +136,7 @@ class AddServiceCubit extends Cubit<AddServiceState> {
         List<Map<String, String>>.from(state.selectedspareparts ?? []);
     updatedList.removeWhere((item) => item['name'] == partName);
     emit(state.copyWith(selectedspareparts: updatedList));
+
     print(state.selectedspareparts);
   }
 
@@ -127,7 +154,13 @@ class AddServiceCubit extends Cubit<AddServiceState> {
         updatedoilList.indexWhere((item) => item['name'] == oilname);
 
     if (existingoilIndex != -1) {
-      updatedoilList[existingoilIndex]['quantity'] = oilquantity;
+      int currentQuantity =
+          int.tryParse(updatedoilList[existingoilIndex]['quantity'] ?? "0") ??
+              0;
+
+      int updatedQuantity = currentQuantity + (int.tryParse(oilquantity) ?? 0);
+
+      updatedoilList[existingoilIndex]['quantity'] = updatedQuantity.toString();
     } else {
       updatedoilList.add({
         'name': oilname,
@@ -147,8 +180,23 @@ class AddServiceCubit extends Cubit<AddServiceState> {
 
     print(transformedoil);
 
+    double totalPrice = transformedoil.fold(0.0, (sum, item) {
+      double cost = item["cost"] is double
+          ? item["cost"]
+          : double.tryParse(item["cost"].toString()) ?? 0.0;
+
+      int quantity = item["quantity"] is int
+          ? item["quantity"]
+          : int.tryParse(item["quantity"].toString()) ?? 0;
+
+      return sum + (cost * quantity);
+    });
+
     emit(state.copyWith(
-        selectedoils: updatedoilList, selectedoilsdetails: transformedoil));
+        selectedoils: updatedoilList,
+        selectedoilsdetails: transformedoil,
+        totaloilprice: totalPrice));
+
     print(state.selectedoils);
     selectedoil = null;
     print(selectedoil);
@@ -162,6 +210,7 @@ class AddServiceCubit extends Cubit<AddServiceState> {
         List<Map<String, String>>.from(state.selectedoils ?? []);
     updatedoilList.removeWhere((item) => item['name'] == oilname);
     emit(state.copyWith(selectedoils: updatedoilList));
+
     print(state.selectedoils);
   }
 
@@ -205,8 +254,6 @@ class AddServiceCubit extends Cubit<AddServiceState> {
           }
         } else {
           Utils.printLog("Error===> ${error.toString()}");
-          emit(AddServiceError("${error.toString()} Login failed..."));
-          return;
         }
       }
     } else {
@@ -249,8 +296,6 @@ class AddServiceCubit extends Cubit<AddServiceState> {
         } else {
           Utils.printLog("Error===> ${error.toString()}");
           Utils.printLog("Error===> ${stackTrace.toString()}}");
-          emit(AddServiceError("${error.toString()} Login failed..."));
-          return;
         }
       }
     } else {
@@ -290,8 +335,6 @@ class AddServiceCubit extends Cubit<AddServiceState> {
           }
         } else {
           Utils.printLog("Error===> ${error.toString()}");
-          emit(AddServiceError("${error.toString()} Login failed..."));
-          return;
         }
       }
     } else {
@@ -300,7 +343,7 @@ class AddServiceCubit extends Cubit<AddServiceState> {
     }
   }
 
-  Future<void> addSalesEntry(context) async {
+  Future<void> addServiceEntry(context) async {
     emit(AddServiceLoading());
     await Future.delayed(const Duration(seconds: 2));
     bool connection = await CommonMethods.checkInternetConnectivity();
@@ -323,93 +366,27 @@ class AddServiceCubit extends Cubit<AddServiceState> {
             : "",
         "spareParts": state.selectedsparepartsdetails,
         "oils": state.selectedoilsdetails,
-        "totalPartsCost":
-            state.selectedsparepartsdetails?.fold(0.0, (sum, item) {
-          double cost = item["cost"] is double
-              ? item["cost"]
-              : double.tryParse(item["cost"].toString()) ?? 0.0;
-          return sum + cost;
-        }),
-        "totalOilsCost": state.selectedoilsdetails?.fold(0.0, (sum, item) {
-          double cost = item["cost"] is double
-              ? item["cost"]
-              : double.tryParse(item["cost"].toString()) ?? 0.0;
-          return sum + cost;
-        }),
-        "totalCost": ((state.selectedsparepartsdetails?.fold(0.0, (sum, item) {
-                  double cost = item["cost"] is double
-                      ? item["cost"]
-                      : double.tryParse(item["cost"].toString()) ?? 0.0;
-                  return sum + cost;
-                }) ??
-                0.0) +
-            (state.selectedoilsdetails?.fold(0.0, (sum, item) {
-                  double cost = item["cost"] is double
-                      ? item["cost"]
-                      : double.tryParse(item["cost"].toString()) ?? 0.0;
-                  return sum ?? 0 + cost;
-                }) ??
-                0.0) +
+        "totalPartsCost": state.totalsparepartsprice,
+        "totalOilsCost": state.totaloilprice,
+        "totalCost": ((state.totalsparepartsprice ?? 0.0) +
+            (state.totaloilprice ?? 0.0) +
             (double.tryParse(servicechargeController.text) ?? 0.0)),
         "serviceCost": double.parse(
           servicechargeController.text.isNotEmpty
               ? servicechargeController.text
               : "0",
         ),
-        "paymentStatus": (((state.selectedsparepartsdetails?.fold(0.0,
-                            (sum, item) {
-                          double cost = item["cost"] is double
-                              ? item["cost"]
-                              : double.tryParse(item["cost"].toString()) ?? 0.0;
-                          return sum + cost;
-                        }) ??
-                        0.0) +
-                    (state.selectedoilsdetails?.fold(0.0, (sum, item) {
-                          double cost = item["cost"] is double
-                              ? item["cost"]
-                              : double.tryParse(item["cost"].toString()) ?? 0.0;
-                          return sum ?? 0 + cost;
-                        }) ??
-                        0.0) +
+        "paymentStatus": (((state.totalsparepartsprice ?? 0.0) +
+                    (state.totaloilprice ?? 0.0) +
                     (double.tryParse(servicechargeController.text) ?? 0.0)) ==
-                ((state.selectedsparepartsdetails?.fold(0.0, (sum, item) {
-                              double cost = item["cost"] is double
-                                  ? item["cost"]
-                                  : double.tryParse(item["cost"].toString()) ??
-                                      0.0;
-                              return sum + cost;
-                            }) ??
-                            0.0) +
-                        (state.selectedoilsdetails?.fold(0.0, (sum, item) {
-                              double cost = item["cost"] is double
-                                  ? item["cost"]
-                                  : double.tryParse(item["cost"].toString()) ??
-                                      0.0;
-                              return sum ?? 0 + cost;
-                            }) ??
-                            0.0) +
+                ((state.totalsparepartsprice ?? 0.0) +
+                        (state.totaloilprice ?? 0.0) +
                         (double.tryParse(servicechargeController.text) ??
                             0.0)) -
                     (double.tryParse(paidAmountController.text) ?? 0.0))
             ? "Pending"
-            : (((state.selectedsparepartsdetails?.fold(0.0, (sum, item) {
-                                  double cost = item["cost"] is double
-                                      ? item["cost"]
-                                      : double.tryParse(
-                                              item["cost"].toString()) ??
-                                          0.0;
-                                  return sum + cost;
-                                }) ??
-                                0.0) +
-                            (state.selectedoilsdetails?.fold(0.0, (sum, item) {
-                                  double cost = item["cost"] is double
-                                      ? item["cost"]
-                                      : double.tryParse(
-                                              item["cost"].toString()) ??
-                                          0.0;
-                                  return sum ?? 0 + cost;
-                                }) ??
-                                0.0) +
+            : (((state.totalsparepartsprice ?? 0.0) +
+                            (state.totaloilprice ?? 0.0) +
                             (double.tryParse(servicechargeController.text) ??
                                 0.0)) -
                         (double.tryParse(paidAmountController.text) ?? 0.0)) ==
@@ -421,20 +398,8 @@ class AddServiceCubit extends Cubit<AddServiceState> {
               ? paidAmountController.text
               : "0",
         ),
-        "dueAmount": (((state.selectedsparepartsdetails?.fold(0.0, (sum, item) {
-                      double cost = item["cost"] is double
-                          ? item["cost"]
-                          : double.tryParse(item["cost"].toString()) ?? 0.0;
-                      return sum + cost;
-                    }) ??
-                    0.0) +
-                (state.selectedoilsdetails?.fold(0.0, (sum, item) {
-                      double cost = item["cost"] is double
-                          ? item["cost"]
-                          : double.tryParse(item["cost"].toString()) ?? 0.0;
-                      return sum ?? 0 + cost;
-                    }) ??
-                    0.0) +
+        "dueAmount": (((state.totalsparepartsprice ?? 0.0) +
+                (state.totaloilprice ?? 0.0) +
                 (double.tryParse(servicechargeController.text) ?? 0.0)) -
             (double.tryParse(paidAmountController.text) ?? 0.0)),
         "paymentMethod": state.paymentmethod,
@@ -465,7 +430,7 @@ class AddServiceCubit extends Cubit<AddServiceState> {
           }
         } else {
           Utils.printLog("Error===> ${error.toString()}");
-          emit(AddServiceError("${error.toString()} Login failed..."));
+          emit(AddServiceError("${error.toString()} failed..."));
           return;
         }
       }

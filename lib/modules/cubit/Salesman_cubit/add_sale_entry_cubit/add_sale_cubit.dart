@@ -192,6 +192,19 @@ class AddSaleCubit extends Cubit<AddSaleState> {
   }
 
   Future<void> addSalesEntry(context) async {
+    final currentState = state;
+    emit(AddSalesLoading(
+      gettractormodel: currentState.gettractormodel,
+      getimplementmodel: currentState.getimplementmodel,
+      addSalesEntryModel: currentState.addSalesEntryModel,
+      selectedTractor: currentState.selectedTractor,
+      selectedTractormodel: currentState.selectedTractormodel,
+      selectedEquipments: currentState.selectedEquipments,
+      isChecked: currentState.isChecked,
+      registrationType: currentState.registrationType,
+      paymentmethod: currentState.paymentmethod,
+      finance: currentState.finance,
+    ));
     await Future.delayed(const Duration(seconds: 2));
     bool connection = await CommonMethods.checkInternetConnectivity();
     Utils.printLog("CheckInternetConnection===> ${connection.toString()}");
@@ -259,6 +272,7 @@ class AddSaleCubit extends Cubit<AddSaleState> {
       };
 
       try {
+        emit(AddSaleLoading());
         AddSalesEntryModel response =
             await salesrepository.addSalesEntryApi(requestData);
         emit(state.copyWith(addSalesEntryModel: response));
@@ -269,7 +283,6 @@ class AddSaleCubit extends Cubit<AddSaleState> {
         );
 
         setRxRequestStatus(Status.COMPLETED);
-        setAddSalesEntrydata(response);
         Utils.printLog("Response===> ${response.toString()}");
         emit(AddSaleSuccess("Successfully Add Entry..."));
       } catch (error) {

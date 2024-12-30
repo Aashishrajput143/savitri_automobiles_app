@@ -2,7 +2,7 @@ import 'package:intl/intl.dart';
 import 'package:flutter/services.dart';
 
 class PriceFormatter {
-  static String formatPrice(int price) {
+  static String formatPrice(price) {
     final NumberFormat formatter = NumberFormat("#,##,##0");
     return formatter.format(price);
   }

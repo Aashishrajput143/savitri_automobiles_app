@@ -140,7 +140,6 @@ class ServiceEntryScreen extends StatelessWidget {
                       _buildDetailRowWithTextField(
                           "Address", cubit.addressController, "Enter Address"),
                       const SizedBox(height: 20),
-
                       const Text(
                         "Service Details",
                         style: TextStyle(
@@ -191,11 +190,16 @@ class ServiceEntryScreen extends StatelessWidget {
                       TextField(
                         inputFormatters: [
                           FilteringTextInputFormatter.digitsOnly,
-                          LengthLimitingTextInputFormatter(10),
+                          LengthLimitingTextInputFormatter(8),
                         ],
                         controller: cubit.servicechargeController,
                         keyboardType: TextInputType.number,
-                        maxLength: 10,
+                        onChanged: (value) {
+                          print(value);
+                          cubit.totalserviceamount(int.tryParse(value) ?? 0);
+                          print(state.servicechargeamount);
+                        },
+                        maxLength: 8,
                         decoration: const InputDecoration(
                           label: Text("Service Charge"),
                           counterText: "",
@@ -231,7 +235,7 @@ class ServiceEntryScreen extends StatelessWidget {
                       Row(
                         children: [
                           Expanded(
-                            flex: 4,
+                            flex: 5,
                             child: DropdownButtonFormField<String>(
                               dropdownColor: Colors.white,
                               value: cubit.selectedPart,
@@ -353,6 +357,7 @@ class ServiceEntryScreen extends StatelessWidget {
                                                   fontWeight: FontWeight.w500),
                                             ),
                                           ),
+                                          const SizedBox(width: 5),
                                           Expanded(
                                             flex: 2,
                                             child: Text(
@@ -362,7 +367,6 @@ class ServiceEntryScreen extends StatelessWidget {
                                                   fontWeight: FontWeight.w500),
                                             ),
                                           ),
-                                          const SizedBox(width: 5),
                                           IconButton(
                                             icon: const Icon(
                                               Icons.delete,
@@ -393,7 +397,7 @@ class ServiceEntryScreen extends StatelessWidget {
                       Row(
                         children: [
                           Expanded(
-                            flex: 4,
+                            flex: 5,
                             child: DropdownButtonFormField<String>(
                               value: cubit.selectedoil,
                               dropdownColor: Colors.white,
@@ -425,14 +429,13 @@ class ServiceEntryScreen extends StatelessWidget {
                           ),
                           const SizedBox(width: 13),
                           Expanded(
-                            flex: 1,
                             child: TextField(
                               style: const TextStyle(height: 1),
                               keyboardType: TextInputType.number,
                               focusNode: cubit.focusNodeoil,
                               controller: cubit.qtyoilController,
                               decoration: const InputDecoration(
-                                labelText: 'litre',
+                                labelText: 'ltr',
                                 border: OutlineInputBorder(),
                               ),
                             ),
@@ -511,6 +514,7 @@ class ServiceEntryScreen extends StatelessWidget {
                                                   fontWeight: FontWeight.w500),
                                             ),
                                           ),
+                                          const SizedBox(width: 5),
                                           Expanded(
                                             flex: 2,
                                             child: Text(
@@ -520,7 +524,6 @@ class ServiceEntryScreen extends StatelessWidget {
                                                   fontWeight: FontWeight.w500),
                                             ),
                                           ),
-                                          const SizedBox(width: 5),
                                           IconButton(
                                             icon: const Icon(
                                               Icons.delete,
@@ -540,23 +543,42 @@ class ServiceEntryScreen extends StatelessWidget {
                             )
                           : const SizedBox(),
                       const SizedBox(height: 10),
-
-                      const Text(
-                        "Total Payment",
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
-                      ),
-                      const Divider(thickness: 1.5),
-                      const SizedBox(height: 8),
-                      _buildAmountRow("Service Charge", "₹15,00,000", false),
-                      _buildAmountRow("Registration Cost", "₹8,976", false),
-                      _buildAmountRow("Swaraj Rotary Cost", "₹90,000", false),
-                      _buildAmountRow("Swaraj Harrow Cost", "₹75,000", false),
-                      _buildAmountRow("Swaraj Pillow Cost", "₹65,000", false),
-                      _buildAmountRow("Insurance Cost", "₹35,259", false),
-                      const Divider(thickness: 1.5),
-                      _buildAmountRow("Total Amount", "₹32,50,000", true),
-                      const Divider(thickness: 1.5),
+                      if (state.servicechargeamount != 0 ||
+                          state.selectedoils!.isNotEmpty ||
+                          state.selectedspareparts!.isNotEmpty) ...[
+                        const Text(
+                          "Total Payment",
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
+                        const Divider(thickness: 1.5),
+                        const SizedBox(height: 8),
+                        _buildAmountRow(
+                            "Service Charge",
+                            "₹${PriceFormatter.formatPrice(state.servicechargeamount ?? 0)} ",
+                            false),
+                        for (int i = 0;
+                            i < (state.selectedspareparts?.length ?? 0);
+                            i++)
+                          _buildAmountRow(
+                              state.selectedspareparts?[i]['name'] ??
+                                  "Not Available",
+                              "+ ₹${PriceFormatter.formatPrice(int.tryParse(state.selectedspareparts?[i]['price'] ?? "0") ?? 0)} X ${state.selectedspareparts?[i]['quantity'] ?? "0"}",
+                              false),
+                        for (int i = 0;
+                            i < (state.selectedoils?.length ?? 0);
+                            i++)
+                          _buildAmountRow(
+                              state.selectedoils?[i]['name'] ?? "Not Available",
+                              "+ ₹${PriceFormatter.formatPrice(int.tryParse(state.selectedoils?[i]['price'] ?? "0") ?? 0)} X ${state.selectedoils?[i]['quantity'] ?? "0"}",
+                              false),
+                        const Divider(thickness: 1.5),
+                        _buildAmountRow(
+                            "Total Amount",
+                            "₹${PriceFormatter.formatPrice((state.totalsparepartsprice ?? 0.0) + (state.totaloilprice ?? 0.0) + (state.servicechargeamount ?? 0.0))} ",
+                            true),
+                        const Divider(thickness: 1.5),
+                      ],
                       const SizedBox(height: 20),
                       const Text(
                         "Payment Details",
@@ -613,27 +635,27 @@ class ServiceEntryScreen extends StatelessWidget {
                           hintText: "Enter Payment Amount",
                         ),
                       ),
-
-                      const SizedBox(height: 40),
-                      // const Text(
-                      //   "Payment Summary",
-                      //   style:
-                      //       TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                      // ),
-                      // const Divider(thickness: 1.5),
-                      // const SizedBox(height: 8),
-                      // _buildAmountRow("Total Amount", "₹32,50,000", true),
-                      // _buildAmountPaidRow("Paid Amount", "- ₹12,50,000", true),
-                      // const Divider(thickness: 1.5),
-                      // _buildAmountPaidRow("Due Amount", "- ₹20,00,000", false),
-                      // const Divider(thickness: 1.5),
-                      const SizedBox(height: 40),
+                      const SizedBox(height: 50),
                       Container(
                         width: double.infinity,
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         child: ElevatedButton(
                           onPressed: () {
-                            cubit.addSalesEntry(context);
+                            if (state.selectedTractormodel != null &&
+                                state.servicechargeamount != 0.0 &&
+                                state.selectedservicetype != null &&
+                                cubit.nameController.text.isNotEmpty &&
+                                cubit.contactController.text.isNotEmpty &&
+                                cubit.paidAmountController.text.isNotEmpty &&
+                                state.paymentmethod != null) {
+                              cubit.addServiceEntry(context);
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content:
+                                        Text("Please fill all the details")),
+                              );
+                            }
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.green[500],
@@ -643,7 +665,7 @@ class ServiceEntryScreen extends StatelessWidget {
                             ),
                           ),
                           child: const Text(
-                            'Preview & Submit',
+                            'Submit',
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 16,
@@ -720,71 +742,6 @@ class ServiceEntryScreen extends StatelessWidget {
             style: TextStyle(
               fontSize: 16,
               fontWeight: bold ? FontWeight.bold : FontWeight.w500,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildAmountPaidRow(String label, String value, bool paid) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            label,
-            style: const TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          Text(
-            overflow: TextOverflow.clip,
-            value,
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-              color: paid ? Colors.green : Colors.red,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildDetailAmountRowWithTextField(
-      String label, TextEditingController controller, String hint) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Expanded(
-            flex: 2,
-            child: Text(
-              label,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ),
-          const SizedBox(width: 10),
-          Expanded(
-            flex: 3,
-            child: TextField(
-              inputFormatters: [
-                FilteringTextInputFormatter.digitsOnly,
-                LengthLimitingTextInputFormatter(8),
-                RangeInputFormatter(),
-              ],
-              controller: controller,
-              decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
-                  hintText: hint,
-                  hintStyle: const TextStyle(fontSize: 13)),
             ),
           ),
         ],

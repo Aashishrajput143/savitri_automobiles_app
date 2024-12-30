@@ -11,22 +11,29 @@ class AddServiceState {
   final List<Map<String, dynamic>>? selectedsparepartsdetails;
   final List<Map<String, String>>? selectedoils;
   final List<Map<String, dynamic>>? selectedoilsdetails;
+  final double? totalsparepartsprice;
+  final double? totaloilprice;
   final GetOilModel? oilsnames;
   final Docstractor? selectedTractor;
   final String? selectedTractormodel;
   final String? selectedservicetype;
   final String? paymentmethod;
+  final int? servicechargeamount;
+
   final bool isLoading;
   final bool isSuccess;
   final String message;
 
   AddServiceState({
     required this.gettractormodel,
+    this.totaloilprice,
     this.addServiceEntryModel,
     required this.spareparts,
     required this.oilsnames,
     this.selectedservicetype,
+    this.totalsparepartsprice,
     this.paymentmethod,
+    this.servicechargeamount,
     this.selectedTractormodel,
     this.selectedspareparts,
     this.selectedsparepartsdetails,
@@ -42,10 +49,13 @@ class AddServiceState {
     GetTractorModel? gettractormodel,
     AddServiceEntryModel? addServiceEntryModel,
     List<Map<String, String>>? tractors,
+    double? totalsparepartsprice,
     List<Map<String, String>>? selectedspareparts,
     List<Map<String, dynamic>>? selectedsparepartsdetails,
     GetSparePartsModel? spareparts,
     String? paymentmethod,
+    int? servicechargeamount,
+    double? totaloilprice,
     GetOilModel? oilsnames,
     Docstractor? selectedTractor,
     String? selectedTractormodel,
@@ -58,8 +68,11 @@ class AddServiceState {
   }) {
     return AddServiceState(
       gettractormodel: gettractormodel ?? this.gettractormodel,
+      totaloilprice: totaloilprice ?? this.totaloilprice,
+      totalsparepartsprice: totalsparepartsprice ?? this.totalsparepartsprice,
       addServiceEntryModel: addServiceEntryModel ?? this.addServiceEntryModel,
       oilsnames: oilsnames ?? this.oilsnames,
+      servicechargeamount: servicechargeamount ?? this.servicechargeamount,
       selectedoils: selectedoils ?? this.selectedoils,
       selectedoilsdetails: selectedoilsdetails ?? this.selectedoilsdetails,
       paymentmethod: paymentmethod ?? this.paymentmethod,
@@ -81,6 +94,9 @@ class AddServiceState {
     if (identical(this, other)) return true;
     return other is AddServiceState &&
         other.gettractormodel == gettractormodel &&
+        totalsparepartsprice == totalsparepartsprice &&
+        other.totaloilprice == totaloilprice &&
+        other.servicechargeamount == servicechargeamount &&
         other.selectedTractormodel == selectedTractormodel &&
         other.addServiceEntryModel == addServiceEntryModel &&
         other.selectedoilsdetails == selectedoilsdetails &&
@@ -100,9 +116,12 @@ class AddServiceState {
   @override
   int get hashCode {
     return gettractormodel.hashCode ^
+        totalsparepartsprice.hashCode ^
         selectedTractor.hashCode ^
         selectedTractormodel.hashCode ^
         addServiceEntryModel.hashCode ^
+        totaloilprice.hashCode ^
+        servicechargeamount.hashCode ^
         paymentmethod.hashCode ^
         selectedoilsdetails.hashCode ^
         selectedspareparts.hashCode ^
@@ -122,6 +141,9 @@ class AddServiceSuccess extends AddServiceState {
       : super(
           gettractormodel: null,
           spareparts: null,
+          totaloilprice: 0.0,
+          totalsparepartsprice: 0.0,
+          servicechargeamount: 0,
           selectedspareparts: [],
           selectedsparepartsdetails: [],
           selectedoils: [],
@@ -137,6 +159,9 @@ class AddServiceError extends AddServiceState {
   AddServiceError(String message)
       : super(
           gettractormodel: null,
+          servicechargeamount: 0,
+          totalsparepartsprice: 0.0,
+          totaloilprice: 0.0,
           spareparts: null,
           selectedspareparts: [],
           selectedsparepartsdetails: [],
@@ -153,6 +178,9 @@ class AddServiceLoading extends AddServiceState {
   AddServiceLoading()
       : super(
           spareparts: null,
+          servicechargeamount: 0,
+          totaloilprice: 0.0,
+          totalsparepartsprice: 0.0,
           gettractormodel: null,
           selectedspareparts: [],
           selectedsparepartsdetails: [],

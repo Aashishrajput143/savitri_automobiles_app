@@ -226,3 +226,33 @@ class ReviewLoading extends ReviewState {
           message: 'Loading...',
         );
 }
+
+class ReviewSaleLoading extends ReviewState {
+  ReviewSaleLoading({
+    gettractormodel,
+    getimplementmodel,
+    getSalesEntryDetailsModel,
+    selectedTractor,
+    selectedTractormodel,
+    selectedEquipments,
+    isChecked = false,
+    registrationType,
+    paymentmethod,
+    finance,
+    isSuccess = false,
+    message = 'Loading...',
+  }) : super(
+          gettractormodel: gettractormodel,
+          getimplementmodel: getimplementmodel,
+          getSalesEntryDetailsModel: getSalesEntryDetailsModel,
+          selectedTractor: selectedTractor,
+          selectedTractormodel: selectedTractormodel,
+          selectedEquipments: selectedEquipments,
+          isChecked: isChecked,
+          registrationType: registrationType,
+          paymentmethod: paymentmethod,
+          finance: finance,
+          isSuccess: isSuccess,
+          message: message,
+        );
+}

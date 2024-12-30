@@ -36,15 +36,32 @@ class SalesEntryScreen extends StatelessWidget {
               ),
             ],
           ),
-          body: BlocBuilder<AddSaleCubit, AddSaleState>(
+          body: BlocConsumer<AddSaleCubit, AddSaleState>(
+            listener: (BuildContext context, AddSaleState state) {
+              if (State is AddSaleSuccess) {
+                Navigator.pushReplacementNamed(
+                  context,
+                  Routes.reviewSalesEntry,
+                  arguments: state.addSalesEntryModel?.data?.id ?? "",
+                );
+              }
+              if (state is AddSaleError) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text("Please fill all the details")),
+                );
+              }
+            },
             builder: (context, state) {
               final cubit = context.read<AddSaleCubit>();
-              if (state is AddSaleLoading) {
+              if (state is AddSalesLoading) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else if (state is AddSaleLoading) {
                 return const Center(
                   child: CircularProgressIndicator(),
                 );
               }
-
               return Container(
                 color: Colors.white,
                 padding: const EdgeInsets.fromLTRB(16.0, 0, 16, 16),
@@ -470,7 +487,41 @@ class SalesEntryScreen extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         child: ElevatedButton(
                           onPressed: () {
-                            cubit.addSalesEntry(context);
+                            if (state.selectedTractormodel != null &&
+                                cubit.nameController.text.isNotEmpty &&
+                                cubit.contactController.text.isNotEmpty &&
+                                cubit.registrationCostController.text
+                                    .isNotEmpty &&
+                                cubit.paidAmountController.text.isNotEmpty &&
+                                state.paymentmethod != null) {
+                              if (state.isChecked == true) {
+                                if (cubit.exchangebrandController.text.isNotEmpty &&
+                                    cubit.exchangemodelController.text
+                                        .isNotEmpty &&
+                                    cubit.exchangevehicleTypeController.text
+                                        .isNotEmpty &&
+                                    cubit.exchangevehicleamountController.text
+                                        .isNotEmpty &&
+                                    cubit.exchangevehicleageController.text
+                                        .isNotEmpty) {
+                                  cubit.addSalesEntry(context);
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text(
+                                            "Please fill all Exchange details")),
+                                  );
+                                }
+                              } else {
+                                cubit.addSalesEntry(context);
+                              }
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content:
+                                        Text("Please fill all the details")),
+                              );
+                            }
                             // Navigator.pushReplacementNamed(
                             //   context,
                             //   Routes.reviewSalesEntry,

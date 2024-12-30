@@ -137,3 +137,33 @@ class AddSaleLoading extends AddSaleState {
           message: 'Loading...',
         );
 }
+
+class AddSalesLoading extends AddSaleState {
+  AddSalesLoading({
+    gettractormodel,
+    getimplementmodel,
+    addSalesEntryModel,
+    selectedTractor,
+    selectedTractormodel,
+    selectedEquipments,
+    isChecked = false,
+    registrationType,
+    paymentmethod,
+    finance,
+    isSuccess = false,
+    message = 'Loading...',
+  }) : super(
+          gettractormodel: gettractormodel,
+          getimplementmodel: getimplementmodel,
+          addSalesEntryModel: addSalesEntryModel,
+          selectedTractor: selectedTractor,
+          selectedTractormodel: selectedTractormodel,
+          selectedEquipments: selectedEquipments,
+          isChecked: isChecked,
+          registrationType: registrationType,
+          paymentmethod: paymentmethod,
+          finance: finance,
+          isSuccess: isSuccess,
+          message: message,
+        );
+}

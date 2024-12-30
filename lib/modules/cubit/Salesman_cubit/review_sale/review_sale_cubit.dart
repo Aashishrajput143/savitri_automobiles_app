@@ -13,7 +13,6 @@ import 'package:savitri_automobiles_admin/modules/model/getsalesentrydetailsmode
 import 'package:savitri_automobiles_admin/modules/model/gettractormodel.dart';
 import 'package:savitri_automobiles_admin/modules/repository/Sales_repository.dart';
 import 'package:savitri_automobiles_admin/resources/strings.dart';
-import 'package:savitri_automobiles_admin/routes/routes.dart';
 
 class ReviewCubit extends Cubit<ReviewState> {
   final SalesRepository salesrepository = SalesRepository();
@@ -332,6 +331,19 @@ class ReviewCubit extends Cubit<ReviewState> {
   }
 
   Future<void> addSalesEntry(context, total) async {
+    final currentState = state;
+    emit(ReviewSaleLoading(
+      gettractormodel: currentState.gettractormodel,
+      getimplementmodel: currentState.getimplementmodel,
+      getSalesEntryDetailsModel: currentState.getSalesEntryDetailsModel,
+      selectedTractor: currentState.selectedTractor,
+      selectedTractormodel: currentState.selectedTractormodel,
+      selectedEquipments: currentState.selectedEquipments,
+      isChecked: currentState.isChecked,
+      registrationType: currentState.registrationType,
+      paymentmethod: currentState.paymentmethod,
+      finance: currentState.finance,
+    ));
     await Future.delayed(const Duration(seconds: 2));
     bool connection = await CommonMethods.checkInternetConnectivity();
     Utils.printLog("CheckInternetConnection===> ${connection.toString()}");
@@ -425,10 +437,8 @@ class ReviewCubit extends Cubit<ReviewState> {
       try {
         AddSalesEntryModel response =
             await salesrepository.addSalesEntryApi(requestData);
-        Navigator.pushReplacementNamed(context, Routes.saleHome);
 
         setRxRequestStatus(Status.COMPLETED);
-        setAddSalesEntrydata(response);
         Utils.printLog("Response===> ${response.toString()}");
         emit(ReviewSuccess("Successfully Add Entry..."));
       } catch (error, stackTrace) {
@@ -468,36 +478,33 @@ class ReviewCubit extends Cubit<ReviewState> {
         state.getSalesEntryDetailsModel?.data?.exchangeItem?.brand ?? "";
     exchangevehicleTypeController.text =
         state.getSalesEntryDetailsModel?.data?.exchangeItem?.vehicleType ?? "";
-    exchangevehicleamountController.text = state
-            .getSalesEntryDetailsModel?.data?.exchangeItem?.amount
-            .toString() ??
-        "0";
-    exchangevehicleageController.text = state
-            .getSalesEntryDetailsModel?.data?.exchangeItem?.vehicleAge
-            .toString() ??
-        "";
+    exchangevehicleamountController.text =
+        (state.getSalesEntryDetailsModel?.data?.exchangeItem?.amount ?? 0)
+            .toString();
+    exchangevehicleageController.text =
+        (state.getSalesEntryDetailsModel?.data?.exchangeItem?.vehicleAge ?? 0)
+            .toString();
     exchangedescriptionController.text =
         state.getSalesEntryDetailsModel?.data?.exchangeItem?.description ?? "";
 
     insuranceProviderController.text =
         state.getSalesEntryDetailsModel?.data?.insurance?.insuranceProvider ??
             "";
-    insuranceCostController.text = state
-            .getSalesEntryDetailsModel?.data?.insurance?.insuranceCost
-            .toString() ??
-        "0";
-    registrationCostController.text = state
-            .getSalesEntryDetailsModel?.data?.registration?.registrationCost
-            .toString() ??
-        "0";
+    insuranceCostController.text =
+        (state.getSalesEntryDetailsModel?.data?.insurance?.insuranceCost ?? 0)
+            .toString();
+    registrationCostController.text = (state.getSalesEntryDetailsModel?.data
+                ?.registration?.registrationCost ??
+            0)
+        .toString();
     paidAmountController.text =
-        state.getSalesEntryDetailsModel?.data?.paidAmount.toString() ?? "0";
+        (state.getSalesEntryDetailsModel?.data?.paidAmount ?? 0).toString();
     transportationCostController.text =
-        state.getSalesEntryDetailsModel?.data?.transportationCost.toString() ??
-            "";
+        (state.getSalesEntryDetailsModel?.data?.transportationCost ?? 0)
+            .toString();
     financeamountController.text =
-        state.getSalesEntryDetailsModel?.data?.finance?.amount.toString() ??
-            "0";
+        (state.getSalesEntryDetailsModel?.data?.finance?.amount ?? 0)
+            .toString();
 
     emit(state.copyWith(
         selectedEquipments: state.getSalesEntryDetailsModel?.data?.equipments

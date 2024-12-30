@@ -9,6 +9,7 @@ import 'package:savitri_automobiles_admin/modules/cubit/Salesman_cubit/review_sa
 import 'package:savitri_automobiles_admin/modules/cubit/Salesman_cubit/review_sale/review_sale_state.dart';
 import 'package:savitri_automobiles_admin/resources/defaultfocusnode.dart';
 import 'package:savitri_automobiles_admin/resources/formatter.dart';
+import 'package:savitri_automobiles_admin/routes/routes.dart';
 
 class ReviewSalesScreen extends StatelessWidget {
   const ReviewSalesScreen({super.key});
@@ -49,11 +50,27 @@ class ReviewPage extends StatelessWidget {
         ),
         body: BlocProvider(
           create: (_) => ReviewCubit(id ?? ""),
-          child: BlocBuilder<ReviewCubit, ReviewState>(
+          child: BlocConsumer<ReviewCubit, ReviewState>(
+            listener: (BuildContext context, ReviewState state) {
+              if (state is ReviewSuccess) {
+                Navigator.pushReplacementNamed(context, Routes.saleHome);
+              }
+              if (state is ReviewError) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text("Failed to Apply....")),
+                );
+              }
+            },
             builder: (context, state) {
               final cubit = context.read<ReviewCubit>();
-              if (state is ReviewLoading) {
-                return const Center(child: CircularProgressIndicator());
+              if (state is ReviewSaleLoading) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else if (state is ReviewLoading) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
               }
               return Container(
                 color: Colors.white,
@@ -581,8 +598,11 @@ class ReviewPage extends StatelessWidget {
                       const Divider(thickness: 1.5),
                       const SizedBox(height: 8),
                       if (state.insuranceeditcheck == false) ...[
-                        _buildDetailRow("Insurance Provider",
-                            cubit.insuranceProviderController.text),
+                        _buildDetailRow(
+                            "Insurance Provider",
+                            cubit.insuranceProviderController.text.isEmpty
+                                ? "Not Available"
+                                : cubit.insuranceProviderController.text),
                         _buildDetailRow("Insurance Cost",
                             "₹${PriceFormatter.formatPrice(int.parse(cubit.insuranceCostController.text))}"),
                       ],
@@ -630,13 +650,7 @@ class ReviewPage extends StatelessWidget {
                       const Divider(thickness: 1.5),
                       const SizedBox(height: 8),
                       if (state.financeeditcheck == false) ...[
-                        _buildDetailRow(
-                            "Finance Tenure",
-                            state.finance?.isEmpty ?? true
-                                ? state.getSalesEntryDetailsModel?.data?.finance
-                                        ?.tenure?.isEmpty ??
-                                    "Not Available"
-                                : "Not Available"),
+                        _buildDetailRow("Finance Tenure", state.finance),
                         _buildDetailRow("Finance Cost",
                             "₹${PriceFormatter.formatPrice(int.parse(cubit.financeamountController.text))}"),
                       ],

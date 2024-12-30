@@ -230,7 +230,13 @@ class SaleEntryListingPage extends StatelessWidget {
                                 subtitle: Text(
                                     "Customer Name: ${tractor?.customerName ?? "Not Available"}\nContact Number: ${tractor?.customerContact ?? "Not Available"}\nAddress: ${tractor?.customerAddress ?? "Not Available"}"),
                                 isThreeLine: true,
-                                onTap: () {},
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                    context,
+                                    Routes.servicereview,
+                                    arguments: tractor?.sId ?? "",
+                                  );
+                                },
                               ),
                             ),
                           ],
