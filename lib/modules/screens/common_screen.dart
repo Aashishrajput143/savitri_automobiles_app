@@ -55,7 +55,7 @@ class CommonScreen extends StatelessWidget {
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.agriculture),
-              label: "Registration",
+              label: "Entries",
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.assignment),

@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:savitri_automobiles_admin/modules/model/getsalesentrymodel.dart';
 
 abstract class RegistrationState extends Equatable {
   @override
@@ -16,6 +17,15 @@ class RegistrationSuccess extends RegistrationState {
 
   @override
   List<Object?> get props => [message];
+}
+
+class RegistrationLoaded extends RegistrationState {
+  final GetSalesEntryModel? getSalesEntries;
+  final String? message;
+  RegistrationLoaded({this.getSalesEntries, this.message});
+
+  @override
+  List<Object?> get props => [getSalesEntries];
 }
 
 class RegistrationError extends RegistrationState {

@@ -35,6 +35,9 @@ class SplashScreen extends StatelessWidget {
                   Navigator.pushReplacementNamed(context, Routes.saleHome);
                 } else if (role == "SERVICE_EXECUTIVE") {
                   Navigator.pushReplacementNamed(context, Routes.serviceHome);
+                } else if (role == "COLLECTION_EXECUTIVE") {
+                  Navigator.pushReplacementNamed(
+                      context, Routes.collectionHome);
                 } else {
                   Navigator.pushReplacementNamed(context, Routes.login);
                 }

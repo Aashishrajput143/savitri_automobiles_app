@@ -20,6 +20,10 @@ class AppUrl {
   static String getoil = '$baseUrl/api/oil/get-all';
   static String addserviceentry = '$baseUrl/api/service/service-entry';
   static String getserviceentrydetail = '$baseUrl/api/service/get/';
+  static String tractorinventory = '$baseUrl/api/tractor/edit-specification';
+  static String implementinventory = '$baseUrl/api/equipement/edit';
+  static String sparepartinventory = '$baseUrl/api/sparePart/edit';
+  static String oilinventory = '$baseUrl/api/oil/edit';
 
   // static String getcategory =
   //     '$baseUrl/api/category/getallcategory?page=1&pageSize=10';

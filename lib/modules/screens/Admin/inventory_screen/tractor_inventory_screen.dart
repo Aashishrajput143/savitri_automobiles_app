@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:savitri_automobiles_admin/modules/cubit/Admin_cubit/inventory_cubit/tractor_inventory_cubit.dart';
+import 'package:savitri_automobiles_admin/modules/cubit/Admin_cubit/inventory_cubit/tractor_inventory/tractor_inventory_cubit.dart';
+import 'package:savitri_automobiles_admin/modules/cubit/Admin_cubit/inventory_cubit/tractor_inventory/tractor_inventory_state.dart';
+import 'package:savitri_automobiles_admin/resources/formatter.dart';
+import 'package:savitri_automobiles_admin/resources/images.dart';
 import 'package:savitri_automobiles_admin/routes/routes.dart';
 
 class TractorInventoryScreen extends StatelessWidget {
@@ -22,10 +25,16 @@ class TractorInventoryPageView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<TractorInventoryCubit, TractorInventoryState>(
       builder: (context, state) {
+        final cubit = context.read<TractorInventoryCubit>();
+        if (state is TractorInventoryLoading) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
         return Container(
           height: MediaQuery.of(context).size.height,
           color: Colors.white,
-          padding: const EdgeInsets.fromLTRB(16.0, 0, 16, 16),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -37,13 +46,13 @@ class TractorInventoryPageView extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(height: 5),
+              const SizedBox(height: 10),
               Expanded(
                 child: ListView.builder(
                   shrinkWrap: true,
-                  itemCount: state.featuredProducts.length,
+                  itemCount: state.gettractormodel?.data?.docs?.length,
                   itemBuilder: (context, index) {
-                    final entries = state.featuredProducts[index];
+                    final entries = state.gettractormodel?.data?.docs?[index];
                     return Card(
                       color: Colors.white,
                       shape: RoundedRectangleBorder(
@@ -65,7 +74,7 @@ class TractorInventoryPageView extends StatelessWidget {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(8.0),
                                 child: Image.asset(
-                                  entries["image"],
+                                  AppImages.swaraj735FE,
                                   width: 80,
                                   height: 80,
                                   fit: BoxFit.contain,
@@ -102,7 +111,7 @@ class TractorInventoryPageView extends StatelessWidget {
                                       width: MediaQuery.of(context).size.width *
                                           0.4,
                                       child: Text(
-                                        entries["name"],
+                                        entries?.modelName ?? "Not Available",
                                         style: const TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 14,
@@ -111,7 +120,7 @@ class TractorInventoryPageView extends StatelessWidget {
                                     ),
                                     const SizedBox(height: 5),
                                     Text(
-                                      "₹${entries['price']}",
+                                      "₹${PriceFormatter.formatPrice(entries?.price ?? 0)} ",
                                       style: const TextStyle(
                                         fontSize: 14,
                                         color: Colors.green,
@@ -129,7 +138,7 @@ class TractorInventoryPageView extends StatelessWidget {
                                           ),
                                         ),
                                         Text(
-                                          "${entries['stock']}",
+                                          "${entries?.quantity ?? 0}",
                                           style: const TextStyle(
                                             fontSize: 12,
                                             fontWeight: FontWeight.bold,
@@ -148,7 +157,7 @@ class TractorInventoryPageView extends StatelessWidget {
                               heightFactor: 2,
                               child: TextButton(
                                 onPressed: () {
-                                  showUpdateDialog(context, index, state);
+                                  cubit.showUpdateDialog(context, index);
                                 },
                                 child: const Text(
                                   "Update",
@@ -165,81 +174,6 @@ class TractorInventoryPageView extends StatelessWidget {
                   },
                 ),
               ),
-              const SizedBox(height: 20),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  void showUpdateDialog(BuildContext context, int index, state) {
-    final cubit = context.read<TractorInventoryCubit>();
-    cubit.priceController.text = state.featuredProducts[index]["price"];
-    cubit.stockController.text =
-        state.featuredProducts[index]["stock"].toString();
-
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          backgroundColor: Colors.white,
-          title: const Text("Update Inventory"),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextFormField(
-                controller: cubit.priceController,
-                decoration: const InputDecoration(
-                  labelText: "Update Price",
-                ),
-                keyboardType: TextInputType.number,
-              ),
-              const SizedBox(height: 10),
-              TextFormField(
-                controller: cubit.stockController,
-                decoration: const InputDecoration(
-                  labelText: "Update Stock",
-                ),
-                keyboardType: TextInputType.number,
-              ),
-              const SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: const Text("Cancel"),
-                  ),
-                  ElevatedButton(
-                    style: const ButtonStyle(
-                        backgroundColor: WidgetStatePropertyAll(Colors.green)),
-                    onPressed: () {
-                      final price = cubit.priceController.text;
-                      final stock = cubit.stockController.text;
-
-                      try {
-                        final parsedStock = int.tryParse(stock);
-                        if (parsedStock == null)
-                          throw Exception("Invalid stock value");
-
-                        cubit.updateProduct(index, price, parsedStock);
-
-                        Navigator.pop(context);
-                      } catch (e) {
-                        print("Error: $e");
-                      }
-                    },
-                    child: const Text(
-                      "Update",
-                      style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ],
-              )
             ],
           ),
         );

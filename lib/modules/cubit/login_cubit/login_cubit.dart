@@ -60,6 +60,9 @@ class LoginCubit extends Cubit<LoginState> {
           } else if (response.data?.role == "SERVICE_EXECUTIVE") {
             emit(
                 LoginSuccessService(message: response.data?.role ?? "Unknown"));
+          } else if (response.data?.role == "COLLECTION_EXECUTIVE") {
+            emit(LoginSuccessCollection(
+                message: response.data?.role ?? "Unknown"));
           } else {
             emit(LoginError(message: "Role not recognized"));
           }

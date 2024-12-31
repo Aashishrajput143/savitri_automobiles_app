@@ -8,6 +8,8 @@ import 'package:savitri_automobiles_admin/modules/screens/ServiceExecutive/add_s
 import 'package:savitri_automobiles_admin/modules/screens/ServiceExecutive/preview_service_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/ServiceExecutive/service_entry_listing_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/ServiceExecutive/service_home_screen.dart';
+import 'package:savitri_automobiles_admin/modules/screens/collectionExecutive/collection_home_screen.dart';
+import 'package:savitri_automobiles_admin/modules/screens/collectionExecutive/collection_see_all_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/login_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/notification_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/Admin/Registration/registration_listing.dart';
@@ -42,6 +44,8 @@ class Routes {
   static const String serviceHome = '/serviceHome';
   static const String serviceEntrylisiting = '/serviceEntrylisiting';
   static const String addServiceEntry = '/addServiceEntry';
+  static const String collectionHome = '/collection';
+  static const String collectionSeeAll = '/collectionSeeAll';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -91,6 +95,11 @@ class Routes {
             builder: (_) => const RegistrationListingScreen());
       case executive:
         return MaterialPageRoute(builder: (_) => const ExecutiveScreen());
+      case collectionHome:
+        return MaterialPageRoute(builder: (_) => const CollectionHomeScreen());
+
+      case collectionSeeAll:
+        return MaterialPageRoute(builder: (_) => const CollectionScreen());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

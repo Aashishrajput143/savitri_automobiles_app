@@ -1,6 +1,3 @@
-
-
-
 import 'package:equatable/equatable.dart';
 
 abstract class LoginState extends Equatable {
@@ -34,6 +31,15 @@ class LoginSuccessAdmin extends LoginState {
   final String message;
 
   LoginSuccessAdmin({required this.message});
+
+  @override
+  List<Object?> get props => [message];
+}
+
+class LoginSuccessCollection extends LoginState {
+  final String message;
+
+  LoginSuccessCollection({required this.message});
 
   @override
   List<Object?> get props => [message];

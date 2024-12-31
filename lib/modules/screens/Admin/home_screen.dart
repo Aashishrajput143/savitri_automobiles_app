@@ -322,7 +322,7 @@ class HomePageView extends StatelessWidget {
                                     ),
                                     const SizedBox(width: 8),
                                     const Text(
-                                      "Registrations",
+                                      "Sales Entries",
                                       style: TextStyle(
                                         fontSize: 13,
                                         fontWeight: FontWeight.w600,
@@ -416,7 +416,7 @@ class HomePageView extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         const Text(
-                          "Recent Registration Entries",
+                          "Recent Sales Entries",
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
