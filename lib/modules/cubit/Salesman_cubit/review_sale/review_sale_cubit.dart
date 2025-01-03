@@ -246,7 +246,6 @@ class ReviewCubit extends Cubit<ReviewState> {
       addsalesentryModel = value;
 
   Future<void> getTractor() async {
-    await Future.delayed(const Duration(seconds: 2));
     bool connection = await CommonMethods.checkInternetConnectivity();
     Utils.printLog("CheckInternetConnection===> ${connection.toString()}");
 
@@ -288,7 +287,6 @@ class ReviewCubit extends Cubit<ReviewState> {
   }
 
   Future<void> getImplements() async {
-    await Future.delayed(const Duration(seconds: 2));
     bool connection = await CommonMethods.checkInternetConnectivity();
     Utils.printLog("CheckInternetConnection===> ${connection.toString()}");
 
@@ -344,7 +342,6 @@ class ReviewCubit extends Cubit<ReviewState> {
       paymentmethod: currentState.paymentmethod,
       finance: currentState.finance,
     ));
-    await Future.delayed(const Duration(seconds: 2));
     bool connection = await CommonMethods.checkInternetConnectivity();
     Utils.printLog("CheckInternetConnection===> ${connection.toString()}");
 
@@ -431,7 +428,8 @@ class ReviewCubit extends Cubit<ReviewState> {
                 ? financeamountController.text
                 : "0"),
             "tenure": state.finance
-          }
+          },
+        "publishStatus": "PUBLISH"
       };
 
       try {
@@ -465,75 +463,151 @@ class ReviewCubit extends Cubit<ReviewState> {
 
   void setData() {
     print("object");
-    nameController.text =
-        state.getSalesEntryDetailsModel?.data?.customerName ?? "";
-    contactController.text =
-        state.getSalesEntryDetailsModel?.data?.customerContact ?? "";
-    addressController.text =
-        state.getSalesEntryDetailsModel?.data?.customerAddress ?? "";
+    if (state.getSalesEntryDetailsModel?.data?.customerName?.isNotEmpty ??
+        false) {
+      nameController.text =
+          state.getSalesEntryDetailsModel?.data?.customerName ?? "";
+    }
+    if (state.getSalesEntryDetailsModel?.data?.customerContact?.isNotEmpty ??
+        false) {
+      contactController.text =
+          state.getSalesEntryDetailsModel?.data?.customerContact ?? "";
+    }
+    if (state.getSalesEntryDetailsModel?.data?.customerAddress?.isNotEmpty ??
+        false) {
+      addressController.text =
+          state.getSalesEntryDetailsModel?.data?.customerAddress ?? "";
+    }
+    if (state
+            .getSalesEntryDetailsModel?.data?.exchangeItem?.model?.isNotEmpty ??
+        false) {
+      exchangemodelController.text =
+          state.getSalesEntryDetailsModel?.data?.exchangeItem?.model ?? "";
+    }
+    if (state
+            .getSalesEntryDetailsModel?.data?.exchangeItem?.brand?.isNotEmpty ??
+        false) {
+      exchangebrandController.text =
+          state.getSalesEntryDetailsModel?.data?.exchangeItem?.brand ?? "";
+    }
+    if (state.getSalesEntryDetailsModel?.data?.exchangeItem?.vehicleType
+            ?.isNotEmpty ??
+        false) {
+      exchangevehicleTypeController.text =
+          state.getSalesEntryDetailsModel?.data?.exchangeItem?.vehicleType ??
+              "";
+    }
 
-    exchangemodelController.text =
-        state.getSalesEntryDetailsModel?.data?.exchangeItem?.model ?? "";
-    exchangebrandController.text =
-        state.getSalesEntryDetailsModel?.data?.exchangeItem?.brand ?? "";
-    exchangevehicleTypeController.text =
-        state.getSalesEntryDetailsModel?.data?.exchangeItem?.vehicleType ?? "";
-    exchangevehicleamountController.text =
-        (state.getSalesEntryDetailsModel?.data?.exchangeItem?.amount ?? 0)
-            .toString();
-    exchangevehicleageController.text =
-        (state.getSalesEntryDetailsModel?.data?.exchangeItem?.vehicleAge ?? 0)
-            .toString();
-    exchangedescriptionController.text =
-        state.getSalesEntryDetailsModel?.data?.exchangeItem?.description ?? "";
+    if (state.getSalesEntryDetailsModel?.data?.exchangeItem?.amount != null) {
+      exchangevehicleamountController.text =
+          (state.getSalesEntryDetailsModel?.data?.exchangeItem?.amount ?? 0)
+              .toString();
+    }
+    if (state.getSalesEntryDetailsModel?.data?.exchangeItem?.vehicleAge !=
+        null) {
+      exchangevehicleageController.text =
+          (state.getSalesEntryDetailsModel?.data?.exchangeItem?.vehicleAge ?? 0)
+              .toString();
+    }
 
-    insuranceProviderController.text =
-        state.getSalesEntryDetailsModel?.data?.insurance?.insuranceProvider ??
-            "";
-    insuranceCostController.text =
-        (state.getSalesEntryDetailsModel?.data?.insurance?.insuranceCost ?? 0)
-            .toString();
-    registrationCostController.text = (state.getSalesEntryDetailsModel?.data
-                ?.registration?.registrationCost ??
-            0)
-        .toString();
-    paidAmountController.text =
-        (state.getSalesEntryDetailsModel?.data?.paidAmount ?? 0).toString();
-    transportationCostController.text =
-        (state.getSalesEntryDetailsModel?.data?.transportationCost ?? 0)
-            .toString();
+    if (state.getSalesEntryDetailsModel?.data?.exchangeItem?.description
+            ?.isNotEmpty ??
+        false) {
+      exchangedescriptionController.text =
+          state.getSalesEntryDetailsModel?.data?.exchangeItem?.description ??
+              "";
+    }
+
+    if (state.getSalesEntryDetailsModel?.data?.insurance?.insuranceProvider
+            ?.isNotEmpty ??
+        false) {
+      insuranceProviderController.text =
+          state.getSalesEntryDetailsModel?.data?.insurance?.insuranceProvider ??
+              "";
+    }
+    if (state.getSalesEntryDetailsModel?.data?.insurance?.insuranceCost !=
+        null) {
+      insuranceCostController.text =
+          (state.getSalesEntryDetailsModel?.data?.insurance?.insuranceCost ?? 0)
+              .toString();
+    }
+
+    if (state.getSalesEntryDetailsModel?.data?.registration?.registrationCost !=
+        null) {
+      registrationCostController.text = (state.getSalesEntryDetailsModel?.data
+                  ?.registration?.registrationCost ??
+              0)
+          .toString();
+    }
+
+    if (state.getSalesEntryDetailsModel?.data?.paidAmount != null) {
+      paidAmountController.text =
+          (state.getSalesEntryDetailsModel?.data?.paidAmount ?? 0).toString();
+    }
+
+    if (state.getSalesEntryDetailsModel?.data?.transportationCost != null) {
+      transportationCostController.text =
+          (state.getSalesEntryDetailsModel?.data?.transportationCost ?? 0)
+              .toString();
+    }
+
+    if (state.getSalesEntryDetailsModel?.data?.finance?.amount != null) {
+      financeamountController.text =
+          (state.getSalesEntryDetailsModel?.data?.finance?.amount ?? 0)
+              .toString();
+    }
+
     financeamountController.text =
         (state.getSalesEntryDetailsModel?.data?.finance?.amount ?? 0)
             .toString();
 
-    emit(state.copyWith(
-        selectedEquipments: state.getSalesEntryDetailsModel?.data?.equipments
-                ?.map((equipment) => equipment.sId.toString())
-                .toList() ??
-            []));
+    if (state.getSalesEntryDetailsModel?.data?.equipments?.isNotEmpty ??
+        false) {
+      emit(state.copyWith(
+          selectedEquipments: state.getSalesEntryDetailsModel?.data?.equipments
+                  ?.map((equipment) => equipment.sId.toString())
+                  .toList() ??
+              []));
+    }
 
     print("sekeslkfnsnfks===========${state.selectedEquipments}");
     print(
         "sekeslkfnsnsfdsfsdfks===========${state.getSalesEntryDetailsModel?.data?.equipments?.map((equipment) => equipment.sId.toString()).toList() ?? []}");
 
-    emit(state.copyWith(
-        isChecked: state.getSalesEntryDetailsModel?.data?.isExchange ?? false));
+    if (state.getSalesEntryDetailsModel?.data?.isExchange ?? false) {
+      emit(state.copyWith(
+          isChecked:
+              state.getSalesEntryDetailsModel?.data?.isExchange ?? false));
+    }
 
-    emit(state.copyWith(
-        selectedTractormodel:
-            state.getSalesEntryDetailsModel?.data?.tractor?.modelName ?? ""));
+    if (state.getSalesEntryDetailsModel?.data?.tractor?.modelName?.isNotEmpty ??
+        false) {
+      emit(state.copyWith(
+          selectedTractormodel:
+              state.getSalesEntryDetailsModel?.data?.tractor?.modelName ?? ""));
+    }
+    if (state.getSalesEntryDetailsModel?.data?.finance?.tenure?.isNotEmpty ??
+        false) {
+      emit(state.copyWith(
+          finance:
+              state.getSalesEntryDetailsModel?.data?.finance?.tenure ?? ""));
+    }
 
-    emit(state.copyWith(
-        finance: state.getSalesEntryDetailsModel?.data?.finance?.tenure ?? ""));
+    if (state.getSalesEntryDetailsModel?.data?.paymentMethod?.isNotEmpty ??
+        false) {
+      emit(state.copyWith(
+          paymentmethod:
+              state.getSalesEntryDetailsModel?.data?.paymentMethod ?? ""));
+    }
 
-    emit(state.copyWith(
-        paymentmethod:
-            state.getSalesEntryDetailsModel?.data?.paymentMethod ?? ""));
-
-    emit(state.copyWith(
-        registrationType: state.getSalesEntryDetailsModel?.data?.registration
-                ?.registrationType ??
-            ""));
+    if (state.getSalesEntryDetailsModel?.data?.registration?.registrationType
+            ?.isNotEmpty ??
+        false) {
+      emit(state.copyWith(
+          registrationType: state.getSalesEntryDetailsModel?.data?.registration
+                  ?.registrationType ??
+              ""));
+    }
 
     Utils.printLog("Customer Name: ${nameController.text}");
     Utils.printLog("Customer Contact: ${contactController.text}");

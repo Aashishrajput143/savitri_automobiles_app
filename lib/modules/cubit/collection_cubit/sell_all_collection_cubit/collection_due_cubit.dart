@@ -35,7 +35,6 @@ class CollectionDueCubit extends Cubit<CollectionDueStates> {
 
   Future<void> getSalesEntries(String status) async {
     emit(const CollectionDueLoading());
-    await Future.delayed(const Duration(seconds: 2));
     bool connection = await CommonMethods.checkInternetConnectivity();
     Utils.printLog("CheckInternetConnection===> ${connection.toString()}");
 

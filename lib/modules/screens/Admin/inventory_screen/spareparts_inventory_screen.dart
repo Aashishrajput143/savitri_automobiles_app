@@ -4,7 +4,6 @@ import 'package:savitri_automobiles_admin/modules/cubit/Admin_cubit/inventory_cu
 import 'package:savitri_automobiles_admin/modules/cubit/Admin_cubit/inventory_cubit/spareparts_inventory/spareparts_inventory_state.dart';
 import 'package:savitri_automobiles_admin/resources/formatter.dart';
 import 'package:savitri_automobiles_admin/resources/images.dart';
-import 'package:savitri_automobiles_admin/routes/routes.dart';
 
 class SparePartsInventoryScreen extends StatelessWidget {
   const SparePartsInventoryScreen({super.key});
@@ -64,35 +63,29 @@ class SparePartsInventoryPageView extends StatelessWidget {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          InkWell(
-                            onTap: () {
-                              Navigator.pushNamed(
-                                  context, Routes.tractordetails);
-                            },
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8.0),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(8.0),
-                                child: Image.asset(
-                                  AppImages.fuelfilter,
-                                  width: 80,
-                                  height: 80,
-                                  fit: BoxFit.contain,
-                                  errorBuilder: (context, error, stackTrace) {
-                                    return const SizedBox(
-                                      width: 80,
-                                      height: 80,
-                                      child: Center(
-                                        child: Text(
-                                          "No Image",
-                                          style: TextStyle(fontSize: 11),
-                                          textAlign: TextAlign.center,
-                                        ),
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8.0),
+                              child: Image.asset(
+                                AppImages.fuelfilter,
+                                width: 80,
+                                height: 80,
+                                fit: BoxFit.contain,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return const SizedBox(
+                                    width: 80,
+                                    height: 80,
+                                    child: Center(
+                                      child: Text(
+                                        "No Image",
+                                        style: TextStyle(fontSize: 11),
+                                        textAlign: TextAlign.center,
                                       ),
-                                    );
-                                  },
-                                ),
+                                    ),
+                                  );
+                                },
                               ),
                             ),
                           ),
@@ -100,55 +93,49 @@ class SparePartsInventoryPageView extends StatelessWidget {
                             child: Padding(
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 5.0, vertical: 10),
-                              child: InkWell(
-                                onTap: () {
-                                  Navigator.pushNamed(
-                                      context, Routes.tractordetails);
-                                },
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.4,
-                                      child: Text(
-                                        entries?.partName ?? "Not Available",
-                                        style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 14,
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 5),
-                                    Text(
-                                      "₹${PriceFormatter.formatPrice(entries?.price ?? 0)} ",
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.4,
+                                    child: Text(
+                                      entries?.partName ?? "Not Available",
                                       style: const TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.green,
                                         fontWeight: FontWeight.bold,
+                                        fontSize: 14,
                                       ),
                                     ),
-                                    const SizedBox(height: 5),
-                                    Row(
-                                      children: [
-                                        const Text(
-                                          "Stock Available : ",
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        Text(
-                                          "${entries?.quantity ?? 0}",
-                                          style: const TextStyle(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ],
+                                  ),
+                                  const SizedBox(height: 5),
+                                  Text(
+                                    "₹${PriceFormatter.formatPrice(entries?.price ?? 0)} ",
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.green,
+                                      fontWeight: FontWeight.bold,
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                  const SizedBox(height: 5),
+                                  Row(
+                                    children: [
+                                      const Text(
+                                        "Stock Available : ",
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      Text(
+                                        "${entries?.quantity ?? 0}",
+                                        style: const TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               ),
                             ),
                           ),

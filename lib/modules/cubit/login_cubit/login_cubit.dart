@@ -33,7 +33,6 @@ class LoginCubit extends Cubit<LoginState> {
 
   Future<void> logIn(String email, String password) async {
     emit(LoginLoading());
-    await Future.delayed(const Duration(seconds: 2));
     bool connection = await CommonMethods.checkInternetConnectivity();
     Utils.printLog("CheckInternetConnection===> ${connection.toString()}");
 

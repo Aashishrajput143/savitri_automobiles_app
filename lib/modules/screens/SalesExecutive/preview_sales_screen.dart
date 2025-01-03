@@ -95,8 +95,13 @@ class PreviewPage extends StatelessWidget {
                             _buildDetailRow(
                                 "Fuel Capacity",
                                 state.getSalesDetailsByIDModel.data?.tractor
-                                        ?.fuelCapacity ??
-                                    "Not Available"),
+                                            ?.fuelCapacity ==
+                                        null
+                                    ? "Not Available"
+                                    : state.getSalesDetailsByIDModel.data
+                                            ?.tractor?.fuelCapacity
+                                            .toString() ??
+                                        ""),
                             _buildDetailRow(
                                 "Engine Capacity",
                                 state.getSalesDetailsByIDModel.data?.tractor
@@ -115,8 +120,13 @@ class PreviewPage extends StatelessWidget {
                             _buildDetailRow(
                               "Number Of Cylinders",
                               state.getSalesDetailsByIDModel.data?.tractor
-                                      ?.numberOfCylinders ??
-                                  "Not Available",
+                                          ?.numberOfCylinders ==
+                                      null
+                                  ? "Not Available"
+                                  : state.getSalesDetailsByIDModel.data?.tractor
+                                          ?.numberOfCylinders
+                                          .toString() ??
+                                      "",
                             ),
                             _buildDetailRow(
                                 "Horse power",

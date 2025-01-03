@@ -251,7 +251,7 @@ class ReviewSaleLoading extends ReviewState {
           isChecked: isChecked,
           registrationType: registrationType,
           paymentmethod: paymentmethod,
-          finance: finance,
+          finance: finance ?? "3 Months",
           isSuccess: isSuccess,
           message: message,
         );

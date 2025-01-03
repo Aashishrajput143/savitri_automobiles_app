@@ -34,7 +34,6 @@ class RegistrationCubit extends Cubit<RegistrationState> {
   void setRxRequestStatus(Status value) => rxRequestStatus = value;
 
   Future<void> getSalesEntries() async {
-    await Future.delayed(const Duration(seconds: 2));
     bool connection = await CommonMethods.checkInternetConnectivity();
     Utils.printLog("CheckInternetConnection===> ${connection.toString()}");
 

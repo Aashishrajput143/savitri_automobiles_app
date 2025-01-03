@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:savitri_automobiles_admin/routes/routes.dart';
 
 class CommonScreen extends StatelessWidget {
   final Widget appBarTitle;
   final List<Widget> appBarActions;
   final Widget body;
   final int currentIndex;
-  final Function(int) onBottomNavTap;
   final bool centertitle;
   final bool autoimplement;
   final int tabs;
@@ -19,7 +19,6 @@ class CommonScreen extends StatelessWidget {
     required this.appBarActions,
     required this.body,
     required this.currentIndex,
-    required this.onBottomNavTap,
     required this.autoimplement,
     required this.tabs,
     required this.initialtab,
@@ -32,6 +31,7 @@ class CommonScreen extends StatelessWidget {
       initialIndex: initialtab,
       length: tabs,
       child: Scaffold(
+        backgroundColor: Colors.white,
         appBar: AppBar(
           backgroundColor: Colors.white,
           elevation: 0,
@@ -47,7 +47,17 @@ class CommonScreen extends StatelessWidget {
           currentIndex: currentIndex,
           selectedItemColor: Colors.green,
           unselectedItemColor: Colors.grey,
-          onTap: onBottomNavTap,
+          onTap: (index) {
+            if (index == 0) {
+              Navigator.pushNamed(context, Routes.home);
+            } else if (index == 1) {
+              Navigator.pushNamed(context, Routes.registration);
+            } else if (index == 2) {
+              Navigator.pushNamed(context, Routes.inventory);
+            } else if (index == 3) {
+              Navigator.pushNamed(context, Routes.executive);
+            }
+          },
           items: const [
             BottomNavigationBarItem(
               icon: Icon(Icons.home),

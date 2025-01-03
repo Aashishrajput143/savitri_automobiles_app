@@ -118,8 +118,6 @@ class AddSaleError extends AddSaleState {
   AddSaleError(String message)
       : super(
           isChecked: false,
-          registrationType: "",
-          paymentmethod: "",
           finance: "",
           isLoading: false,
           message: message,
@@ -129,10 +127,8 @@ class AddSaleError extends AddSaleState {
 class AddSaleLoading extends AddSaleState {
   AddSaleLoading()
       : super(
-          finance: "3 Months",
-          paymentmethod: "CASH",
+          selectedEquipments: [],
           isChecked: false,
-          registrationType: "AGRICULTURE",
           isLoading: true,
           message: 'Loading...',
         );

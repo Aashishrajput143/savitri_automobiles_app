@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:savitri_automobiles_admin/modules/screens/Admin/Executive/executive_details_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/Admin/Sales_Screen/sales_screen.dart';
+import 'package:savitri_automobiles_admin/modules/screens/Admin/home_admin.dart';
 import 'package:savitri_automobiles_admin/modules/screens/SalesExecutive/add_sales_entry_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/Admin/inventory_screen/inventory_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/SalesExecutive/review_sales_screen.dart';
@@ -19,7 +20,6 @@ import 'package:savitri_automobiles_admin/modules/screens/Admin/Executive/execut
 import 'package:savitri_automobiles_admin/modules/screens/search_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/tractor_details_screen.dart';
 
-import '../modules/screens/Admin/home_screen.dart';
 import '../modules/screens/SalesExecutive/preview_sales_screen.dart';
 import '../modules/screens/splash_screen.dart';
 
@@ -52,7 +52,7 @@ class Routes {
       case splash:
         return MaterialPageRoute(builder: (_) => const SplashScreen());
       case home:
-        return MaterialPageRoute(builder: (_) => const HomeScreen());
+        return MaterialPageRoute(builder: (_) => const HomeAdminScreen());
       case login:
         return MaterialPageRoute(builder: (_) => LoginScreen());
       case search:

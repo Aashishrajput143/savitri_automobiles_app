@@ -78,17 +78,6 @@ class ExecutivePageView extends StatelessWidget {
         },
       ),
       currentIndex: 3,
-      onBottomNavTap: (index) {
-        if (index == 0) {
-          Navigator.pushReplacementNamed(context, Routes.home);
-        } else if (index == 1) {
-          Navigator.pushReplacementNamed(context, Routes.registration);
-        } else if (index == 2) {
-          Navigator.pushReplacementNamed(context, Routes.inventory);
-        } else if (index == 3) {
-          Navigator.pushReplacementNamed(context, Routes.executive);
-        }
-      },
     );
   }
 }

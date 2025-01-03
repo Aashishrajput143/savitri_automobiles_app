@@ -252,7 +252,7 @@ class PreviewPage extends StatelessWidget {
                                     state.getServiceDetailsByIDModel.data
                                             ?.spareParts?[i].partId?.partName ??
                                         "Not Available",
-                                    "+ ₹${PriceFormatter.formatPrice(state.getServiceDetailsByIDModel.data?.spareParts?[i].partId?.price ?? 0)} "),
+                                    "+ ₹${PriceFormatter.formatPrice(state.getServiceDetailsByIDModel.data?.spareParts?[i].partId?.price ?? 0)} X ${state.getServiceDetailsByIDModel.data?.spareParts?[i].quantity ?? "Not Available"} "),
                               for (int i = 0;
                                   i <
                                       (state.getServiceDetailsByIDModel.data
@@ -263,7 +263,7 @@ class PreviewPage extends StatelessWidget {
                                     state.getServiceDetailsByIDModel.data
                                             ?.oils?[i].oilId?.oilName ??
                                         "Not Available",
-                                    "+ ₹${PriceFormatter.formatPrice(state.getServiceDetailsByIDModel.data?.oils?[i].oilId?.price ?? 0)} "),
+                                    "+ ₹${PriceFormatter.formatPrice(state.getServiceDetailsByIDModel.data?.oils?[i].oilId?.price ?? 0)}  X ${state.getServiceDetailsByIDModel.data?.oils?[i].quantity ?? "Not Available"} "),
                               const Divider(thickness: 1.5),
                               _buildDetailRow("Total Amount",
                                   "₹${PriceFormatter.formatPrice(state.getServiceDetailsByIDModel.data?.totalCost ?? 0)} "),

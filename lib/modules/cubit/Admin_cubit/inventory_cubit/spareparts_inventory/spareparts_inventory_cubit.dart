@@ -30,7 +30,6 @@ class SparepartsInventoryCubit extends Cubit<SparepartsInventoryState> {
   void setRxRequestStatus(Status value) => rxRequestStatus = value;
 
   Future<void> getSpareParts() async {
-    await Future.delayed(const Duration(seconds: 2));
     bool connection = await CommonMethods.checkInternetConnectivity();
     Utils.printLog("CheckInternetConnection===> ${connection.toString()}");
 
@@ -138,7 +137,6 @@ class SparepartsInventoryCubit extends Cubit<SparepartsInventoryState> {
   Future<void> addSpecificationSpareParts(context, id) async {
     Navigator.pop(context);
     emit(SparepartsInventoryLoading());
-    await Future.delayed(const Duration(seconds: 2));
     bool connection = await CommonMethods.checkInternetConnectivity();
     Utils.printLog("CheckInternetConnection===> ${connection.toString()}");
 

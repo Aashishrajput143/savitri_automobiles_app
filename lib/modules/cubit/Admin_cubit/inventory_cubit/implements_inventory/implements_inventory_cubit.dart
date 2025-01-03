@@ -30,7 +30,6 @@ class ImplementsInventoryCubit extends Cubit<ImplementInventoryState> {
   void setRxRequestStatus(Status value) => rxRequestStatus = value;
 
   Future<void> getImplement() async {
-    await Future.delayed(const Duration(seconds: 2));
     bool connection = await CommonMethods.checkInternetConnectivity();
     Utils.printLog("CheckInternetConnection===> ${connection.toString()}");
 
@@ -138,7 +137,6 @@ class ImplementsInventoryCubit extends Cubit<ImplementInventoryState> {
   Future<void> addSpecificationImplement(context, id) async {
     Navigator.pop(context);
     emit(ImplementsInventoryLoading());
-    await Future.delayed(const Duration(seconds: 2));
     bool connection = await CommonMethods.checkInternetConnectivity();
     Utils.printLog("CheckInternetConnection===> ${connection.toString()}");
 

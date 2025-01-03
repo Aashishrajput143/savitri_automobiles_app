@@ -30,7 +30,6 @@ class TractorInventoryCubit extends Cubit<TractorInventoryState> {
   void setRxRequestStatus(Status value) => rxRequestStatus = value;
 
   Future<void> getTractor() async {
-    await Future.delayed(const Duration(seconds: 2));
     bool connection = await CommonMethods.checkInternetConnectivity();
     Utils.printLog("CheckInternetConnection===> ${connection.toString()}");
 
@@ -138,7 +137,6 @@ class TractorInventoryCubit extends Cubit<TractorInventoryState> {
   Future<void> addSpecificationTractor(context, id) async {
     Navigator.pop(context);
     emit(TractorInventoryLoading());
-    await Future.delayed(const Duration(seconds: 2));
     bool connection = await CommonMethods.checkInternetConnectivity();
     Utils.printLog("CheckInternetConnection===> ${connection.toString()}");
 

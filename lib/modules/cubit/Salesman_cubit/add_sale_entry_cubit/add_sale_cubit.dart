@@ -107,7 +107,6 @@ class AddSaleCubit extends Cubit<AddSaleState> {
       addsalesentryModel = value;
 
   Future<void> getTractor() async {
-    await Future.delayed(const Duration(seconds: 2));
     bool connection = await CommonMethods.checkInternetConnectivity();
     Utils.printLog("CheckInternetConnection===> ${connection.toString()}");
 
@@ -149,7 +148,6 @@ class AddSaleCubit extends Cubit<AddSaleState> {
   }
 
   Future<void> getImplements() async {
-    await Future.delayed(const Duration(seconds: 2));
     bool connection = await CommonMethods.checkInternetConnectivity();
     Utils.printLog("CheckInternetConnection===> ${connection.toString()}");
 
@@ -205,7 +203,6 @@ class AddSaleCubit extends Cubit<AddSaleState> {
       paymentmethod: currentState.paymentmethod,
       finance: currentState.finance,
     ));
-    await Future.delayed(const Duration(seconds: 2));
     bool connection = await CommonMethods.checkInternetConnectivity();
     Utils.printLog("CheckInternetConnection===> ${connection.toString()}");
 
@@ -214,7 +211,8 @@ class AddSaleCubit extends Cubit<AddSaleState> {
 
       Map<String, dynamic> requestData = {
         "tractorId": state.selectedTractormodel,
-        "equipments": state.selectedEquipments,
+        if (state.selectedEquipments?.isNotEmpty ?? false)
+          "equipments": state.selectedEquipments,
         "customerName": nameController.text,
         "customerContact": contactController.text,
         "customerAddress": addressController.text,
@@ -253,22 +251,28 @@ class AddSaleCubit extends Cubit<AddSaleState> {
                   ? registrationCostController.text
                   : "0")
         },
-        "insurance": {
-          "insuranceProvider": insuranceProviderController.text,
-          "insuranceCost": double.parse(insuranceCostController.text.isNotEmpty
-              ? insuranceCostController.text
-              : "0")
-        },
-        "transportationCost": double.parse(
-            transportationCostController.text.isNotEmpty
-                ? transportationCostController.text
+        if (insuranceProviderController.text.isNotEmpty &&
+            insuranceCostController.text.isNotEmpty)
+          "insurance": {
+            "insuranceProvider": insuranceProviderController.text,
+            "insuranceCost": double.parse(
+                insuranceCostController.text.isNotEmpty
+                    ? insuranceCostController.text
+                    : "0")
+          },
+        if (transportationCostController.text.isNotEmpty)
+          "transportationCost": double.parse(
+              transportationCostController.text.isNotEmpty
+                  ? transportationCostController.text
+                  : "0"),
+        if (state.finance?.isNotEmpty ?? false)
+          "finance": {
+            "amount": double.parse(financeamountController.text.isNotEmpty
+                ? financeamountController.text
                 : "0"),
-        "finance": {
-          "amount": double.parse(financeamountController.text.isNotEmpty
-              ? financeamountController.text
-              : "0"),
-          "tenure": state.finance
-        }
+            "tenure": state.finance
+          },
+        "publishStatus": "DRAFT"
       };
 
       try {

@@ -223,7 +223,6 @@ class AddServiceCubit extends Cubit<AddServiceState> {
   void setRxRequestStatus(Status value) => rxRequestStatus = value;
 
   Future<void> getTractor() async {
-    await Future.delayed(const Duration(seconds: 2));
     bool connection = await CommonMethods.checkInternetConnectivity();
     Utils.printLog("CheckInternetConnection===> ${connection.toString()}");
 
@@ -263,7 +262,6 @@ class AddServiceCubit extends Cubit<AddServiceState> {
   }
 
   Future<void> getSparepartsApi() async {
-    await Future.delayed(const Duration(seconds: 2));
     bool connection = await CommonMethods.checkInternetConnectivity();
     Utils.printLog("CheckInternetConnection===> ${connection.toString()}");
 
@@ -305,7 +303,6 @@ class AddServiceCubit extends Cubit<AddServiceState> {
   }
 
   Future<void> getoilApi() async {
-    await Future.delayed(const Duration(seconds: 2));
     bool connection = await CommonMethods.checkInternetConnectivity();
     Utils.printLog("CheckInternetConnection===> ${connection.toString()}");
 
@@ -344,8 +341,23 @@ class AddServiceCubit extends Cubit<AddServiceState> {
   }
 
   Future<void> addServiceEntry(context) async {
-    emit(AddServiceLoading());
-    await Future.delayed(const Duration(seconds: 2));
+    final currentState = state;
+    emit(AddServicesuccessLoading(
+      selectedTractor: currentState.selectedTractor,
+      servicechargeamount: currentState.servicechargeamount,
+      totalsparepartsprice: currentState.totalsparepartsprice,
+      totaloilprice: currentState.totaloilprice,
+      spareparts: currentState.spareparts,
+      selectedspareparts: currentState.selectedspareparts,
+      selectedsparepartsdetails: currentState.selectedsparepartsdetails,
+      oilsnames: currentState.oilsnames,
+      selectedoilsdetails: currentState.selectedoilsdetails,
+      selectedoils: currentState.selectedoils,
+      selectedservicetype: currentState.selectedservicetype,
+      isSuccess: currentState.isSuccess,
+      message: currentState.message,
+      paymentmethod: currentState.paymentmethod,
+    ));
     bool connection = await CommonMethods.checkInternetConnectivity();
     Utils.printLog("CheckInternetConnection===> ${connection.toString()}");
 
@@ -361,13 +373,17 @@ class AddServiceCubit extends Cubit<AddServiceState> {
         "customerAddress":
             addressController.text.isNotEmpty ? addressController.text : "",
         "serviceType": state.selectedservicetype,
-        "serviceDescription": servicedescriptionController.text.isNotEmpty
-            ? servicedescriptionController.text
-            : "",
-        "spareParts": state.selectedsparepartsdetails,
-        "oils": state.selectedoilsdetails,
-        "totalPartsCost": state.totalsparepartsprice,
-        "totalOilsCost": state.totaloilprice,
+        if (servicedescriptionController.text.isNotEmpty)
+          "serviceDescription": servicedescriptionController.text.isNotEmpty
+              ? servicedescriptionController.text
+              : "",
+        if (state.selectedsparepartsdetails?.isNotEmpty ?? false)
+          "spareParts": state.selectedsparepartsdetails,
+        if (state.selectedoilsdetails?.isNotEmpty ?? false)
+          "oils": state.selectedoilsdetails,
+        if (state.totalsparepartsprice != null)
+          "totalPartsCost": state.totalsparepartsprice,
+        if (state.totaloilprice != null) "totalOilsCost": state.totaloilprice,
         "totalCost": ((state.totalsparepartsprice ?? 0.0) +
             (state.totaloilprice ?? 0.0) +
             (double.tryParse(servicechargeController.text) ?? 0.0)),

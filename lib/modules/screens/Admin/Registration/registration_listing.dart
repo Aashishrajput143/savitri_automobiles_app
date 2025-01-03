@@ -23,8 +23,10 @@ class RegistrationPageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final initialtab = ModalRoute.of(context)?.settings.arguments as int? ?? 0;
+    print('Received arguments: $initialtab');
     return CommonScreen(
-      initialtab: 0,
+      initialtab: initialtab,
       tabs: 2,
       autoimplement: false,
       appBarTitle: const Padding(
@@ -75,17 +77,6 @@ class RegistrationPageView extends StatelessWidget {
         },
       ),
       currentIndex: 1,
-      onBottomNavTap: (index) {
-        if (index == 0) {
-          Navigator.pushReplacementNamed(context, Routes.home);
-        } else if (index == 1) {
-          Navigator.pushReplacementNamed(context, Routes.registration);
-        } else if (index == 2) {
-          Navigator.pushReplacementNamed(context, Routes.inventory);
-        } else if (index == 3) {
-          Navigator.pushReplacementNamed(context, Routes.executive);
-        }
-      },
     );
   }
 }

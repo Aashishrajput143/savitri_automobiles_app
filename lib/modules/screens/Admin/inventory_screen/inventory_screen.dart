@@ -83,17 +83,6 @@ class InventoryPageView extends StatelessWidget {
         },
       ),
       currentIndex: 2,
-      onBottomNavTap: (index) {
-        if (index == 0) {
-          Navigator.pushReplacementNamed(context, Routes.home);
-        } else if (index == 1) {
-          Navigator.pushReplacementNamed(context, Routes.registration);
-        } else if (index == 2) {
-          Navigator.pushReplacementNamed(context, Routes.home);
-        } else if (index == 3) {
-          Navigator.pushReplacementNamed(context, Routes.executive);
-        }
-      },
     );
   }
 }

@@ -24,6 +24,7 @@ class AppUrl {
   static String implementinventory = '$baseUrl/api/equipement/edit';
   static String sparepartinventory = '$baseUrl/api/sparePart/edit';
   static String oilinventory = '$baseUrl/api/oil/edit';
+  static String getusers = '$baseUrl/api/admin/getUsers';
 
   // static String getcategory =
   //     '$baseUrl/api/category/getallcategory?page=1&pageSize=10';

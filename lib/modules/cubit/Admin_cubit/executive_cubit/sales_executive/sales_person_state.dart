@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:savitri_automobiles_admin/modules/model/getusersmodel.dart';
 
 abstract class SalesPersonState extends Equatable {
   @override
@@ -16,6 +17,15 @@ class SalesPersonSuccess extends SalesPersonState {
 
   @override
   List<Object?> get props => [message];
+}
+
+class SalesPersonLoaded extends SalesPersonState {
+  final GetUsersModel? getusers;
+  final String? message;
+  SalesPersonLoaded({this.getusers, this.message});
+
+  @override
+  List<Object?> get props => [getusers];
 }
 
 class SalesPersonError extends SalesPersonState {

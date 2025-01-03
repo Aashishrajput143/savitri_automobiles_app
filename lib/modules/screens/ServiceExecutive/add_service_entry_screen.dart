@@ -36,7 +36,11 @@ class ServiceEntryScreen extends StatelessWidget {
           body: BlocBuilder<AddServiceCubit, AddServiceState>(
             builder: (context, state) {
               final cubit = context.read<AddServiceCubit>();
-              if (state is AddServiceLoading) {
+              if (state is AddServicesuccessLoading) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else if (state is AddServiceLoading) {
                 return const Center(
                   child: CircularProgressIndicator(),
                 );
@@ -134,11 +138,11 @@ class ServiceEntryScreen extends StatelessWidget {
                       const Divider(thickness: 1.5),
                       const SizedBox(height: 8),
                       _buildDetailRowWithTextField(
-                          "Name", cubit.nameController, "Enter Name"),
-                      _buildDetailRowWithTextField("Contact",
-                          cubit.contactController, "Enter Contact Number"),
-                      _buildDetailRowWithTextField(
-                          "Address", cubit.addressController, "Enter Address"),
+                          "Name", cubit.nameController, "Enter Name", 20),
+                      _buildDetailAmountRowWithTextField("Contact",
+                          cubit.contactController, "Enter Contact Number", 10),
+                      _buildDetailRowWithTextField("Address",
+                          cubit.addressController, "Enter Address", 50),
                       const SizedBox(height: 20),
                       const Text(
                         "Service Details",
@@ -214,7 +218,7 @@ class ServiceEntryScreen extends StatelessWidget {
                           RemoveTrailingPeriodsFormatter(),
                           SpecialCharacterValidator(),
                           EmojiInputFormatter(),
-                          LengthLimitingTextInputFormatter(100)
+                          LengthLimitingTextInputFormatter(255)
                         ],
                         controller: cubit.servicedescriptionController,
                         decoration: const InputDecoration(
@@ -648,7 +652,29 @@ class ServiceEntryScreen extends StatelessWidget {
                                 cubit.contactController.text.isNotEmpty &&
                                 cubit.paidAmountController.text.isNotEmpty &&
                                 state.paymentmethod != null) {
-                              cubit.addServiceEntry(context);
+                              if (cubit.nameController.text.length < 5) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      content: Text(
+                                          "Name Should atleast 5 character")),
+                                );
+                              } else if (cubit.addressController.text.length <
+                                  12) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      content: Text(
+                                          "Address Should atleast 12 character")),
+                                );
+                              } else if (cubit.contactController.text.length <
+                                  10) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      content:
+                                          Text("Contact Should be 10 digits")),
+                                );
+                              } else {
+                                cubit.addServiceEntry(context);
+                              }
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
@@ -687,7 +713,7 @@ class ServiceEntryScreen extends StatelessWidget {
           }
           if (state is AddServiceError) {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text("Please fill all the details")),
+              SnackBar(content: Text(state.message ?? "")),
             );
           }
         },
@@ -723,25 +749,37 @@ class ServiceEntryScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildAmountRow(String label, String value, bool bold) {
+  Widget _buildDetailAmountRowWithTextField(
+      String label, TextEditingController controller, String hint, int limit) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 12,
-              fontWeight: bold ? FontWeight.bold : FontWeight.w500,
+          Expanded(
+            flex: 2,
+            child: Text(
+              label,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+              ),
             ),
           ),
-          Text(
-            overflow: TextOverflow.clip,
-            value,
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: bold ? FontWeight.bold : FontWeight.w500,
+          const SizedBox(width: 10),
+          Expanded(
+            flex: 3,
+            child: TextField(
+              inputFormatters: [
+                FilteringTextInputFormatter.digitsOnly,
+                LengthLimitingTextInputFormatter(limit),
+              ],
+              controller: controller,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  hintText: hint,
+                  hintStyle: const TextStyle(fontSize: 13)),
             ),
           ),
         ],
@@ -750,7 +788,7 @@ class ServiceEntryScreen extends StatelessWidget {
   }
 
   Widget _buildDetailRowWithTextField(
-      String label, TextEditingController controller, String hint) {
+      String label, TextEditingController controller, String hint, int limit) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Row(
@@ -775,13 +813,39 @@ class ServiceEntryScreen extends StatelessWidget {
                 RemoveTrailingPeriodsFormatter(),
                 SpecialCharacterValidator(),
                 EmojiInputFormatter(),
-                LengthLimitingTextInputFormatter(50)
+                LengthLimitingTextInputFormatter(limit)
               ],
               controller: controller,
               decoration: InputDecoration(
                   border: const OutlineInputBorder(),
                   hintText: hint,
                   hintStyle: const TextStyle(fontSize: 13)),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildAmountRow(String label, String value, bool bold) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: bold ? FontWeight.bold : FontWeight.w500,
+            ),
+          ),
+          Text(
+            overflow: TextOverflow.clip,
+            value,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: bold ? FontWeight.bold : FontWeight.w500,
             ),
           ),
         ],

@@ -35,7 +35,6 @@ class ServiceEntryCubit extends Cubit<ServiceEntryState> {
 
   Future<void> getServiceEntries() async {
     emit(const ServiceEntryLoading());
-    await Future.delayed(const Duration(seconds: 2));
     bool connection = await CommonMethods.checkInternetConnectivity();
     Utils.printLog("CheckInternetConnection===> ${connection.toString()}");
 

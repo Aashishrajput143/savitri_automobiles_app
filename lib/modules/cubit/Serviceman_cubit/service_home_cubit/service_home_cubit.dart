@@ -39,7 +39,6 @@ class ServiceHomeCubit extends Cubit<ServiceHomeStates> {
 
   Future<void> logoutApi(context) async {
     emit(const ServiceHomeLoading());
-    await Future.delayed(const Duration(seconds: 2));
     bool connection = await CommonMethods.checkInternetConnectivity();
     Utils.printLog("CheckInternetConnection===> ${connection.toString()}");
 
@@ -82,7 +81,6 @@ class ServiceHomeCubit extends Cubit<ServiceHomeStates> {
   }
 
   Future<void> getServiceEntries() async {
-    await Future.delayed(const Duration(seconds: 2));
     bool connection = await CommonMethods.checkInternetConnectivity();
     Utils.printLog("CheckInternetConnection===> ${connection.toString()}");
 

@@ -20,16 +20,16 @@ class AddServiceState {
   final String? paymentmethod;
   final int? servicechargeamount;
 
-  final bool isLoading;
-  final bool isSuccess;
-  final String message;
+  final bool? isLoading;
+  final bool? isSuccess;
+  final String? message;
 
   AddServiceState({
-    required this.gettractormodel,
+    this.gettractormodel,
     this.totaloilprice,
     this.addServiceEntryModel,
-    required this.spareparts,
-    required this.oilsnames,
+    this.spareparts,
+    this.oilsnames,
     this.selectedservicetype,
     this.totalsparepartsprice,
     this.paymentmethod,
@@ -134,6 +134,40 @@ class AddServiceState {
         isSuccess.hashCode ^
         message.hashCode;
   }
+}
+
+class AddServicesuccessLoading extends AddServiceState {
+  AddServicesuccessLoading({
+    selectedTractor,
+    spareparts,
+    totaloilprice,
+    totalsparepartsprice,
+    servicechargeamount,
+    selectedspareparts,
+    selectedsparepartsdetails,
+    selectedoils,
+    selectedoilsdetails,
+    oilsnames,
+    paymentmethod,
+    selectedservicetype,
+    isSuccess = false,
+    message = 'Loading...',
+  }) : super(
+          selectedTractor: selectedTractor,
+          spareparts: spareparts,
+          totaloilprice: totaloilprice,
+          totalsparepartsprice: totalsparepartsprice,
+          servicechargeamount: servicechargeamount,
+          selectedspareparts: selectedspareparts,
+          selectedsparepartsdetails: selectedsparepartsdetails,
+          selectedoils: selectedoils,
+          selectedoilsdetails: selectedoilsdetails,
+          paymentmethod: paymentmethod,
+          oilsnames: oilsnames,
+          selectedservicetype: selectedservicetype,
+          isSuccess: isSuccess,
+          message: message,
+        );
 }
 
 class AddServiceSuccess extends AddServiceState {

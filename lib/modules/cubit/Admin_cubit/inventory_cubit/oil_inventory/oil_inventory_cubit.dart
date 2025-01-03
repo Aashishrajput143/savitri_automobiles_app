@@ -30,7 +30,6 @@ class OilInventoryCubit extends Cubit<OilInventoryState> {
   void setRxRequestStatus(Status value) => rxRequestStatus = value;
 
   Future<void> getOil() async {
-    await Future.delayed(const Duration(seconds: 2));
     bool connection = await CommonMethods.checkInternetConnectivity();
     Utils.printLog("CheckInternetConnection===> ${connection.toString()}");
 
@@ -136,7 +135,6 @@ class OilInventoryCubit extends Cubit<OilInventoryState> {
   Future<void> addSpecificationOil(context, id) async {
     Navigator.pop(context);
     emit(OilInventoryLoading());
-    await Future.delayed(const Duration(seconds: 2));
     bool connection = await CommonMethods.checkInternetConnectivity();
     Utils.printLog("CheckInternetConnection===> ${connection.toString()}");
 

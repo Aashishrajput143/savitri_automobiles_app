@@ -47,7 +47,7 @@ class SalesEntryScreen extends StatelessWidget {
               }
               if (state is AddSaleError) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text("Please fill all the details")),
+                  SnackBar(content: Text(state.message ?? "")),
                 );
               }
             },
@@ -143,9 +143,9 @@ class SalesEntryScreen extends StatelessWidget {
                             "Fuel Capacity",
                             state.selectedTractor?.fuelCapacity ??
                                 "Not Available"),
-                        _buildDetailRow("fuelType",
+                        _buildDetailRow("Fuel Type",
                             state.selectedTractor?.fuelType ?? "Not Available"),
-                        _buildDetailRow("features",
+                        _buildDetailRow("Features",
                             state.selectedTractor?.features ?? "Not Available"),
                       ],
                       const SizedBox(height: 40),
@@ -159,13 +159,13 @@ class SalesEntryScreen extends StatelessWidget {
                       const Divider(thickness: 1.5),
                       const SizedBox(height: 8),
                       _buildDetailRowWithTextField(
-                          "Name", cubit.nameController, "Enter Name", 20),
+                          "Name", cubit.nameController, "Enter Name", 50),
                       _buildDetailAmountRowWithTextField("Contact",
                           cubit.contactController, "Enter Contact Number", 10),
                       // _buildDetailRowWithTextField(
                       //     "Email", cubit.emailController),
                       _buildDetailRowWithTextField("Address",
-                          cubit.addressController, "Enter Address", 40),
+                          cubit.addressController, "Enter Address", 255),
                       const SizedBox(height: 40),
 
                       CheckboxListTile(
@@ -436,7 +436,7 @@ class SalesEntryScreen extends StatelessWidget {
                         key: cubit.dropDownKeypaymentmethod,
                         selectedItem: "Select Payment Method",
                         items: (value, c) => [
-                          "Cash",
+                          "CASH",
                           "UPI",
                           "Net Banking",
                           "Card",
@@ -513,7 +513,29 @@ class SalesEntryScreen extends StatelessWidget {
                                   );
                                 }
                               } else {
-                                cubit.addSalesEntry(context);
+                                if (cubit.nameController.text.length < 5) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text(
+                                            "Name Should atleast 5 character")),
+                                  );
+                                } else if (cubit.addressController.text.length <
+                                    12) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text(
+                                            "Address Should atleast 12 character")),
+                                  );
+                                } else if (cubit.contactController.text.length <
+                                    10) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text(
+                                            "Contact Should be 10 digits")),
+                                  );
+                                } else {
+                                  cubit.addSalesEntry(context);
+                                }
                               }
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
