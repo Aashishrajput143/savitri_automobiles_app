@@ -61,7 +61,6 @@ class AddSaleState {
     GetImplementModel? getimplementmodel,
     AddSalesEntryModel? addSalesEntryModel,
     String? selectedTractormodel,
-    Map<String, String>? equipmentPrices,
     List<String>? selectedEquipments,
     Docstractor? selectedTractor,
     bool? isChecked,

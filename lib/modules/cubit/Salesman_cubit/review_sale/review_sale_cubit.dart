@@ -461,99 +461,6 @@ class ReviewCubit extends Cubit<ReviewState> {
     }
   }
 
-  void setData() {
-    print("object");
-
-    nameController.text =
-        state.getSalesEntryDetailsModel?.data?.customerName ?? "";
-
-    contactController.text =
-        state.getSalesEntryDetailsModel?.data?.customerContact ?? "";
-
-    addressController.text =
-        state.getSalesEntryDetailsModel?.data?.customerAddress ?? "";
-
-    exchangemodelController.text =
-        state.getSalesEntryDetailsModel?.data?.exchangeItem?.model ?? "";
-
-    exchangebrandController.text =
-        state.getSalesEntryDetailsModel?.data?.exchangeItem?.brand ?? "";
-
-    exchangevehicleTypeController.text =
-        state.getSalesEntryDetailsModel?.data?.exchangeItem?.vehicleType ?? "";
-
-    exchangevehicleamountController.text =
-        (state.getSalesEntryDetailsModel?.data?.exchangeItem?.amount ?? 0)
-            .toString();
-
-    exchangevehicleageController.text =
-        (state.getSalesEntryDetailsModel?.data?.exchangeItem?.vehicleAge ?? 0)
-            .toString();
-
-    exchangedescriptionController.text =
-        state.getSalesEntryDetailsModel?.data?.exchangeItem?.description ?? "";
-
-    insuranceProviderController.text =
-        state.getSalesEntryDetailsModel?.data?.insurance?.insuranceProvider ??
-            "";
-
-    insuranceCostController.text =
-        (state.getSalesEntryDetailsModel?.data?.insurance?.insuranceCost ?? 0)
-            .toString();
-
-    registrationCostController.text = (state.getSalesEntryDetailsModel?.data
-                ?.registration?.registrationCost ??
-            0)
-        .toString();
-
-    paidAmountController.text =
-        (state.getSalesEntryDetailsModel?.data?.paidAmount ?? 0).toString();
-
-    transportationCostController.text =
-        (state.getSalesEntryDetailsModel?.data?.transportationCost ?? 0)
-            .toString();
-
-    financeamountController.text =
-        (state.getSalesEntryDetailsModel?.data?.finance?.amount ?? 0)
-            .toString();
-
-    financeamountController.text =
-        (state.getSalesEntryDetailsModel?.data?.finance?.amount ?? 0)
-            .toString();
-
-    emit(state.copyWith(
-        selectedEquipments: state.getSalesEntryDetailsModel?.data?.equipments
-                ?.map((equipment) => equipment.sId.toString())
-                .toList() ??
-            []));
-
-    print("sekeslkfnsnfks===========${state.selectedEquipments}");
-    print(
-        "sekeslkfnsnsfdsfsdfks===========${state.getSalesEntryDetailsModel?.data?.equipments?.map((equipment) => equipment.sId.toString()).toList() ?? []}");
-
-    emit(state.copyWith(
-        isChecked: state.getSalesEntryDetailsModel?.data?.isExchange ?? false));
-
-    emit(state.copyWith(
-        selectedTractormodel:
-            state.getSalesEntryDetailsModel?.data?.tractor?.modelName ?? ""));
-
-    emit(state.copyWith(
-        finance: state.getSalesEntryDetailsModel?.data?.finance?.tenure ?? ""));
-
-    emit(state.copyWith(
-        paymentmethod:
-            state.getSalesEntryDetailsModel?.data?.paymentMethod ?? ""));
-
-    emit(state.copyWith(
-        registrationType: state.getSalesEntryDetailsModel?.data?.registration
-                ?.registrationType ??
-            ""));
-
-    Utils.printLog("Customer Name: ${nameController.text}");
-    Utils.printLog("Customer Contact: ${contactController.text}");
-  }
-
   // void setData() {
   //   print("object");
   //   if (state.getSalesEntryDetailsModel?.data?.customerName?.isNotEmpty ??
@@ -717,7 +624,103 @@ class ReviewCubit extends Cubit<ReviewState> {
             await salesrepository.getSalesEntriesDetails(id);
 
         emit(state.copyWith(getSalesEntryDetailsModel: response));
-        setData();
+        print("dfsdsfsdfs");
+        nameController.text =
+            state.getSalesEntryDetailsModel?.data?.customerName ?? "";
+
+        contactController.text =
+            state.getSalesEntryDetailsModel?.data?.customerContact ?? "";
+
+        addressController.text =
+            state.getSalesEntryDetailsModel?.data?.customerAddress ?? "";
+
+        exchangemodelController.text =
+            state.getSalesEntryDetailsModel?.data?.exchangeItem?.model ?? "";
+
+        exchangebrandController.text =
+            state.getSalesEntryDetailsModel?.data?.exchangeItem?.brand ?? "";
+
+        exchangevehicleTypeController.text =
+            state.getSalesEntryDetailsModel?.data?.exchangeItem?.vehicleType ??
+                "";
+
+        exchangevehicleamountController.text =
+            (state.getSalesEntryDetailsModel?.data?.exchangeItem?.amount ?? 0)
+                .toString();
+
+        exchangevehicleageController.text =
+            (state.getSalesEntryDetailsModel?.data?.exchangeItem?.vehicleAge ??
+                    0)
+                .toString();
+        print("dfsdsfsdfs");
+        exchangedescriptionController.text =
+            state.getSalesEntryDetailsModel?.data?.exchangeItem?.description ??
+                "";
+
+        insuranceProviderController.text = state.getSalesEntryDetailsModel?.data
+                ?.insurance?.insuranceProvider ??
+            "";
+
+        insuranceCostController.text =
+            (state.getSalesEntryDetailsModel?.data?.insurance?.insuranceCost ??
+                    0)
+                .toString();
+
+        registrationCostController.text = (state.getSalesEntryDetailsModel?.data
+                    ?.registration?.registrationCost ??
+                0)
+            .toString();
+
+        paidAmountController.text =
+            (state.getSalesEntryDetailsModel?.data?.paidAmount ?? 0).toString();
+
+        transportationCostController.text =
+            (state.getSalesEntryDetailsModel?.data?.transportationCost ?? 0)
+                .toString();
+        print("dfsdsfsdfs");
+        financeamountController.text =
+            (state.getSalesEntryDetailsModel?.data?.finance?.amount ?? 0)
+                .toString();
+
+        financeamountController.text =
+            (state.getSalesEntryDetailsModel?.data?.finance?.amount ?? 0)
+                .toString();
+
+        emit(state.copyWith(
+            selectedEquipments: state
+                    .getSalesEntryDetailsModel?.data?.equipments
+                    ?.map((equipment) => equipment.sId.toString())
+                    .toList() ??
+                []));
+
+        print("sekeslkfnsnfks===========${state.selectedEquipments}");
+        print(
+            "sekeslkfnsnsfdsfsdfks===========${state.getSalesEntryDetailsModel?.data?.equipments?.map((equipment) => equipment.sId.toString()).toList() ?? []}");
+
+        emit(state.copyWith(
+            isChecked:
+                state.getSalesEntryDetailsModel?.data?.isExchange ?? false));
+
+        emit(state.copyWith(
+            selectedTractormodel:
+                state.getSalesEntryDetailsModel?.data?.tractor?.modelName ??
+                    ""));
+        print("dfsdsfsdfs");
+        emit(state.copyWith(
+            finance:
+                state.getSalesEntryDetailsModel?.data?.finance?.tenure ?? ""));
+
+        emit(state.copyWith(
+            paymentmethod:
+                state.getSalesEntryDetailsModel?.data?.paymentMethod ?? ""));
+
+        emit(state.copyWith(
+            registrationType: state.getSalesEntryDetailsModel?.data
+                    ?.registration?.registrationType ??
+                ""));
+        print("dfsdsfsdfs");
+        Utils.printLog("Customer Name: ${nameController.text}");
+        Utils.printLog("Customer Contact: ${contactController.text}");
 
         setRxRequestStatus(Status.COMPLETED);
         Utils.printLog("Response===> ${response.toString()}");
