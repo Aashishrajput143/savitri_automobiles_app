@@ -58,10 +58,10 @@ class AddSaleCubit extends Cubit<AddSaleState> {
     );
     if (selectedTractor != null) {
       print("Selected Tractor: ${selectedTractor.sId}"); // Debug log
-
       emit(state.copyWith(
           selectedTractormodel: selectedTractor.sId,
-          selectedTractor: selectedTractor));
+          selectedTractor: selectedTractor,
+          tractorprice: selectedTractor.price ?? 0));
     } else {
       print("No tractor found with ID: $id");
     }
@@ -87,6 +87,36 @@ class AddSaleCubit extends Cubit<AddSaleState> {
     print("object1 $type");
     print("object2 $type");
     emit(state.copyWith(paymentmethod: type));
+  }
+
+  void selectedregistrationcost(int? value) {
+    print("object1 $value");
+    emit(state.copyWith(registrationprice: value));
+  }
+
+  void selectedequipmentcost(int? value) {
+    print("object1 $value");
+    emit(state.copyWith(implementprice: value));
+  }
+
+  void selectedinsurancecost(int? value) {
+    print("object1 $value");
+    emit(state.copyWith(insuranceprice: value));
+  }
+
+  void selectedexchangecost(int? value) {
+    print("object1 $value");
+    emit(state.copyWith(exchangeprice: value));
+  }
+
+  void selectedfinancecost(int? value) {
+    print("object1 $value");
+    emit(state.copyWith(financeprice: value));
+  }
+
+  void selectedtransportationcost(int? value) {
+    print("object1 $value");
+    emit(state.copyWith(transportationprice: value));
   }
 
   void updateSelectedEquipments(List<String> selected) {
@@ -272,7 +302,7 @@ class AddSaleCubit extends Cubit<AddSaleState> {
                 : "0"),
             "tenure": state.finance
           },
-        "publishStatus": "DRAFT"
+        // "publishStatus": "DRAFT"
       };
 
       try {
@@ -289,7 +319,7 @@ class AddSaleCubit extends Cubit<AddSaleState> {
         setRxRequestStatus(Status.COMPLETED);
         Utils.printLog("Response===> ${response.toString()}");
         emit(AddSaleSuccess("Successfully Add Entry..."));
-      } catch (error) {
+      } catch (error, stackTrace) {
         setRxRequestStatus(Status.ERROR);
         setError(error.toString());
 
@@ -306,8 +336,7 @@ class AddSaleCubit extends Cubit<AddSaleState> {
           }
         } else {
           Utils.printLog("Error===> ${error.toString()}");
-          emit(AddSaleError("${error.toString()} Login failed..."));
-          return;
+          Utils.printLog("Error===> ${stackTrace.toString()}");
         }
       }
     } else {

@@ -160,8 +160,13 @@ class SalesEntryScreen extends StatelessWidget {
                       const SizedBox(height: 8),
                       _buildDetailRowWithTextField(
                           "Name", cubit.nameController, "Enter Name", 50),
-                      _buildDetailAmountRowWithTextField("Contact",
-                          cubit.contactController, "Enter Contact Number", 10),
+                      _buildDetailAmountRowWithTextField(
+                          "Contact",
+                          cubit.contactController,
+                          "Enter Contact Number",
+                          10,
+                          cubit,
+                          ""),
                       // _buildDetailRowWithTextField(
                       //     "Email", cubit.emailController),
                       _buildDetailRowWithTextField("Address",
@@ -202,7 +207,9 @@ class SalesEntryScreen extends StatelessWidget {
                             "Vehicle Age",
                             cubit.exchangevehicleageController,
                             "Enter Vehicle Age",
-                            3),
+                            3,
+                            cubit,
+                            ""),
                         _buildDetailRowWithTextField(
                             "Vehicle Type",
                             cubit.exchangevehicleTypeController,
@@ -212,7 +219,9 @@ class SalesEntryScreen extends StatelessWidget {
                             "Vehicle Amount",
                             cubit.exchangevehicleamountController,
                             "Enter Vehicle Amount",
-                            10),
+                            10,
+                            cubit,
+                            "exchange"),
                         _buildDetailRowWithTextField(
                             "Vehicle Description",
                             cubit.exchangedescriptionController,
@@ -260,6 +269,10 @@ class SalesEntryScreen extends StatelessWidget {
                         controller: cubit.registrationCostController,
                         keyboardType: TextInputType.number,
                         maxLength: 10,
+                        onChanged: (value) {
+                          cubit.selectedregistrationcost(
+                              int.tryParse(value) ?? 0);
+                        },
                         decoration: const InputDecoration(
                           label: Text("Registration cost"),
                           counterText: "",
@@ -311,6 +324,18 @@ class SalesEntryScreen extends StatelessWidget {
                             print(results);
                             cubit.updateSelectedEquipments(
                                 results.cast<String>());
+                            int totalPrice = 0;
+                            for (var selectedId in results.cast<String>()) {
+                              var equipment = state
+                                  .getimplementmodel?.data?.docs
+                                  ?.firstWhere(
+                                (doc) => doc.sId == selectedId,
+                              );
+                              if (equipment != null) {
+                                totalPrice += equipment.price ?? 0;
+                              }
+                            }
+                            cubit.selectedequipmentcost(totalPrice);
                           },
                           chipDisplay: MultiSelectChipDisplay(
                             items: state.selectedEquipments?.map((name) {
@@ -349,7 +374,9 @@ class SalesEntryScreen extends StatelessWidget {
                           "Insurance Cost",
                           cubit.insuranceCostController,
                           "Enter Insurance Cost",
-                          10),
+                          10,
+                          cubit,
+                          "insurance"),
 
                       const SizedBox(height: 40),
 
@@ -402,6 +429,9 @@ class SalesEntryScreen extends StatelessWidget {
                         controller: cubit.financeamountController,
                         keyboardType: TextInputType.number,
                         maxLength: 10,
+                        onChanged: (value) {
+                          cubit.selectedfinancecost(int.tryParse(value) ?? 0);
+                        },
                         decoration: const InputDecoration(
                           label: Text("Finance Cost"),
                           counterText: "",
@@ -423,8 +453,11 @@ class SalesEntryScreen extends StatelessWidget {
                           "Transportation Cost",
                           cubit.transportationCostController,
                           "Enter transportation cost",
-                          10),
+                          10,
+                          cubit,
+                          "transportation"),
                       const SizedBox(height: 40),
+
                       const Text(
                         "Payment Details",
                         style: TextStyle(
@@ -480,6 +513,13 @@ class SalesEntryScreen extends StatelessWidget {
                           hintText: "Enter Payment Amount",
                         ),
                       ),
+                      const SizedBox(height: 20),
+                      const Divider(thickness: 1.5),
+                      _buildAmountRow(
+                          "Total Payable Amount",
+                          "₹${PriceFormatter.formatPrice((state.tractorprice ?? 0.0) + (state.registrationprice ?? 0.0) + (state.implementprice ?? 0.0) + (state.insuranceprice ?? 0.0) - (state.financeprice ?? 0.0) + (state.isChecked == true ? -(state.exchangeprice ?? 0.0) : 0) + (state.transportationprice ?? 0.0))} ",
+                          true),
+                      const Divider(thickness: 1.5),
                       const SizedBox(height: 40),
 
                       Container(
@@ -608,7 +648,12 @@ class SalesEntryScreen extends StatelessWidget {
   }
 
   Widget _buildDetailAmountRowWithTextField(
-      String label, TextEditingController controller, String hint, int limit) {
+      String label,
+      TextEditingController controller,
+      String hint,
+      int limit,
+      cubit,
+      String name) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Row(
@@ -633,11 +678,48 @@ class SalesEntryScreen extends StatelessWidget {
                 LengthLimitingTextInputFormatter(limit),
               ],
               controller: controller,
+              onChanged: (value) {
+                if (name == "finance") {
+                  cubit.selectedfinancecost(int.tryParse(value) ?? 0);
+                } else if (name == "transportation") {
+                  cubit.selectedtransportationcost(int.tryParse(value) ?? 0);
+                } else if (name == "exchange") {
+                  cubit.selectedexchangecost(int.tryParse(value) ?? 0);
+                } else if (name == "insurance") {
+                  cubit.selectedinsurancecost(int.tryParse(value) ?? 0);
+                }
+              },
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
                   border: const OutlineInputBorder(),
                   hintText: hint,
                   hintStyle: const TextStyle(fontSize: 13)),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildAmountRow(String label, String value, bool bold) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: bold ? FontWeight.bold : FontWeight.w500,
+            ),
+          ),
+          Text(
+            overflow: TextOverflow.clip,
+            value,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: bold ? FontWeight.bold : FontWeight.w500,
             ),
           ),
         ],

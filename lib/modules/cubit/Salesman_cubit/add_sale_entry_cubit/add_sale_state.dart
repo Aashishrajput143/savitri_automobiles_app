@@ -4,6 +4,14 @@ import 'package:savitri_automobiles_admin/modules/model/gettractormodel.dart';
 
 class AddSaleState {
   final GetTractorModel? gettractormodel;
+  final int? totalprice;
+  final int? tractorprice;
+  final int? implementprice;
+  final int? exchangeprice;
+  final int? insuranceprice;
+  final int? registrationprice;
+  final int? transportationprice;
+  final int? financeprice;
   final GetImplementModel? getimplementmodel;
   final AddSalesEntryModel? addSalesEntryModel;
   final Docstractor? selectedTractor;
@@ -17,8 +25,16 @@ class AddSaleState {
   final bool? isSuccess;
   final String? message;
   AddSaleState({
+    this.totalprice,
     this.getimplementmodel,
     this.paymentmethod,
+    this.tractorprice,
+    this.implementprice,
+    this.exchangeprice,
+    this.insuranceprice,
+    this.registrationprice,
+    this.transportationprice,
+    this.financeprice,
     this.addSalesEntryModel,
     this.finance,
     this.gettractormodel,
@@ -34,6 +50,14 @@ class AddSaleState {
 
   AddSaleState copyWith({
     GetTractorModel? gettractormodel,
+    int? totalprice,
+    int? tractorprice,
+    int? implementprice,
+    int? exchangeprice,
+    int? insuranceprice,
+    int? registrationprice,
+    int? transportationprice,
+    int? financeprice,
     GetImplementModel? getimplementmodel,
     AddSalesEntryModel? addSalesEntryModel,
     String? selectedTractormodel,
@@ -49,6 +73,14 @@ class AddSaleState {
     String? message,
   }) {
     return AddSaleState(
+      tractorprice: tractorprice ?? this.tractorprice,
+      implementprice: implementprice ?? this.implementprice,
+      exchangeprice: exchangeprice ?? this.exchangeprice,
+      insuranceprice: insuranceprice ?? this.insuranceprice,
+      registrationprice: registrationprice ?? this.registrationprice,
+      transportationprice: transportationprice ?? this.transportationprice,
+      financeprice: financeprice ?? this.financeprice,
+      totalprice: totalprice ?? this.totalprice,
       getimplementmodel: getimplementmodel ?? this.getimplementmodel,
       gettractormodel: gettractormodel ?? this.gettractormodel,
       selectedTractormodel: selectedTractormodel ?? this.selectedTractormodel,
@@ -69,6 +101,14 @@ class AddSaleState {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
     return other is AddSaleState &&
+        other.totalprice == totalprice &&
+        other.tractorprice == tractorprice &&
+        other.implementprice == implementprice &&
+        other.exchangeprice == exchangeprice &&
+        other.insuranceprice == insuranceprice &&
+        other.registrationprice == registrationprice &&
+        other.transportationprice == transportationprice &&
+        other.financeprice == registrationprice &&
         other.getimplementmodel == getimplementmodel &&
         other.finance == finance &&
         other.paymentmethod == paymentmethod &&
@@ -87,6 +127,14 @@ class AddSaleState {
   int get hashCode {
     return getimplementmodel.hashCode ^
         gettractormodel.hashCode ^
+        totalprice.hashCode ^
+        tractorprice.hashCode ^
+        implementprice.hashCode ^
+        exchangeprice.hashCode ^
+        insuranceprice.hashCode ^
+        registrationprice.hashCode ^
+        transportationprice.hashCode ^
+        financeprice.hashCode ^
         selectedEquipments.hashCode ^
         finance.hashCode ^
         registrationType.hashCode ^
@@ -118,7 +166,6 @@ class AddSaleError extends AddSaleState {
   AddSaleError(String message)
       : super(
           isChecked: false,
-          finance: "",
           isLoading: false,
           message: message,
         );
@@ -127,6 +174,14 @@ class AddSaleError extends AddSaleState {
 class AddSaleLoading extends AddSaleState {
   AddSaleLoading()
       : super(
+          totalprice: 0,
+          tractorprice: 0,
+          implementprice: 0,
+          exchangeprice: 0,
+          insuranceprice: 0,
+          registrationprice: 0,
+          transportationprice: 0,
+          financeprice: 0,
           selectedEquipments: [],
           isChecked: false,
           isLoading: true,

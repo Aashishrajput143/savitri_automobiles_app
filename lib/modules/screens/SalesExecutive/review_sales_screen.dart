@@ -342,7 +342,7 @@ class ReviewPage extends StatelessWidget {
                           _buildDetailRow("Vehicle Type",
                               cubit.exchangevehicleTypeController.text),
                           _buildDetailRow("Vehicle Amount",
-                              "₹${PriceFormatter.formatPrice(int.parse(cubit.exchangevehicleamountController.text))}"),
+                              "₹${PriceFormatter.formatPrice(int.parse(cubit.exchangevehicleamountController.text.isNotEmpty ? cubit.exchangevehicleamountController.text : "0"))}"),
                           _buildDetailRow("Vehicle Description",
                               cubit.exchangedescriptionController.text),
                         ],
@@ -604,7 +604,7 @@ class ReviewPage extends StatelessWidget {
                                 ? "Not Available"
                                 : cubit.insuranceProviderController.text),
                         _buildDetailRow("Insurance Cost",
-                            "₹${PriceFormatter.formatPrice(int.parse(cubit.insuranceCostController.text))}"),
+                            "₹${PriceFormatter.formatPrice(int.parse(cubit.insuranceCostController.text.isNotEmpty ? cubit.insuranceCostController.text : "0"))}"),
                       ],
                       if (state.insuranceeditcheck ?? false) ...[
                         _buildDetailRowWithTextField(
@@ -652,7 +652,7 @@ class ReviewPage extends StatelessWidget {
                       if (state.financeeditcheck == false) ...[
                         _buildDetailRow("Finance Tenure", state.finance),
                         _buildDetailRow("Finance Cost",
-                            "₹${PriceFormatter.formatPrice(int.parse(cubit.financeamountController.text))}"),
+                            "₹${PriceFormatter.formatPrice(int.parse(cubit.financeamountController.text.isNotEmpty ? cubit.financeamountController.text : "0"))}"),
                       ],
                       if (state.financeeditcheck ?? false) ...[
                         DropdownSearch<String>(
@@ -742,7 +742,7 @@ class ReviewPage extends StatelessWidget {
                       const SizedBox(height: 8),
                       if (state.transportationeditcheck == false) ...[
                         _buildDetailRow("Transportation Cost",
-                            "₹${PriceFormatter.formatPrice(int.parse(cubit.transportationCostController.text))}"),
+                            "₹${PriceFormatter.formatPrice(int.parse(cubit.transportationCostController.text.isNotEmpty ? cubit.transportationCostController.text : "0"))}"),
                       ],
                       if (state.transportationeditcheck ?? false) ...[
                         _buildDetailAmountRowWithTextField(
@@ -1131,301 +1131,4 @@ class ReviewPage extends StatelessWidget {
       ),
     );
   }
-
-  // return Container(
-  //   color: Colors.white,
-  //   child: Container(
-  //     decoration: BoxDecoration(
-  //       color: Colors.white,
-  //       borderRadius: BorderRadius.circular(12),
-  //       border: Border.all(color: Colors.grey.withOpacity(0.3)),
-  //       boxShadow: [
-  //         BoxShadow(
-  //           color: Colors.black.withOpacity(0.2),
-  //           blurRadius: 3,
-  //           offset: const Offset(0, 3),
-  //         ),
-  //       ],
-  //     ),
-  //     margin: const EdgeInsets.fromLTRB(10.0, 0, 10, 10),
-  //     child: SingleChildScrollView(
-  //       child: Column(
-  //         mainAxisAlignment: MainAxisAlignment.start,
-  //         crossAxisAlignment: CrossAxisAlignment.start,
-  //         children: [
-  //           const SizedBox(height: 8),
-  //           Container(
-  //             margin: const EdgeInsets.symmetric(
-  //                 horizontal: 10, vertical: 5),
-  //             child: const Text(
-  //               "Tractor Details",
-  //               style: TextStyle(
-  //                   fontSize: 14, fontWeight: FontWeight.bold),
-  //             ),
-  //           ),
-  //           const Divider(thickness: 1.5),
-  //           _buildDetailRow(
-  //               "Tractor Model",
-  //               state.getSalesDetailsByIDModel.data?.tractor
-  //                       ?.modelName ??
-  //                   "Not Available"),
-
-  //           _buildDetailRow("Price",
-  //               "₹${PriceFormatter.formatPrice(state.getSalesDetailsByIDModel.data?.paidAmount ?? 0)} "),
-  //           _buildDetailRow(
-  //               "Fuel Type",
-  //               state.getSalesDetailsByIDModel.data?.tractor
-  //                       ?.fuelType ??
-  //                   "Not Available"),
-  //           _buildDetailRow(
-  //               "Fuel Capacity",
-  //               state.getSalesDetailsByIDModel.data?.tractor
-  //                       ?.fuelCapacity ??
-  //                   "Not Available"),
-  //           _buildDetailRow(
-  //               "Engine Capacity",
-  //               state.getSalesDetailsByIDModel.data?.tractor
-  //                       ?.engineCapacity ??
-  //                   "Not Available"),
-  //           _buildDetailRow(
-  //               "Engine Make And Type",
-  //               state.getSalesDetailsByIDModel.data?.tractor
-  //                       ?.engineMakeAndType ??
-  //                   "Not Available"),
-  //           _buildDetailRow(
-  //               "Cooling System",
-  //               state.getSalesDetailsByIDModel.data?.tractor
-  //                       ?.coolingSystem ??
-  //                   "Not Available"),
-  //           _buildDetailRow(
-  //             "Number Of Cylinders",
-  //             state.getSalesDetailsByIDModel.data?.tractor
-  //                     ?.numberOfCylinders ??
-  //                 "Not Available",
-  //           ),
-  //           _buildDetailRow(
-  //               "Horse power",
-  //               state.getSalesDetailsByIDModel.data?.tractor
-  //                       ?.horsepower ??
-  //                   "Not Available"),
-
-  //           const SizedBox(
-  //             height: 20,
-  //           ),
-  //           const Divider(thickness: 1.5),
-  //           Container(
-  //             margin: const EdgeInsets.symmetric(
-  //                 horizontal: 10, vertical: 5),
-  //             child: const Text(
-  //               "Customer Details",
-  //               style: TextStyle(
-  //                   fontSize: 14, fontWeight: FontWeight.bold),
-  //             ),
-  //           ),
-  //           const Divider(thickness: 1.5),
-  //           _buildDetailRow(
-  //               "Name",
-  //               state.getSalesDetailsByIDModel.data
-  //                       ?.customerName ??
-  //                   "Not Available"),
-  //           // _buildDetailRow(
-  //           //     "Email", "ananyasrivastava9827@gmail.com"),
-  //           _buildDetailRow(
-  //               "contact",
-  //               state.getSalesDetailsByIDModel.data
-  //                       ?.customerContact ??
-  //                   "Not Available"),
-  //           _buildDetailRow("Address", "Noida"),
-  //           const SizedBox(
-  //             height: 20,
-  //           ),
-  //           const Divider(thickness: 1.5),
-  //           Container(
-  //             margin: const EdgeInsets.symmetric(
-  //                 horizontal: 10, vertical: 5),
-  //             child: const Text(
-  //               "Registration Details",
-  //               style: TextStyle(
-  //                   fontSize: 14, fontWeight: FontWeight.bold),
-  //             ),
-  //           ),
-  //           const Divider(thickness: 1.5),
-  //           _buildDetailRow(
-  //               "Registration Type",
-  //               state.getSalesDetailsByIDModel.data
-  //                       ?.registration?.registrationType ??
-  //                   "Not Available"),
-  //           _buildDetailRow("Registration Cost",
-  //               "₹${PriceFormatter.formatPrice(state.getSalesDetailsByIDModel.data?.registration?.registrationCost ?? 0)} "),
-
-  //           const SizedBox(
-  //             height: 20,
-  //           ),
-  //           const Divider(thickness: 1.5),
-  //           Container(
-  //             margin: const EdgeInsets.symmetric(
-  //                 horizontal: 10, vertical: 5),
-  //             child: const Text(
-  //               "Implements Details",
-  //               style: TextStyle(
-  //                   fontSize: 14, fontWeight: FontWeight.bold),
-  //             ),
-  //           ),
-  //           const Divider(thickness: 1.5),
-  //           for (int i = 0;
-  //               i <
-  //                   (state.getSalesDetailsByIDModel.data
-  //                           ?.equipments?.length ??
-  //                       0);
-  //               i++)
-  //             _buildDetailRow(
-  //                 state.getSalesDetailsByIDModel.data
-  //                         ?.equipments?[i].modelName ??
-  //                     "Not Available",
-  //                 "₹${PriceFormatter.formatPrice(state.getSalesDetailsByIDModel.data?.equipments?[i].price ?? 0)} "),
-  //           const SizedBox(
-  //             height: 20,
-  //           ),
-  //           const Divider(thickness: 1.5),
-  //           Container(
-  //             margin: const EdgeInsets.symmetric(
-  //                 horizontal: 10, vertical: 5),
-  //             child: const Text(
-  //               "Insurance Details",
-  //               style: TextStyle(
-  //                   fontSize: 14, fontWeight: FontWeight.bold),
-  //             ),
-  //           ),
-  //           const Divider(thickness: 1.5),
-  //           _buildDetailRow(
-  //               "Insurance Provider",
-  //               state.getSalesDetailsByIDModel.data?.insurance
-  //                       ?.insuranceProvider ??
-  //                   "Not Available"),
-  //           //_buildDetailRow("Policy Number", "897678899"),
-  //           _buildDetailRow("Insurance Cost",
-  //               "₹${PriceFormatter.formatPrice(state.getSalesDetailsByIDModel.data?.insurance?.insuranceCost ?? 0)} "),
-  //           const SizedBox(
-  //             height: 20,
-  //           ),
-  //           const Divider(thickness: 1.5),
-
-  //           Container(
-  //             margin: const EdgeInsets.symmetric(
-  //                 horizontal: 10, vertical: 5),
-  //             child: const Text(
-  //               "Finance  Details",
-  //               style: TextStyle(
-  //                   fontSize: 14, fontWeight: FontWeight.bold),
-  //             ),
-  //           ),
-  //           const Divider(thickness: 1.5),
-  //           _buildDetailRow("Finance Amount",
-  //               "₹${PriceFormatter.formatPrice(state.getSalesDetailsByIDModel.data?.finance?.amount ?? 0)} "),
-  //           _buildDetailRow(
-  //               "Finance Tenure",
-  //               state.getSalesDetailsByIDModel.data?.finance
-  //                       ?.tenure ??
-  //                   "Not Available"),
-  //           const SizedBox(
-  //             height: 20,
-  //           ),
-  //           const Divider(thickness: 1.5),
-  //           Container(
-  //             margin: const EdgeInsets.symmetric(
-  //                 horizontal: 10, vertical: 5),
-  //             child: const Text(
-  //               "Payment Method",
-  //               style: TextStyle(
-  //                   fontSize: 14, fontWeight: FontWeight.bold),
-  //             ),
-  //           ),
-  //           const Divider(thickness: 1.5),
-  //           _buildDetailRow(
-  //               "Payment Method",
-  //               state.getSalesDetailsByIDModel.data
-  //                       ?.paymentMethod ??
-  //                   "Not Available"),
-
-  //           const SizedBox(
-  //             height: 20,
-  //           ),
-  //           const Divider(thickness: 1.5),
-  //           Container(
-  //             margin: const EdgeInsets.symmetric(
-  //                 horizontal: 10, vertical: 5),
-  //             child: const Text(
-  //               "Pricing  Details",
-  //               style: TextStyle(
-  //                   fontSize: 14, fontWeight: FontWeight.bold),
-  //             ),
-  //           ),
-  //           const Divider(thickness: 1.5),
-  //           _buildDetailRow("Tractor Price",
-  //               "₹${PriceFormatter.formatPrice(state.getSalesDetailsByIDModel.data?.tractorBasePrice ?? 0)}"),
-  //           _buildDetailRow("Registration Cost",
-  //               "₹${PriceFormatter.formatPrice(state.getSalesDetailsByIDModel.data?.registration?.registrationCost ?? 0)} "),
-  //           for (int i = 0;
-  //               i <
-  //                   (state.getSalesDetailsByIDModel.data
-  //                           ?.equipments?.length ??
-  //                       0);
-  //               i++)
-  //             _buildDetailRow(
-  //                 state.getSalesDetailsByIDModel.data
-  //                         ?.equipments?[i].modelName ??
-  //                     "Not Available",
-  //                 "₹${PriceFormatter.formatPrice(state.getSalesDetailsByIDModel.data?.equipments?[i].price ?? 0)} "),
-
-  //           _buildDetailRow("Insurance Cost",
-  //               "₹${PriceFormatter.formatPrice(state.getSalesDetailsByIDModel.data?.insurance?.insuranceCost ?? 0)} "),
-  //           const Divider(thickness: 1.5),
-  //           _buildDetailRow("Total Amount",
-  //               "₹${PriceFormatter.formatPrice(state.getSalesDetailsByIDModel.data?.totalAmount ?? 0)} "),
-  //           _buildPriceRowBold(
-  //               "Paid Amount",
-  //               "- ₹${PriceFormatter.formatPrice(state.getSalesDetailsByIDModel.data?.paidAmount ?? 0)} ",
-  //               false),
-  //           const Divider(thickness: 1.5),
-  //           _buildPriceRowBold(
-  //               "Due Amount",
-  //               "₹${PriceFormatter.formatPrice(state.getSalesDetailsByIDModel.data?.dueAmount ?? 0)} ",
-  //               true),
-  //           button == true
-  //               ? Container(
-  //                   width: double.infinity,
-  //                   margin: const EdgeInsets.symmetric(
-  //                       vertical: 30),
-  //                   padding: const EdgeInsets.symmetric(
-  //                       horizontal: 10),
-  //                   child: ElevatedButton(
-  //                     onPressed: () {
-  //                       Navigator.pushReplacementNamed(
-  //                           context, Routes.saleHome);
-  //                     },
-  //                     style: ElevatedButton.styleFrom(
-  //                       backgroundColor: Colors.green[500],
-  //                       padding: const EdgeInsets.symmetric(
-  //                           vertical: 12),
-  //                       shape: RoundedRectangleBorder(
-  //                         borderRadius:
-  //                             BorderRadius.circular(8.0),
-  //                       ),
-  //                     ),
-  //                     child: const Text(
-  //                       'Submit',
-  //                       style: TextStyle(
-  //                         color: Colors.white,
-  //                         fontSize: 16,
-  //                         fontWeight: FontWeight.bold,
-  //                       ),
-  //                     ),
-  //                   ),
-  //                 )
-  //               : const SizedBox(height: 20),
-  //         ],
-  //       ),
-  //     ),
-  //   ),
-  // );
 }
