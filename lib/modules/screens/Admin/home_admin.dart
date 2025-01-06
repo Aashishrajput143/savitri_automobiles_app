@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:savitri_automobiles_admin/modules/cubit/Admin_cubit/home_cubit/home_cubit.dart';
 import 'package:savitri_automobiles_admin/modules/cubit/Admin_cubit/home_cubit/home_state.dart';
 import 'package:savitri_automobiles_admin/modules/screens/common_screen.dart';
-import 'package:savitri_automobiles_admin/resources/formatter.dart';
 import 'package:savitri_automobiles_admin/resources/images.dart';
 import 'package:savitri_automobiles_admin/routes/routes.dart';
 

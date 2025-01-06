@@ -9,18 +9,15 @@ import 'package:savitri_automobiles_admin/data/response/status.dart';
 import 'package:savitri_automobiles_admin/modules/cubit/Salesman_cubit/review_sale/review_sale_state.dart';
 import 'package:savitri_automobiles_admin/modules/model/addsalesentrymodel.dart';
 import 'package:savitri_automobiles_admin/modules/model/getimplementsmodel.dart';
-import 'package:savitri_automobiles_admin/modules/model/getsalesentrydetailsmodel.dart';
 import 'package:savitri_automobiles_admin/modules/model/gettractormodel.dart';
 import 'package:savitri_automobiles_admin/modules/repository/Sales_repository.dart';
 import 'package:savitri_automobiles_admin/resources/strings.dart';
 
 class ReviewCubit extends Cubit<ReviewState> {
   final SalesRepository salesrepository = SalesRepository();
-  ReviewCubit(String id) : super(ReviewLoading()) {
-    getTractor();
-    getImplements();
-    print(id);
-    getDetailsData(id);
+  ReviewCubit(Map<String, dynamic>? salesEntryData) : super(ReviewLoading()) {
+    initializeSalesEntryData(salesEntryData);
+    print(salesEntryData);
   }
 
   // TextEditingControllers for fields
@@ -63,7 +60,8 @@ class ReviewCubit extends Cubit<ReviewState> {
 
       emit(state.copyWith(
           selectedTractormodel: selectedTractor.sId,
-          selectedTractor: selectedTractor));
+          selectedTractor: selectedTractor,
+          tractorprice: selectedTractor.price ?? 0));
     } else {
       print("No tractor found with ID: $id");
     }
@@ -109,91 +107,6 @@ class ReviewCubit extends Cubit<ReviewState> {
     emit(state.copyWith(paymenteditcheck: value));
   }
 
-  int dueamount(total, paid, finance) {
-    return total - (paid + finance);
-  }
-
-  int calculateTotalAmount(state, cubit) {
-    int registrationCost = int.parse(
-        cubit.registrationCostController.text.isNotEmpty
-            ? cubit.registrationCostController.text
-            : "0");
-    int insuranceCost = int.parse(cubit.insuranceCostController.text.isNotEmpty
-        ? cubit.insuranceCostController.text
-        : "0");
-    int transportationCost = int.parse(
-        cubit.transportationCostController.text.isNotEmpty
-            ? cubit.transportationCostController.text
-            : "0");
-    int exchangeVehicleCost = state.isChecked ?? false
-        ? int.parse(cubit.exchangevehicleamountController.text.isNotEmpty
-            ? cubit.exchangevehicleamountController.text
-            : "0")
-        : 0;
-
-    // Base price of the tractor
-    int tractorPrice = state.selectedTractor?.price ??
-        state.getSalesEntryDetailsModel?.data?.tractorBasePrice ??
-        0;
-
-    // Calculate the sum of equipment costs
-    int equipmentCost = 0;
-    if (state.getSalesEntryDetailsModel?.data?.equipments != null) {
-      equipmentCost = state.getSalesEntryDetailsModel!.data!.equipments!
-          .fold(0, (sum, equipment) => sum + (equipment.price ?? 0));
-    }
-
-    // Calculate the total amount
-    int totalAmount = tractorPrice +
-        equipmentCost +
-        registrationCost +
-        insuranceCost +
-        transportationCost -
-        exchangeVehicleCost;
-
-    return totalAmount;
-  }
-
-  int calculateTotalAmountcubit(state) {
-    int registrationCost = int.parse(registrationCostController.text.isNotEmpty
-        ? registrationCostController.text
-        : "0");
-    int insuranceCost = int.parse(insuranceCostController.text.isNotEmpty
-        ? insuranceCostController.text
-        : "0");
-    int transportationCost = int.parse(
-        transportationCostController.text.isNotEmpty
-            ? transportationCostController.text
-            : "0");
-    int exchangeVehicleCost = state.isChecked ?? false
-        ? int.parse(exchangevehicleamountController.text.isNotEmpty
-            ? exchangevehicleamountController.text
-            : "0")
-        : 0;
-
-    // Base price of the tractor
-    int tractorPrice = state.selectedTractor?.price ??
-        state.getSalesEntryDetailsModel?.data?.tractorBasePrice ??
-        0;
-
-    // Calculate the sum of equipment costs
-    int equipmentCost = 0;
-    if (state.getSalesEntryDetailsModel?.data?.equipments != null) {
-      equipmentCost = state.getSalesEntryDetailsModel!.data!.equipments!
-          .fold(0, (sum, equipment) => sum + (equipment.price ?? 0));
-    }
-
-    // Calculate the total amount
-    int totalAmount = tractorPrice +
-        equipmentCost +
-        registrationCost +
-        insuranceCost +
-        transportationCost -
-        exchangeVehicleCost;
-
-    return totalAmount;
-  }
-
   void selectRegistrationType(String? type) {
     print("object1 $type");
     print("object2 $type");
@@ -212,24 +125,53 @@ class ReviewCubit extends Cubit<ReviewState> {
     emit(state.copyWith(finance: type));
   }
 
-  void updateSelectedEquipments(List<String> selected) {
-    print(selected);
-    List<String> names = [];
-    List<String> prices = [];
-    List<String> id = [];
+  void selectedregistrationcost(int? value) {
+    print("object1 $value");
+    emit(state.copyWith(registrationprice: value));
+  }
 
-    for (var item in selected) {
-      List<String> parts = item.split(',');
-      if (parts.length >= 3) {
-        id.add(parts[0]);
-        names.add(parts[1]);
-        prices.add(parts[2]);
-      }
-    }
-    emit(state.copyWith(
-        selectedEquipments: id,
-        selectedEquipmentsname: names,
-        selectedEquipmentsprice: prices));
+  void selectedequipmentcost(int? value) {
+    print("object1 $value");
+    emit(state.copyWith(implementprice: value));
+  }
+
+  void selectedinsurancecost(int? value) {
+    print("object1 $value");
+    emit(state.copyWith(insuranceprice: value));
+  }
+
+  void selectedexchangecost(int? value) {
+    print("object1 $value");
+    emit(state.copyWith(exchangeprice: value));
+  }
+
+  void selectedfinancecost(int? value) {
+    print("object1 $value");
+    emit(state.copyWith(financeprice: value));
+  }
+
+  void selectedtransportationcost(int? value) {
+    print("object1 $value");
+    emit(state.copyWith(transportationprice: value));
+  }
+
+  void paidAmount(int? value) {
+    print("object1 $value");
+    emit(state.copyWith(paidamount: value));
+  }
+
+  void updateSelectedEquipments(List<String> selected) {
+    emit(state.copyWith(selectedEquipments: selected));
+  }
+
+  void selectedequipmentname(List<String>? value) {
+    print("object1 $value");
+    emit(state.copyWith(selectedEquipmentsname: value));
+  }
+
+  void selectedequipmentprice(List<int>? value) {
+    print("object1 $value");
+    emit(state.copyWith(selectedEquipmentsprice: value));
   }
 
   void setError(String value) => error = value;
@@ -328,31 +270,131 @@ class ReviewCubit extends Cubit<ReviewState> {
     }
   }
 
-  Future<void> addSalesEntry(context, total) async {
+  void initializeSalesEntryData(Map<String, dynamic>? salesEntryData) {
+    if (salesEntryData == null) return;
+
+    // Set TextEditingController values
+    nameController.text = salesEntryData['name'] ?? "";
+    contactController.text = salesEntryData['contact'] ?? "";
+    addressController.text = salesEntryData['address'] ?? "";
+    exchangemodelController.text = salesEntryData['exchangeModel'] ?? "";
+    exchangebrandController.text = salesEntryData['exchangeBrand'] ?? "";
+    exchangevehicleTypeController.text =
+        salesEntryData['exchangeVehicleType'] ?? "";
+    exchangevehicleamountController.text =
+        (salesEntryData['exchangeVehicleAmount']);
+    exchangevehicleageController.text = (salesEntryData['exchangeVehicleAge']);
+    exchangedescriptionController.text =
+        salesEntryData['exchangeDescription'] ?? "";
+    insuranceProviderController.text =
+        salesEntryData['insuranceProvider'] ?? "";
+    insuranceCostController.text = (salesEntryData['insuranceCost']);
+    registrationCostController.text = (salesEntryData['registrationCost']);
+    paidAmountController.text = (salesEntryData['paidAmount']);
+    transportationCostController.text = (salesEntryData['transportationCost']);
+    financeamountController.text = (salesEntryData['financeAmount']);
+
+    // Emit state updates for other properties if using state management
+    emit(state.copyWith(
+      selectedEquipments:
+          (salesEntryData['selectedEquipments'] as List<dynamic>?)
+                  ?.map((e) => e.toString())
+                  .toList() ??
+              [],
+      selectedEquipmentsname:
+          (salesEntryData['selectedEquipmentsname'] as List<dynamic>?)
+                  ?.map((e) => e.toString())
+                  .toList() ??
+              [],
+      selectedEquipmentsprice:
+          (salesEntryData['selectedEquipmentsprice'] as List<dynamic>?)
+                  ?.map((e) => int.tryParse(e.toString()) ?? 0)
+                  .toList() ??
+              [],
+      isChecked: salesEntryData['isChecked'] ?? false,
+      selectedTractormodel: salesEntryData['selectedTractorModel'] ?? "",
+      finance: salesEntryData['finance'],
+      paymentmethod: salesEntryData['paymentMethod'],
+      registrationType: salesEntryData['registrationType'],
+      gettractormodel: salesEntryData["getTractorModel"],
+      getimplementmodel: salesEntryData["getImplementModel"],
+      selectedTractor: salesEntryData["selectedTractor"],
+      totalprice: salesEntryData["totalPrice"],
+      tractorprice: salesEntryData["tractorPrice"],
+      implementprice: salesEntryData["implementPrice"],
+      exchangeprice: salesEntryData["exchangePrice"],
+      paidamount: salesEntryData["paidAmountCost"],
+      insuranceprice: salesEntryData["insurancePrice"],
+      registrationprice: salesEntryData["registrationPrice"],
+      transportationprice: salesEntryData["transportationPrice"],
+      financeprice: salesEntryData["financePrice"],
+    ));
+
+    // Debugging logs
+    Utils.printLog("Customer Name: ${nameController.text}");
+    Utils.printLog("Customer Contact: ${contactController.text}");
+    Utils.printLog("Selected Equipments: ${state.selectedEquipments}");
+    Utils.printLog("Is Exchange Checked: ${state.isChecked}");
+    Utils.printLog("Selected Tractor Model: ${state.selectedTractormodel}");
+    Utils.printLog("Finance Tenure: ${state.finance}");
+    Utils.printLog("Payment Method: ${state.paymentmethod}");
+    Utils.printLog("Registration Type: ${state.registrationType}");
+  }
+
+  Future<void> addSalesEntry(context) async {
     final currentState = state;
     emit(ReviewSaleLoading(
       gettractormodel: currentState.gettractormodel,
       getimplementmodel: currentState.getimplementmodel,
-      getSalesEntryDetailsModel: currentState.getSalesEntryDetailsModel,
       selectedTractor: currentState.selectedTractor,
       selectedTractormodel: currentState.selectedTractormodel,
       selectedEquipments: currentState.selectedEquipments,
+      selectedEquipmentsname: currentState.selectedEquipmentsname,
+      selectedEquipmentsprice: currentState.selectedEquipmentsprice,
       isChecked: currentState.isChecked,
       registrationType: currentState.registrationType,
       paymentmethod: currentState.paymentmethod,
       finance: currentState.finance,
+      isLoading: currentState.isLoading,
+      isSuccess: currentState.isSuccess,
+      message: currentState.message,
+      tractoreditcheck: currentState.tractoreditcheck,
+      customereditcheck: currentState.customereditcheck,
+      exhangeeditcheck: currentState.exhangeeditcheck,
+      registrationeditcheck: currentState.registrationeditcheck,
+      equipmenteditcheck: currentState.equipmenteditcheck,
+      insuranceeditcheck: currentState.insuranceeditcheck,
+      financeeditcheck: currentState.financeeditcheck,
+      transportationeditcheck: currentState.transportationeditcheck,
+      paymenteditcheck: currentState.paymenteditcheck,
+      totalprice: currentState.totalprice ?? 0,
+      paidamount: currentState.paidamount ?? 0,
+      tractorprice: currentState.tractorprice ?? 0,
+      implementprice: currentState.implementprice ?? 0,
+      exchangeprice: currentState.exchangeprice ?? 0,
+      insuranceprice: currentState.insuranceprice ?? 0,
+      registrationprice: currentState.registrationprice ?? 0,
+      transportationprice: currentState.transportationprice ?? 0,
+      financeprice: currentState.financeprice ?? 0,
     ));
+
     bool connection = await CommonMethods.checkInternetConnectivity();
     Utils.printLog("CheckInternetConnection===> ${connection.toString()}");
 
     if (connection) {
       setRxRequestStatus(Status.LOADING);
+      print(
+          "total Price${((state.tractorprice ?? 0.0) + (state.registrationprice ?? 0.0) + (state.implementprice ?? 0.0) + (state.insuranceprice ?? 0.0) - (state.financeprice ?? 0.0) + (state.isChecked == true ? -(state.exchangeprice ?? 0.0) : 0) + (state.transportationprice ?? 0.0))}");
 
       Map<String, dynamic> requestData = {
-        "totalAmount": total,
-        "id": state.getSalesEntryDetailsModel?.data?.sId,
-        "tractorId": state.selectedTractormodel?.isEmpty ??
-            state.getSalesEntryDetailsModel?.data?.tractor?.sId,
+        "totalAmount": ((state.tractorprice ?? 0.0) +
+            (state.registrationprice ?? 0.0) +
+            (state.implementprice ?? 0.0) +
+            (state.insuranceprice ?? 0.0) -
+            (state.financeprice ?? 0.0) +
+            (state.isChecked == true ? -(state.exchangeprice ?? 0.0) : 0) +
+            (state.transportationprice ?? 0.0)),
+        "tractorId": state.selectedTractormodel,
         if (state.selectedEquipments?.isNotEmpty ?? false)
           "equipments": state.selectedEquipments,
         if (nameController.text.isNotEmpty) "customerName": nameController.text,
@@ -390,14 +432,14 @@ class ReviewCubit extends Cubit<ReviewState> {
           "paidAmount": double.parse(paidAmountController.text.isNotEmpty
               ? paidAmountController.text
               : "0"),
-        "dueAmount": dueamount(
-            calculateTotalAmountcubit(state),
-            int.parse(paidAmountController.text.isNotEmpty
-                ? paidAmountController.text
-                : "0"),
-            int.parse(financeamountController.text.isNotEmpty
-                ? financeamountController.text
-                : "0")),
+        "dueAmount": (state.tractorprice ?? 0.0) +
+            (state.registrationprice ?? 0.0) +
+            (state.implementprice ?? 0.0) +
+            (state.insuranceprice ?? 0.0) -
+            (state.financeprice ?? 0.0) +
+            (state.isChecked == true ? -(state.exchangeprice ?? 0.0) : 0) +
+            (state.transportationprice ?? 0.0) -
+            (state.paidamount ?? 0),
         if (registrationCostController.text.isNotEmpty &&
             (state.registrationType?.isNotEmpty ?? false))
           "registration": {
@@ -429,7 +471,6 @@ class ReviewCubit extends Cubit<ReviewState> {
                 : "0"),
             "tenure": state.finance
           },
-        "publishStatus": "PUBLISH"
       };
 
       try {
@@ -453,294 +494,6 @@ class ReviewCubit extends Cubit<ReviewState> {
         } else {
           Utils.printLog("Error===> ${error.toString()}");
           Utils.printLog("Error===> ${stackTrace.toString()}");
-        }
-      }
-    } else {
-      emit(ReviewError(appStrings.weUnableCheckData));
-      return;
-    }
-  }
-
-  // void setData() {
-  //   print("object");
-  //   if (state.getSalesEntryDetailsModel?.data?.customerName?.isNotEmpty ??
-  //       false) {
-  //     nameController.text =
-  //         state.getSalesEntryDetailsModel?.data?.customerName ?? "";
-  //   }
-  //   if (state.getSalesEntryDetailsModel?.data?.customerContact?.isNotEmpty ??
-  //       false) {
-  //     contactController.text =
-  //         state.getSalesEntryDetailsModel?.data?.customerContact ?? "";
-  //   }
-  //   if (state.getSalesEntryDetailsModel?.data?.customerAddress?.isNotEmpty ??
-  //       false) {
-  //     addressController.text =
-  //         state.getSalesEntryDetailsModel?.data?.customerAddress ?? "";
-  //   }
-  //   if (state
-  //           .getSalesEntryDetailsModel?.data?.exchangeItem?.model?.isNotEmpty ??
-  //       false) {
-  //     exchangemodelController.text =
-  //         state.getSalesEntryDetailsModel?.data?.exchangeItem?.model ?? "";
-  //   }
-  //   if (state
-  //           .getSalesEntryDetailsModel?.data?.exchangeItem?.brand?.isNotEmpty ??
-  //       false) {
-  //     exchangebrandController.text =
-  //         state.getSalesEntryDetailsModel?.data?.exchangeItem?.brand ?? "";
-  //   }
-  //   if (state.getSalesEntryDetailsModel?.data?.exchangeItem?.vehicleType
-  //           ?.isNotEmpty ??
-  //       false) {
-  //     exchangevehicleTypeController.text =
-  //         state.getSalesEntryDetailsModel?.data?.exchangeItem?.vehicleType ??
-  //             "";
-  //   }
-
-  //   if (state.getSalesEntryDetailsModel?.data?.exchangeItem?.amount != null) {
-  //     exchangevehicleamountController.text =
-  //         (state.getSalesEntryDetailsModel?.data?.exchangeItem?.amount ?? 0)
-  //             .toString();
-  //   }
-  //   if (state.getSalesEntryDetailsModel?.data?.exchangeItem?.vehicleAge !=
-  //       null) {
-  //     exchangevehicleageController.text =
-  //         (state.getSalesEntryDetailsModel?.data?.exchangeItem?.vehicleAge ?? 0)
-  //             .toString();
-  //   }
-
-  //   if (state.getSalesEntryDetailsModel?.data?.exchangeItem?.description
-  //           ?.isNotEmpty ??
-  //       false) {
-  //     exchangedescriptionController.text =
-  //         state.getSalesEntryDetailsModel?.data?.exchangeItem?.description ??
-  //             "";
-  //   }
-
-  //   if (state.getSalesEntryDetailsModel?.data?.insurance?.insuranceProvider
-  //           ?.isNotEmpty ??
-  //       false) {
-  //     insuranceProviderController.text =
-  //         state.getSalesEntryDetailsModel?.data?.insurance?.insuranceProvider ??
-  //             "";
-  //   }
-  //   if (state.getSalesEntryDetailsModel?.data?.insurance?.insuranceCost !=
-  //       null) {
-  //     insuranceCostController.text =
-  //         (state.getSalesEntryDetailsModel?.data?.insurance?.insuranceCost ?? 0)
-  //             .toString();
-  //   }
-
-  //   if (state.getSalesEntryDetailsModel?.data?.registration?.registrationCost !=
-  //       null) {
-  //     registrationCostController.text = (state.getSalesEntryDetailsModel?.data
-  //                 ?.registration?.registrationCost ??
-  //             0)
-  //         .toString();
-  //   }
-
-  //   if (state.getSalesEntryDetailsModel?.data?.paidAmount != null) {
-  //     paidAmountController.text =
-  //         (state.getSalesEntryDetailsModel?.data?.paidAmount ?? 0).toString();
-  //   }
-
-  //   if (state.getSalesEntryDetailsModel?.data?.transportationCost != null) {
-  //     transportationCostController.text =
-  //         (state.getSalesEntryDetailsModel?.data?.transportationCost ?? 0)
-  //             .toString();
-  //   }
-
-  //   if (state.getSalesEntryDetailsModel?.data?.finance?.amount != null) {
-  //     financeamountController.text =
-  //         (state.getSalesEntryDetailsModel?.data?.finance?.amount ?? 0)
-  //             .toString();
-  //   }
-
-  //   financeamountController.text =
-  //       (state.getSalesEntryDetailsModel?.data?.finance?.amount ?? 0)
-  //           .toString();
-
-  //   if (state.getSalesEntryDetailsModel?.data?.equipments?.isNotEmpty ??
-  //       false) {
-  //     emit(state.copyWith(
-  //         selectedEquipments: state.getSalesEntryDetailsModel?.data?.equipments
-  //                 ?.map((equipment) => equipment.sId.toString())
-  //                 .toList() ??
-  //             []));
-  //   }
-
-  //   print("sekeslkfnsnfks===========${state.selectedEquipments}");
-  //   print(
-  //       "sekeslkfnsnsfdsfsdfks===========${state.getSalesEntryDetailsModel?.data?.equipments?.map((equipment) => equipment.sId.toString()).toList() ?? []}");
-
-  //   if (state.getSalesEntryDetailsModel?.data?.isExchange ?? false) {
-  //     emit(state.copyWith(
-  //         isChecked:
-  //             state.getSalesEntryDetailsModel?.data?.isExchange ?? false));
-  //   }
-
-  //   if (state.getSalesEntryDetailsModel?.data?.tractor?.modelName?.isNotEmpty ??
-  //       false) {
-  //     emit(state.copyWith(
-  //         selectedTractormodel:
-  //             state.getSalesEntryDetailsModel?.data?.tractor?.modelName ?? ""));
-  //   }
-  //   if (state.getSalesEntryDetailsModel?.data?.finance?.tenure?.isNotEmpty ??
-  //       false) {
-  //     emit(state.copyWith(
-  //         finance:
-  //             state.getSalesEntryDetailsModel?.data?.finance?.tenure ?? ""));
-  //   }
-
-  //   if (state.getSalesEntryDetailsModel?.data?.paymentMethod?.isNotEmpty ??
-  //       false) {
-  //     emit(state.copyWith(
-  //         paymentmethod:
-  //             state.getSalesEntryDetailsModel?.data?.paymentMethod ?? ""));
-  //   }
-
-  //   if (state.getSalesEntryDetailsModel?.data?.registration?.registrationType
-  //           ?.isNotEmpty ??
-  //       false) {
-  //     emit(state.copyWith(
-  //         registrationType: state.getSalesEntryDetailsModel?.data?.registration
-  //                 ?.registrationType ??
-  //             ""));
-  //   }
-
-  //   Utils.printLog("Customer Name: ${nameController.text}");
-  //   Utils.printLog("Customer Contact: ${contactController.text}");
-  // }
-
-  Future<void> getDetailsData(var id) async {
-    bool connection = await CommonMethods.checkInternetConnectivity();
-    Utils.printLog("CheckInternetConnection===> ${connection.toString()}");
-
-    if (connection) {
-      setRxRequestStatus(Status.LOADING);
-      try {
-        GetSalesEntryDetailsModel response =
-            await salesrepository.getSalesEntriesDetails(id);
-
-        emit(state.copyWith(getSalesEntryDetailsModel: response));
-        print("dfsdsfsdfs");
-        nameController.text =
-            state.getSalesEntryDetailsModel?.data?.customerName ?? "";
-
-        contactController.text =
-            state.getSalesEntryDetailsModel?.data?.customerContact ?? "";
-
-        addressController.text =
-            state.getSalesEntryDetailsModel?.data?.customerAddress ?? "";
-
-        exchangemodelController.text =
-            state.getSalesEntryDetailsModel?.data?.exchangeItem?.model ?? "";
-
-        exchangebrandController.text =
-            state.getSalesEntryDetailsModel?.data?.exchangeItem?.brand ?? "";
-
-        exchangevehicleTypeController.text =
-            state.getSalesEntryDetailsModel?.data?.exchangeItem?.vehicleType ??
-                "";
-
-        exchangevehicleamountController.text =
-            (state.getSalesEntryDetailsModel?.data?.exchangeItem?.amount ?? 0)
-                .toString();
-
-        exchangevehicleageController.text =
-            (state.getSalesEntryDetailsModel?.data?.exchangeItem?.vehicleAge ??
-                    0)
-                .toString();
-        print("dfsdsfsdfs");
-        exchangedescriptionController.text =
-            state.getSalesEntryDetailsModel?.data?.exchangeItem?.description ??
-                "";
-
-        insuranceProviderController.text = state.getSalesEntryDetailsModel?.data
-                ?.insurance?.insuranceProvider ??
-            "";
-
-        insuranceCostController.text =
-            (state.getSalesEntryDetailsModel?.data?.insurance?.insuranceCost ??
-                    0)
-                .toString();
-
-        registrationCostController.text = (state.getSalesEntryDetailsModel?.data
-                    ?.registration?.registrationCost ??
-                0)
-            .toString();
-
-        paidAmountController.text =
-            (state.getSalesEntryDetailsModel?.data?.paidAmount ?? 0).toString();
-
-        transportationCostController.text =
-            (state.getSalesEntryDetailsModel?.data?.transportationCost ?? 0)
-                .toString();
-        print("dfsdsfsdfs");
-        financeamountController.text =
-            (state.getSalesEntryDetailsModel?.data?.finance?.amount ?? 0)
-                .toString();
-
-        financeamountController.text =
-            (state.getSalesEntryDetailsModel?.data?.finance?.amount ?? 0)
-                .toString();
-
-        emit(state.copyWith(
-            selectedEquipments: state
-                    .getSalesEntryDetailsModel?.data?.equipments
-                    ?.map((equipment) => equipment.sId.toString())
-                    .toList() ??
-                []));
-
-        print("sekeslkfnsnfks===========${state.selectedEquipments}");
-        print(
-            "sekeslkfnsnsfdsfsdfks===========${state.getSalesEntryDetailsModel?.data?.equipments?.map((equipment) => equipment.sId.toString()).toList() ?? []}");
-
-        emit(state.copyWith(
-            isChecked:
-                state.getSalesEntryDetailsModel?.data?.isExchange ?? false));
-
-        emit(state.copyWith(
-            selectedTractormodel:
-                state.getSalesEntryDetailsModel?.data?.tractor?.modelName ??
-                    ""));
-        print("dfsdsfsdfs");
-        emit(state.copyWith(
-            finance:
-                state.getSalesEntryDetailsModel?.data?.finance?.tenure ?? ""));
-
-        emit(state.copyWith(
-            paymentmethod:
-                state.getSalesEntryDetailsModel?.data?.paymentMethod ?? ""));
-
-        emit(state.copyWith(
-            registrationType: state.getSalesEntryDetailsModel?.data
-                    ?.registration?.registrationType ??
-                ""));
-        print("dfsdsfsdfs");
-        Utils.printLog("Customer Name: ${nameController.text}");
-        Utils.printLog("Customer Contact: ${contactController.text}");
-
-        setRxRequestStatus(Status.COMPLETED);
-        Utils.printLog("Response===> ${response.toString()}");
-      } catch (error) {
-        setRxRequestStatus(Status.ERROR);
-        setError(error.toString());
-
-        if (error.toString().contains("{")) {
-          var errorResponse = json.decode(error.toString());
-          if (errorResponse is Map && errorResponse.containsKey('message')) {
-            emit(ReviewError(errorResponse['message']));
-            return;
-          } else {
-            emit(ReviewError("An unexpected error occurred."));
-            return;
-          }
-        } else {
-          Utils.printLog("Error===> ${error.toString()}");
-          emit(ReviewError("${error.toString()} Login failed..."));
-          return;
         }
       }
     } else {

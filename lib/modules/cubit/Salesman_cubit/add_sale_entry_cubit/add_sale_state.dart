@@ -4,7 +4,7 @@ import 'package:savitri_automobiles_admin/modules/model/gettractormodel.dart';
 
 class AddSaleState {
   final GetTractorModel? gettractormodel;
-  final int? totalprice;
+  final int? paidamount;
   final int? tractorprice;
   final int? implementprice;
   final int? exchangeprice;
@@ -17,6 +17,8 @@ class AddSaleState {
   final Docstractor? selectedTractor;
   final String? selectedTractormodel;
   final List<String>? selectedEquipments;
+  final List<String>? selectedEquipmentsname;
+  final List<int>? selectedEquipmentsprice;
   final bool? isChecked;
   final String? registrationType;
   final String? paymentmethod;
@@ -25,8 +27,10 @@ class AddSaleState {
   final bool? isSuccess;
   final String? message;
   AddSaleState({
-    this.totalprice,
+    this.paidamount,
     this.getimplementmodel,
+    this.selectedEquipmentsname,
+    this.selectedEquipmentsprice,
     this.paymentmethod,
     this.tractorprice,
     this.implementprice,
@@ -50,7 +54,7 @@ class AddSaleState {
 
   AddSaleState copyWith({
     GetTractorModel? gettractormodel,
-    int? totalprice,
+    int? paidamount,
     int? tractorprice,
     int? implementprice,
     int? exchangeprice,
@@ -62,6 +66,8 @@ class AddSaleState {
     AddSalesEntryModel? addSalesEntryModel,
     String? selectedTractormodel,
     List<String>? selectedEquipments,
+    List<String>? selectedEquipmentsname,
+    List<int>? selectedEquipmentsprice,
     Docstractor? selectedTractor,
     bool? isChecked,
     String? registrationType,
@@ -77,9 +83,13 @@ class AddSaleState {
       exchangeprice: exchangeprice ?? this.exchangeprice,
       insuranceprice: insuranceprice ?? this.insuranceprice,
       registrationprice: registrationprice ?? this.registrationprice,
+      selectedEquipmentsname:
+          selectedEquipmentsname ?? this.selectedEquipmentsname,
+      selectedEquipmentsprice:
+          selectedEquipmentsprice ?? this.selectedEquipmentsprice,
       transportationprice: transportationprice ?? this.transportationprice,
       financeprice: financeprice ?? this.financeprice,
-      totalprice: totalprice ?? this.totalprice,
+      paidamount: paidamount ?? this.paidamount,
       getimplementmodel: getimplementmodel ?? this.getimplementmodel,
       gettractormodel: gettractormodel ?? this.gettractormodel,
       selectedTractormodel: selectedTractormodel ?? this.selectedTractormodel,
@@ -100,12 +110,14 @@ class AddSaleState {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
     return other is AddSaleState &&
-        other.totalprice == totalprice &&
+        other.paidamount == paidamount &&
         other.tractorprice == tractorprice &&
         other.implementprice == implementprice &&
         other.exchangeprice == exchangeprice &&
         other.insuranceprice == insuranceprice &&
         other.registrationprice == registrationprice &&
+        other.selectedEquipmentsname == selectedEquipmentsname &&
+        other.selectedEquipmentsprice == selectedEquipmentsprice &&
         other.transportationprice == transportationprice &&
         other.financeprice == registrationprice &&
         other.getimplementmodel == getimplementmodel &&
@@ -126,7 +138,7 @@ class AddSaleState {
   int get hashCode {
     return getimplementmodel.hashCode ^
         gettractormodel.hashCode ^
-        totalprice.hashCode ^
+        paidamount.hashCode ^
         tractorprice.hashCode ^
         implementprice.hashCode ^
         exchangeprice.hashCode ^
@@ -136,6 +148,8 @@ class AddSaleState {
         financeprice.hashCode ^
         selectedEquipments.hashCode ^
         finance.hashCode ^
+        selectedEquipmentsname.hashCode ^
+        selectedEquipmentsprice.hashCode ^
         registrationType.hashCode ^
         paymentmethod.hashCode ^
         selectedTractor.hashCode ^
@@ -173,7 +187,7 @@ class AddSaleError extends AddSaleState {
 class AddSaleLoading extends AddSaleState {
   AddSaleLoading()
       : super(
-          totalprice: 0,
+          paidamount: 0,
           tractorprice: 0,
           implementprice: 0,
           exchangeprice: 0,
@@ -182,6 +196,8 @@ class AddSaleLoading extends AddSaleState {
           transportationprice: 0,
           financeprice: 0,
           selectedEquipments: [],
+          selectedEquipmentsname: [],
+          selectedEquipmentsprice: [],
           isChecked: false,
           isLoading: true,
           message: 'Loading...',
@@ -196,6 +212,8 @@ class AddSalesLoading extends AddSaleState {
     selectedTractor,
     selectedTractormodel,
     selectedEquipments,
+    selectedEquipmentsname,
+    selectedEquipmentsprice,
     isChecked = false,
     registrationType,
     paymentmethod,
@@ -209,6 +227,8 @@ class AddSalesLoading extends AddSaleState {
           selectedTractor: selectedTractor,
           selectedTractormodel: selectedTractormodel,
           selectedEquipments: selectedEquipments,
+          selectedEquipmentsname: selectedEquipmentsname,
+          selectedEquipmentsprice: selectedEquipmentsprice,
           isChecked: isChecked,
           registrationType: registrationType,
           paymentmethod: paymentmethod,

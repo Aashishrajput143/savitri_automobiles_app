@@ -325,6 +325,8 @@ class SalesEntryScreen extends StatelessWidget {
                             cubit.updateSelectedEquipments(
                                 results.cast<String>());
                             int totalPrice = 0;
+                            List<String> names = [];
+                            List<int> prices = [];
                             for (var selectedId in results.cast<String>()) {
                               var equipment = state
                                   .getimplementmodel?.data?.docs
@@ -332,9 +334,14 @@ class SalesEntryScreen extends StatelessWidget {
                                 (doc) => doc.sId == selectedId,
                               );
                               if (equipment != null) {
+                                names.add(
+                                    equipment.modelName ?? "Not Available");
+                                prices.add(equipment.price ?? 0);
                                 totalPrice += equipment.price ?? 0;
                               }
                             }
+                            cubit.selectedequipmentname(names);
+                            cubit.selectedequipmentprice(prices);
                             cubit.selectedequipmentcost(totalPrice);
                           },
                           chipDisplay: MultiSelectChipDisplay(
@@ -506,6 +513,9 @@ class SalesEntryScreen extends StatelessWidget {
                         controller: cubit.paidAmountController,
                         keyboardType: TextInputType.number,
                         maxLength: 10,
+                        onChanged: (value) {
+                          cubit.paidAmount(int.tryParse(value) ?? 0);
+                        },
                         decoration: const InputDecoration(
                           label: Text("Paid Amount"),
                           counterText: "",
@@ -544,7 +554,13 @@ class SalesEntryScreen extends StatelessWidget {
                                         .isNotEmpty &&
                                     cubit.exchangevehicleageController.text
                                         .isNotEmpty) {
-                                  cubit.addSalesEntry(context);
+                                  print(cubit.prepareSalesEntryData());
+                                  Navigator.pushReplacementNamed(
+                                    context,
+                                    Routes.reviewSalesEntry,
+                                    arguments: cubit.prepareSalesEntryData(),
+                                  );
+                                  //cubit.addSalesEntry(context);
                                 } else {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
@@ -574,7 +590,13 @@ class SalesEntryScreen extends StatelessWidget {
                                             "Contact Should be 10 digits")),
                                   );
                                 } else {
-                                  cubit.addSalesEntry(context);
+                                  print(cubit.prepareSalesEntryData());
+                                  //cubit.addSalesEntry(context);
+                                  Navigator.pushReplacementNamed(
+                                    context,
+                                    Routes.reviewSalesEntry,
+                                    arguments: cubit.prepareSalesEntryData(),
+                                  );
                                 }
                               }
                             } else {

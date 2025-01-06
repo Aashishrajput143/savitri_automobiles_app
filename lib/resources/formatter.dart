@@ -3,8 +3,12 @@ import 'package:flutter/services.dart';
 
 class PriceFormatter {
   static String formatPrice(price) {
-    final NumberFormat formatter = NumberFormat("#,##,##0");
-    return formatter.format(price);
+    if (price == null) {
+      return "0";
+    } else {
+      final NumberFormat formatter = NumberFormat("#,##,##0");
+      return formatter.format(price);
+    }
   }
 }
 

@@ -16,10 +16,12 @@ class ReviewSalesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String? id = ModalRoute.of(context)?.settings.arguments as String?;
+    final Map<String, dynamic>? salesEntryData =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    // String? id = ModalRoute.of(context)?.settings.arguments as String?;
 
     return BlocProvider(
-      create: (context) => ReviewCubit(id ?? ""),
+      create: (context) => ReviewCubit(salesEntryData ?? {}),
       child: const ReviewPage(),
     );
   }
@@ -30,7 +32,9 @@ class ReviewPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String? id = ModalRoute.of(context)?.settings.arguments as String?;
+    // String? id = ModalRoute.of(context)?.settings.arguments as String?;
+    final Map<String, dynamic>? salesEntryData =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
     return dismissKeyboardOnTap(
       child: Scaffold(
         appBar: AppBar(
@@ -49,11 +53,51 @@ class ReviewPage extends StatelessWidget {
           ),
         ),
         body: BlocProvider(
-          create: (_) => ReviewCubit(id ?? ""),
+          create: (_) => ReviewCubit(salesEntryData ?? {}),
           child: BlocConsumer<ReviewCubit, ReviewState>(
             listener: (BuildContext context, ReviewState state) {
               if (state is ReviewSuccess) {
-                Navigator.pushReplacementNamed(context, Routes.saleHome);
+                showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text(
+                        "Entry Updated Successfully",
+                        style: TextStyle(fontSize: 14),
+                      ),
+                      content: const Text(
+                          "The sales entry has been updated successfully."),
+                      actions: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                          child: SizedBox(
+                            width: double.infinity,
+                            child: TextButton(
+                              style: TextButton.styleFrom(
+                                backgroundColor: Colors.green,
+                                foregroundColor: Colors.white,
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 12.0),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                ),
+                              ),
+                              onPressed: () {
+                                Navigator.pushReplacementNamed(
+                                    context, Routes.saleHome);
+                              },
+                              child: const Text(
+                                "Home",
+                                style: TextStyle(fontSize: 16.0),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                );
               }
               if (state is ReviewError) {
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -100,43 +144,29 @@ class ReviewPage extends StatelessWidget {
                         ),
                         const Divider(thickness: 1.5),
                         const SizedBox(height: 8),
-                        if (state.getSalesEntryDetailsModel?.data?.tractor !=
-                            null) ...[
+                        if (state.selectedTractor != null) ...[
                           _buildDetailRow(
                               "Model Name",
-                              state.selectedTractor?.modelName?.isEmpty ?? true
-                                  ? state.getSalesEntryDetailsModel?.data
-                                          ?.tractor?.modelName ??
-                                      "Not Available"
-                                  : state.selectedTractor?.modelName),
+                              state.selectedTractor?.modelName ??
+                                  "Not Available"),
                           _buildDetailRow(
                               "Manufacture Year",
                               state.selectedTractor?.yearOfManufacture ??
-                                  state.getSalesEntryDetailsModel?.data?.tractor
-                                      ?.yearOfManufacture ??
                                   "Not Available"),
                           _buildDetailRow("Price",
-                              "₹${PriceFormatter.formatPrice(state.selectedTractor?.price ?? state.getSalesEntryDetailsModel?.data?.tractorBasePrice ?? 0)}"),
+                              "₹${PriceFormatter.formatPrice(state.selectedTractor?.price ?? 0)}"),
                           _buildDetailRow(
                               "Fuel Capacity",
                               state.selectedTractor?.fuelCapacity ??
-                                  state.getSalesEntryDetailsModel?.data?.tractor
-                                      ?.fuelCapacity ??
                                   "Not Available"),
                           _buildDetailRow(
                               "fuelType",
-                              state.selectedTractor?.fuelType?.isEmpty ?? true
-                                  ? state.getSalesEntryDetailsModel?.data
-                                          ?.tractor?.fuelType ??
-                                      "Not Available"
-                                  : state.selectedTractor?.fuelType),
+                              state.selectedTractor?.fuelType ??
+                                  "Not Available"),
                           _buildDetailRow(
                               "features",
-                              state.selectedTractor?.features?.isEmpty ?? true
-                                  ? state.getSalesEntryDetailsModel?.data
-                                          ?.tractor?.features ??
-                                      "Not Available"
-                                  : state.selectedTractor?.features),
+                              state.selectedTractor?.features ??
+                                  "Not Available"),
                         ],
                       ],
                       if (state.tractoreditcheck ?? false) ...[
@@ -160,12 +190,8 @@ class ReviewPage extends StatelessWidget {
                         const SizedBox(height: 8),
                         DropdownSearch<String>(
                           key: cubit.dropDownKey,
-                          selectedItem:
-                              state.selectedTractormodel?.isEmpty ?? true
-                                  ? state.getSalesEntryDetailsModel?.data
-                                          ?.tractor?.modelName ??
-                                      "Select Tractor Model"
-                                  : state.selectedTractor?.modelName,
+                          selectedItem: state.selectedTractor?.modelName ??
+                              "Select Tractor Model",
                           items: (value, c) =>
                               state.gettractormodel?.data?.docs?.map((tractor) {
                                 return tractor.modelName ?? 'Unknown';
@@ -283,7 +309,9 @@ class ReviewPage extends StatelessWidget {
                             "Contact",
                             cubit.contactController,
                             "Enter Contact Number",
-                            10),
+                            10,
+                            cubit,
+                            ""),
                         // _buildDetailRowWithTextField(
                         //     "Email", cubit.emailController),
                         _buildDetailRowWithTextField("Address",
@@ -334,17 +362,34 @@ class ReviewPage extends StatelessWidget {
                         const SizedBox(height: 8),
                         if (state.exhangeeditcheck == false) ...[
                           _buildDetailRow(
-                              "Model", cubit.exchangemodelController.text),
+                              "Model",
+                              cubit.exchangemodelController.text.isNotEmpty
+                                  ? cubit.exchangemodelController.text
+                                  : "Not Available"),
                           _buildDetailRow(
-                              "Brand", cubit.exchangebrandController.text),
-                          _buildDetailRow("Vehicle Age",
-                              cubit.exchangevehicleageController.text),
-                          _buildDetailRow("Vehicle Type",
-                              cubit.exchangevehicleTypeController.text),
+                              "Brand",
+                              cubit.exchangebrandController.text.isNotEmpty
+                                  ? cubit.exchangebrandController.text
+                                  : "Not Available"),
+                          _buildDetailRow(
+                              "Vehicle Age",
+                              cubit.exchangevehicleageController.text.isNotEmpty
+                                  ? cubit.exchangevehicleageController.text
+                                  : "Not Available"),
+                          _buildDetailRow(
+                              "Vehicle Type",
+                              cubit.exchangevehicleTypeController.text
+                                      .isNotEmpty
+                                  ? cubit.exchangevehicleTypeController.text
+                                  : "Not Available"),
                           _buildDetailRow("Vehicle Amount",
-                              "₹${PriceFormatter.formatPrice(int.parse(cubit.exchangevehicleamountController.text.isNotEmpty ? cubit.exchangevehicleamountController.text : "0"))}"),
-                          _buildDetailRow("Vehicle Description",
-                              cubit.exchangedescriptionController.text),
+                              "₹${PriceFormatter.formatPrice(state.exchangeprice ?? 0)}"),
+                          _buildDetailRow(
+                              "Vehicle Description",
+                              cubit.exchangedescriptionController.text
+                                      .isNotEmpty
+                                  ? cubit.exchangedescriptionController.text
+                                  : "Not Available"),
                         ],
                         if (state.exhangeeditcheck ?? false) ...[
                           _buildDetailRowWithTextField(
@@ -358,7 +403,9 @@ class ReviewPage extends StatelessWidget {
                               "Vehicle Age",
                               cubit.exchangevehicleageController,
                               "Enter Vehicle Age",
-                              3),
+                              3,
+                              cubit,
+                              ""),
                           _buildDetailRowWithTextField(
                               "Vehicle Type",
                               cubit.exchangevehicleTypeController,
@@ -368,7 +415,9 @@ class ReviewPage extends StatelessWidget {
                               "Vehicle Amount",
                               cubit.exchangevehicleamountController,
                               "Enter Vehicle Amount",
-                              8),
+                              10,
+                              cubit,
+                              "exchange"),
                           _buildDetailRowWithTextField(
                               "Vehicle Description",
                               cubit.exchangedescriptionController,
@@ -406,22 +455,16 @@ class ReviewPage extends StatelessWidget {
                       const Divider(thickness: 1.5),
                       const SizedBox(height: 8),
                       if (state.registrationeditcheck == false) ...[
-                        _buildDetailRow(
-                            "Registration Type",
-                            state.registrationType ??
-                                state.getSalesEntryDetailsModel?.data
-                                    ?.registration?.registrationType),
+                        _buildDetailRow("Registration Type",
+                            state.registrationType ?? "Not Available"),
                         _buildDetailRow("Registration Cost",
-                            "₹${PriceFormatter.formatPrice(int.parse(cubit.registrationCostController.text))}"),
+                            "₹${PriceFormatter.formatPrice(state.registrationprice ?? 0)}"),
                       ],
                       if (state.registrationeditcheck ?? false) ...[
                         DropdownSearch<String>(
                           key: cubit.dropDownKeyRegistration,
-                          selectedItem: state.registrationType?.isEmpty ?? true
-                              ? state.getSalesEntryDetailsModel?.data
-                                      ?.registration?.registrationType ??
-                                  "Select registration"
-                              : state.registrationType,
+                          selectedItem:
+                              state.registrationType ?? "Select registration",
                           items: (value, c) => ["COMMERCIAL", "AGRICULTURE"],
                           decoratorProps: const DropDownDecoratorProps(
                             decoration: InputDecoration(
@@ -452,6 +495,10 @@ class ReviewPage extends StatelessWidget {
                           controller: cubit.registrationCostController,
                           keyboardType: TextInputType.number,
                           maxLength: 10,
+                          onChanged: (value) {
+                            cubit.selectedregistrationcost(
+                                int.tryParse(value) ?? 0);
+                          },
                           decoration: const InputDecoration(
                             label: Text("Registration cost"),
                             counterText: "",
@@ -495,16 +542,12 @@ class ReviewPage extends StatelessWidget {
                       if (state.equipmenteditcheck == false) ...[
                         if (state.selectedEquipmentsname?.isEmpty ?? true) ...[
                           for (int i = 0;
-                              i <
-                                  (state.getSalesEntryDetailsModel?.data
-                                          ?.equipments?.length ??
-                                      0);
+                              i < (state.selectedEquipmentsname?.length ?? 0);
                               i++)
                             _buildDetailRow(
-                                state.getSalesEntryDetailsModel?.data
-                                        ?.equipments?[i].modelName ??
+                                state.selectedEquipmentsname?[i] ??
                                     "Not Available",
-                                "₹${PriceFormatter.formatPrice(state.getSalesEntryDetailsModel?.data?.equipments?[i].price ?? 0)} "),
+                                "₹${PriceFormatter.formatPrice(state.selectedEquipmentsprice?[i] ?? 0)} "),
                         ] else if (state.selectedEquipmentsname?.isNotEmpty ??
                             true) ...[
                           for (int i = 0;
@@ -513,7 +556,7 @@ class ReviewPage extends StatelessWidget {
                             _buildDetailRow(
                                 state.selectedEquipmentsname?[i] ??
                                     "Not Available",
-                                "₹${PriceFormatter.formatPrice(int.parse(state.selectedEquipmentsprice?[i] ?? "0"))} "),
+                                "₹${PriceFormatter.formatPrice(state.selectedEquipmentsprice?[i] ?? "0")} "),
                         ]
                       ],
                       if (state.equipmenteditcheck ?? false) ...[
@@ -521,7 +564,7 @@ class ReviewPage extends StatelessWidget {
                           items: state.getimplementmodel?.data?.docs
                                   ?.map((equipment) {
                                 return MultiSelectItem<String>(
-                                  "${equipment.sId},${equipment.modelName},${equipment.price}",
+                                  equipment.sId.toString(),
                                   "${equipment.modelName.toString()}  (₹${PriceFormatter.formatPrice(equipment.price ?? 0)})",
                                 );
                               }).toList() ??
@@ -538,7 +581,7 @@ class ReviewPage extends StatelessWidget {
                             ),
                           ),
                           buttonText: const Text(
-                            "Select Equipments",
+                            "Equipments",
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 16,
@@ -549,6 +592,25 @@ class ReviewPage extends StatelessWidget {
                             print(results);
                             cubit.updateSelectedEquipments(
                                 results.cast<String>());
+                            int totalPrice = 0;
+                            List<String> names = [];
+                            List<int> prices = [];
+                            for (var selectedId in results.cast<String>()) {
+                              var equipment = state
+                                  .getimplementmodel?.data?.docs
+                                  ?.firstWhere(
+                                (doc) => doc.sId == selectedId,
+                              );
+                              if (equipment != null) {
+                                names.add(
+                                    equipment.modelName ?? "Not Available");
+                                prices.add(equipment.price ?? 0);
+                                totalPrice += equipment.price ?? 0;
+                              }
+                            }
+                            cubit.selectedequipmentname(names);
+                            cubit.selectedequipmentprice(prices);
+                            cubit.selectedequipmentcost(totalPrice);
                           },
                           chipDisplay: MultiSelectChipDisplay(
                             items: state.selectedEquipments?.map((name) {
@@ -604,7 +666,7 @@ class ReviewPage extends StatelessWidget {
                                 ? "Not Available"
                                 : cubit.insuranceProviderController.text),
                         _buildDetailRow("Insurance Cost",
-                            "₹${PriceFormatter.formatPrice(int.parse(cubit.insuranceCostController.text.isNotEmpty ? cubit.insuranceCostController.text : "0"))}"),
+                            "₹${PriceFormatter.formatPrice(state.insuranceprice ?? 0)}"),
                       ],
                       if (state.insuranceeditcheck ?? false) ...[
                         _buildDetailRowWithTextField(
@@ -616,7 +678,9 @@ class ReviewPage extends StatelessWidget {
                             "Insurance Cost",
                             cubit.insuranceCostController,
                             "Enter Insurance Cost",
-                            10),
+                            10,
+                            cubit,
+                            "insurance"),
                       ],
 
                       const SizedBox(height: 40),
@@ -650,18 +714,16 @@ class ReviewPage extends StatelessWidget {
                       const Divider(thickness: 1.5),
                       const SizedBox(height: 8),
                       if (state.financeeditcheck == false) ...[
-                        _buildDetailRow("Finance Tenure", state.finance),
+                        _buildDetailRow(
+                            "Finance Tenure", state.finance ?? "Not Available"),
                         _buildDetailRow("Finance Cost",
-                            "₹${PriceFormatter.formatPrice(int.parse(cubit.financeamountController.text.isNotEmpty ? cubit.financeamountController.text : "0"))}"),
+                            "₹${PriceFormatter.formatPrice(state.financeprice ?? 0)}"),
                       ],
                       if (state.financeeditcheck ?? false) ...[
                         DropdownSearch<String>(
                           key: cubit.dropDownKeyfinance,
-                          selectedItem: state.finance?.isEmpty ?? true
-                              ? state.getSalesEntryDetailsModel?.data?.finance
-                                      ?.tenure ??
-                                  "Select Finance Tenure"
-                              : state.finance,
+                          selectedItem:
+                              state.finance ?? "Select Finance Tenure",
                           items: (value, c) => [
                             "3 Months",
                             "6 Months",
@@ -701,6 +763,9 @@ class ReviewPage extends StatelessWidget {
                           controller: cubit.financeamountController,
                           keyboardType: TextInputType.number,
                           maxLength: 10,
+                          onChanged: (value) {
+                            cubit.selectedfinancecost(int.tryParse(value) ?? 0);
+                          },
                           decoration: const InputDecoration(
                             label: Text("Finance Cost"),
                             counterText: "",
@@ -742,14 +807,16 @@ class ReviewPage extends StatelessWidget {
                       const SizedBox(height: 8),
                       if (state.transportationeditcheck == false) ...[
                         _buildDetailRow("Transportation Cost",
-                            "₹${PriceFormatter.formatPrice(int.parse(cubit.transportationCostController.text.isNotEmpty ? cubit.transportationCostController.text : "0"))}"),
+                            "₹${PriceFormatter.formatPrice(state.transportationprice ?? 0)}"),
                       ],
                       if (state.transportationeditcheck ?? false) ...[
                         _buildDetailAmountRowWithTextField(
                             "Transportation Cost",
                             cubit.transportationCostController,
                             "Enter transportation cost",
-                            10),
+                            10,
+                            cubit,
+                            "transportation"),
                       ],
 
                       const SizedBox(height: 40),
@@ -782,15 +849,12 @@ class ReviewPage extends StatelessWidget {
                       const Divider(thickness: 1.5),
                       const SizedBox(height: 8),
                       if (state.paymenteditcheck == false) ...[
-                        _buildDetailRow(
-                            "Payment Method",
-                            state.paymentmethod ??
-                                state.getSalesEntryDetailsModel?.data
-                                    ?.paymentMethod),
+                        _buildDetailRow("Payment Method",
+                            state.paymentmethod ?? "Not Available"),
                         _buildDetailRow("Paid Amount",
-                            "₹${PriceFormatter.formatPrice(int.parse(cubit.paidAmountController.text))}"),
+                            "₹${PriceFormatter.formatPrice(state.paidamount ?? 0)}"),
                         _buildDetailRow("Due Amount",
-                            "₹${PriceFormatter.formatPrice(cubit.dueamount(cubit.calculateTotalAmount(state, cubit), int.parse(cubit.paidAmountController.text.isNotEmpty ? cubit.paidAmountController.text : "0"), int.parse(cubit.financeamountController.text.isNotEmpty ? cubit.financeamountController.text : "0")))}"),
+                            "₹${PriceFormatter.formatPrice((state.tractorprice ?? 0.0) + (state.registrationprice ?? 0.0) + (state.implementprice ?? 0.0) + (state.insuranceprice ?? 0.0) - (state.financeprice ?? 0.0) + (state.isChecked == true ? -(state.exchangeprice ?? 0.0) : 0) + (state.transportationprice ?? 0.0) - (state.paidamount ?? 0))}"),
                       ],
                       if (state.paymenteditcheck ?? false) ...[
                         DropdownSearch<String>(
@@ -833,6 +897,9 @@ class ReviewPage extends StatelessWidget {
                           controller: cubit.paidAmountController,
                           keyboardType: TextInputType.number,
                           maxLength: 10,
+                          onChanged: (value) {
+                            cubit.paidAmount(int.tryParse(value) ?? 0);
+                          },
                           decoration: const InputDecoration(
                             label: Text("Paid Amount"),
                             counterText: "",
@@ -842,7 +909,7 @@ class ReviewPage extends StatelessWidget {
                         ),
                         const SizedBox(height: 8),
                         _buildDetailRow("Due Amount",
-                            "₹${PriceFormatter.formatPrice(cubit.dueamount(cubit.calculateTotalAmount(state, cubit), int.parse(cubit.paidAmountController.text.isNotEmpty ? cubit.paidAmountController.text : "0"), int.parse(cubit.financeamountController.text.isNotEmpty ? cubit.financeamountController.text : "0")))}"),
+                            "₹${PriceFormatter.formatPrice((state.tractorprice ?? 0.0) + (state.registrationprice ?? 0.0) + (state.implementprice ?? 0.0) + (state.insuranceprice ?? 0.0) - (state.financeprice ?? 0.0) + (state.isChecked == true ? -(state.exchangeprice ?? 0.0) : 0.0) + (state.transportationprice ?? 0.0) - (state.paidamount ?? 0))}"),
                       ],
 
                       const SizedBox(height: 40),
@@ -856,42 +923,37 @@ class ReviewPage extends StatelessWidget {
                       const SizedBox(height: 8),
                       _buildAmountRow(
                           "Tractor Price",
-                          "₹${PriceFormatter.formatPrice(state.selectedTractor?.price ?? state.getSalesEntryDetailsModel?.data?.tractorBasePrice ?? 0)}",
+                          "₹${PriceFormatter.formatPrice(state.tractorprice ?? 0)}",
                           false),
                       for (int i = 0;
-                          i <
-                              (state.getSalesEntryDetailsModel?.data?.equipments
-                                      ?.length ??
-                                  0);
+                          i < (state.selectedEquipmentsname?.length ?? 0);
                           i++)
                         _buildAmountRow(
-                            state.getSalesEntryDetailsModel?.data
-                                    ?.equipments?[i].modelName ??
-                                "Not Available",
-                            "+ ₹${PriceFormatter.formatPrice(state.getSalesEntryDetailsModel?.data?.equipments?[i].price ?? 0)} ",
+                            state.selectedEquipmentsname?[i] ?? "Not Available",
+                            "+ ₹${PriceFormatter.formatPrice(state.selectedEquipmentsprice?[i] ?? 0)} ",
                             false),
                       _buildAmountRow(
                           "Registration Cost",
-                          "+ ₹${PriceFormatter.formatPrice(int.parse(cubit.registrationCostController.text.isNotEmpty ? cubit.registrationCostController.text : "0"))}",
+                          "+ ₹${PriceFormatter.formatPrice(state.registrationprice ?? 0)}",
                           false),
                       _buildAmountRow(
                           "Insurance Cost",
-                          "+ ₹${PriceFormatter.formatPrice(int.parse(cubit.insuranceCostController.text.isNotEmpty ? cubit.insuranceCostController.text : "0"))}",
+                          "+ ₹${PriceFormatter.formatPrice(state.insuranceprice ?? 0)}",
                           false),
                       _buildAmountRow(
                           "Transportation Cost",
-                          "+ ₹${PriceFormatter.formatPrice(int.parse(cubit.transportationCostController.text.isNotEmpty ? cubit.transportationCostController.text : "0"))}",
+                          "+ ₹${PriceFormatter.formatPrice(state.transportationprice ?? 0)}",
                           false),
 
                       if (state.isChecked == true)
                         _buildAmountRow(
                             "Exchange Vehicle Cost",
-                            "- ₹${PriceFormatter.formatPrice(int.parse(cubit.exchangevehicleamountController.text.isNotEmpty ? cubit.exchangevehicleamountController.text : "0"))}",
+                            "- ₹${PriceFormatter.formatPrice(state.exchangeprice ?? 0)}",
                             false),
                       const Divider(thickness: 1.5),
                       _buildAmountRow(
                           "Total Amount",
-                          "₹${PriceFormatter.formatPrice(cubit.calculateTotalAmount(state, cubit))}",
+                          "₹${PriceFormatter.formatPrice((state.tractorprice ?? 0.0) + (state.registrationprice ?? 0.0) + (state.implementprice ?? 0.0) + (state.insuranceprice ?? 0.0) + (state.isChecked == true ? -(state.exchangeprice ?? 0.0) : 0) + (state.transportationprice ?? 0.0))}",
                           true),
                       const Divider(thickness: 1.5),
 
@@ -906,21 +968,21 @@ class ReviewPage extends StatelessWidget {
                       const SizedBox(height: 8),
                       _buildAmountRow(
                           "Total Amount",
-                          "₹${PriceFormatter.formatPrice(cubit.calculateTotalAmount(state, cubit))}",
+                          "₹${PriceFormatter.formatPrice((state.tractorprice ?? 0.0) + (state.registrationprice ?? 0.0) + (state.implementprice ?? 0.0) + (state.insuranceprice ?? 0.0) + (state.isChecked == true ? -(state.exchangeprice ?? 0.0) : 0) + (state.transportationprice ?? 0.0))}",
                           true),
                       _buildAmountPaidRow(
                           "Paid Amount",
-                          "- ₹${PriceFormatter.formatPrice(int.parse(cubit.paidAmountController.text.isNotEmpty ? cubit.paidAmountController.text : "0"))}",
+                          "- ₹${PriceFormatter.formatPrice(state.paidamount ?? 0)}",
                           true),
                       if (cubit.financeamountController.text != "0")
                         _buildAmountPaidRow(
                             "Finance Cost",
-                            "- ₹${PriceFormatter.formatPrice(int.parse(cubit.financeamountController.text))}",
+                            "- ₹${PriceFormatter.formatPrice(state.financeprice ?? 0)}",
                             true),
                       const Divider(thickness: 1.5),
                       _buildAmountPaidRow(
                           "Due Amount",
-                          "₹${PriceFormatter.formatPrice(cubit.dueamount(cubit.calculateTotalAmount(state, cubit), int.parse(cubit.paidAmountController.text.isNotEmpty ? cubit.paidAmountController.text : "0"), int.parse(cubit.financeamountController.text.isNotEmpty ? cubit.financeamountController.text : "0")))}",
+                          "₹${PriceFormatter.formatPrice((state.tractorprice ?? 0.0) + (state.registrationprice ?? 0.0) + (state.implementprice ?? 0.0) + (state.insuranceprice ?? 0.0) - (state.financeprice ?? 0.0) + (state.isChecked == true ? -(state.exchangeprice ?? 0.0) : 0) + (state.transportationprice ?? 0.0) - (state.paidamount ?? 0))}",
                           false),
                       const Divider(thickness: 1.5),
 
@@ -931,8 +993,7 @@ class ReviewPage extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         child: ElevatedButton(
                           onPressed: () {
-                            cubit.addSalesEntry(context,
-                                cubit.calculateTotalAmount(state, cubit));
+                            cubit.addSalesEntry(context);
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.green[500],
@@ -1055,7 +1116,12 @@ class ReviewPage extends StatelessWidget {
   }
 
   Widget _buildDetailAmountRowWithTextField(
-      String label, TextEditingController controller, String hint, int limit) {
+      String label,
+      TextEditingController controller,
+      String hint,
+      int limit,
+      cubit,
+      String name) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Row(
@@ -1080,6 +1146,17 @@ class ReviewPage extends StatelessWidget {
                 LengthLimitingTextInputFormatter(limit),
               ],
               controller: controller,
+              onChanged: (value) {
+                if (name == "finance") {
+                  cubit.selectedfinancecost(int.tryParse(value) ?? 0);
+                } else if (name == "transportation") {
+                  cubit.selectedtransportationcost(int.tryParse(value) ?? 0);
+                } else if (name == "exchange") {
+                  cubit.selectedexchangecost(int.tryParse(value) ?? 0);
+                } else if (name == "insurance") {
+                  cubit.selectedinsurancecost(int.tryParse(value) ?? 0);
+                }
+              },
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
                   border: const OutlineInputBorder(),

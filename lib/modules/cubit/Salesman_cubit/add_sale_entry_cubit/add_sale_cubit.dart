@@ -119,8 +119,23 @@ class AddSaleCubit extends Cubit<AddSaleState> {
     emit(state.copyWith(transportationprice: value));
   }
 
+  void paidAmount(int? value) {
+    print("object1 $value");
+    emit(state.copyWith(paidamount: value));
+  }
+
   void updateSelectedEquipments(List<String> selected) {
     emit(state.copyWith(selectedEquipments: selected));
+  }
+
+  void selectedequipmentname(List<String>? value) {
+    print("object1 $value");
+    emit(state.copyWith(selectedEquipmentsname: value));
+  }
+
+  void selectedequipmentprice(List<int>? value) {
+    print("object1 $value");
+    emit(state.copyWith(selectedEquipmentsprice: value));
   }
 
   void setError(String value) => error = value;
@@ -217,6 +232,52 @@ class AddSaleCubit extends Cubit<AddSaleState> {
       emit(AddSaleError(appStrings.weUnableCheckData));
       return;
     }
+  }
+
+  Map<String, dynamic> prepareSalesEntryData() {
+    return {
+      "getTractorModel": state.gettractormodel,
+      "paidAmountCost": state.paidamount,
+      "totalPrice": (state.tractorprice ?? 0.0) +
+          (state.registrationprice ?? 0.0) +
+          (state.implementprice ?? 0.0) +
+          (state.insuranceprice ?? 0.0) -
+          (state.financeprice ?? 0.0) +
+          (state.isChecked == true ? -(state.exchangeprice ?? 0.0) : 0) +
+          (state.transportationprice ?? 0.0),
+      "tractorPrice": state.tractorprice,
+      "implementPrice": state.implementprice,
+      "exchangePrice": state.exchangeprice,
+      "insurancePrice": state.insuranceprice,
+      "registrationPrice": state.registrationprice,
+      "transportationPrice": state.transportationprice,
+      "financePrice": state.financeprice,
+      "getImplementModel": state.getimplementmodel,
+      "selectedTractor": state.selectedTractor,
+      "selectedTractorModel": state.selectedTractormodel,
+      "selectedEquipments": state.selectedEquipments,
+      "selectedEquipmentsprice": state.selectedEquipmentsprice,
+      "selectedEquipmentsname": state.selectedEquipmentsname,
+      "isChecked": state.isChecked,
+      "registrationType": state.registrationType,
+      "paymentMethod": state.paymentmethod,
+      "finance": state.finance,
+      "name": nameController.text,
+      "contact": contactController.text,
+      "address": addressController.text,
+      "exchangeModel": exchangemodelController.text,
+      "exchangeBrand": exchangebrandController.text,
+      "exchangeVehicleType": exchangevehicleTypeController.text,
+      "exchangeVehicleAmount": exchangevehicleamountController.text,
+      "exchangeVehicleAge": exchangevehicleageController.text,
+      "exchangeDescription": exchangedescriptionController.text,
+      "insuranceProvider": insuranceProviderController.text,
+      "insuranceCost": insuranceCostController.text,
+      "registrationCost": registrationCostController.text,
+      "paidAmount": paidAmountController.text,
+      "transportationCost": transportationCostController.text,
+      "financeAmount": financeamountController.text,
+    };
   }
 
   Future<void> addSalesEntry(context) async {
