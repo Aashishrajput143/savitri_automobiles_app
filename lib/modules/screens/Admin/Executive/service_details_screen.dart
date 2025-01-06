@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:savitri_automobiles_admin/modules/cubit/Admin_cubit/executive_cubit/sales_executive/sales_executive_details_cubit.dart';
-import 'package:savitri_automobiles_admin/modules/cubit/Admin_cubit/executive_cubit/sales_executive/sales_executive_details_state.dart';
+import 'package:savitri_automobiles_admin/modules/cubit/Admin_cubit/executive_cubit/service_executive/service_executive_details_cubit.dart';
+import 'package:savitri_automobiles_admin/modules/cubit/Admin_cubit/executive_cubit/service_executive/service_executive_details_state.dart';
 import 'package:savitri_automobiles_admin/resources/images.dart';
 import 'package:savitri_automobiles_admin/routes/routes.dart';
 
-class SalesExecutiveDetailsScreen extends StatelessWidget {
-  const SalesExecutiveDetailsScreen({super.key});
+class ServiceExecutiveDetailsScreen extends StatelessWidget {
+  const ServiceExecutiveDetailsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     final String? id = ModalRoute.of(context)?.settings.arguments as String?;
     return BlocProvider(
-      create: (_) => SalesExecutiveDetailsCubit(id),
-      child: const SalesExecutiveDetailsPageView(),
+      create: (_) => ServiceExecutiveDetailsCubit(id),
+      child: const ServiceExecutiveDetailsPageView(),
     );
   }
 }
 
-class SalesExecutiveDetailsPageView extends StatelessWidget {
-  const SalesExecutiveDetailsPageView({super.key});
+class ServiceExecutiveDetailsPageView extends StatelessWidget {
+  const ServiceExecutiveDetailsPageView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -57,13 +57,13 @@ class SalesExecutiveDetailsPageView extends StatelessWidget {
           ),
         ],
       ),
-      body: BlocBuilder<SalesExecutiveDetailsCubit, SalesDetailsState>(
+      body: BlocBuilder<ServiceExecutiveDetailsCubit, ServiceDetailsState>(
         builder: (context, state) {
-          if (state is SalesDetailsLoading) {
+          if (state is ServiceDetailsLoading) {
             return const Center(
               child: CircularProgressIndicator(),
             );
-          } else if (state is SalesDetailsLoaded) {
+          } else if (state is ServiceDetailsLoaded) {
             return Container(
               height: MediaQuery.of(context).size.height,
               color: Colors.white,
@@ -115,7 +115,7 @@ class SalesExecutiveDetailsPageView extends StatelessWidget {
                                   ),
                                   const SizedBox(width: 8),
                                   const Text(
-                                    "Sold Tractors",
+                                    "Sold Spare Parts",
                                     style: TextStyle(
                                       fontSize: 13,
                                       fontWeight: FontWeight.w600,
@@ -129,7 +129,7 @@ class SalesExecutiveDetailsPageView extends StatelessWidget {
                                 padding:
                                     const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
                                 child: Text(
-                                  "${state.countractorimplement?.data?.salesCount ?? 0}",
+                                  "${state.servicecount?.data ?? 0}",
                                   style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 18,
@@ -170,7 +170,7 @@ class SalesExecutiveDetailsPageView extends StatelessWidget {
                                   ),
                                   const SizedBox(width: 8),
                                   const Text(
-                                    "Sold Implements",
+                                    "Sold Oil",
                                     style: TextStyle(
                                       fontSize: 13,
                                       fontWeight: FontWeight.w600,
@@ -184,7 +184,7 @@ class SalesExecutiveDetailsPageView extends StatelessWidget {
                                 padding:
                                     const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
                                 child: Text(
-                                  "${state.countractorimplement?.data?.equipmentCount ?? 0}",
+                                  "${state.servicecount?.data ?? 0}",
                                   style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 18,
@@ -200,7 +200,7 @@ class SalesExecutiveDetailsPageView extends StatelessWidget {
                     const Padding(
                       padding: EdgeInsets.symmetric(vertical: 15.0),
                       child: Text(
-                        "Sold Tractors & Implements",
+                        "Sold Spare Parts & Oils",
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.bold,

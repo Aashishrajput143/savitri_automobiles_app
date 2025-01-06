@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:savitri_automobiles_admin/modules/screens/Admin/Executive/executive_details_screen.dart';
+import 'package:savitri_automobiles_admin/modules/screens/Admin/Executive/service_details_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/Admin/Sales_Screen/sales_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/Admin/home_admin.dart';
 import 'package:savitri_automobiles_admin/modules/screens/SalesExecutive/add_sales_entry_screen.dart';
@@ -40,12 +41,13 @@ class Routes {
   static const String salesscreen = '/salesscreen';
   static const String salespreview = '/salespreview';
   static const String servicereview = '/servicereview';
-  static const String executivedetails = '/executivedetails';
+  static const String salesexecutivedetails = '/executivedetails';
   static const String serviceHome = '/serviceHome';
   static const String serviceEntrylisiting = '/serviceEntrylisiting';
   static const String addServiceEntry = '/addServiceEntry';
   static const String collectionHome = '/collection';
   static const String collectionSeeAll = '/collectionSeeAll';
+  static const String serviceexecutivedetails = '/collectionSeeAll';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -81,9 +83,14 @@ class Routes {
       case salesscreen:
         return MaterialPageRoute(
             builder: (_) => const SalesScreen(), settings: settings);
-      case executivedetails:
+      case salesexecutivedetails:
         return MaterialPageRoute(
-            builder: (_) => const ExecutiveDetailsScreen());
+            builder: (_) => const SalesExecutiveDetailsScreen(),
+            settings: settings);
+      case serviceexecutivedetails:
+        return MaterialPageRoute(
+            builder: (_) => const ServiceExecutiveDetailsScreen(),
+            settings: settings);
       case reviewSalesEntry:
         return MaterialPageRoute(
             builder: (_) => const ReviewSalesScreen(), settings: settings);

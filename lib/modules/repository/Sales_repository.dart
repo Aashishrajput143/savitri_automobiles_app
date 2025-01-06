@@ -5,6 +5,8 @@ import 'package:savitri_automobiles_admin/modules/model/getimplementsmodel.dart'
 import 'package:savitri_automobiles_admin/modules/model/getsalesentrydetailsmodel.dart';
 import 'package:savitri_automobiles_admin/modules/model/getsalesentrymodel.dart';
 import 'package:savitri_automobiles_admin/modules/model/gettractormodel.dart';
+import 'package:savitri_automobiles_admin/modules/model/salescountpendingpaidmodel.dart';
+import 'package:savitri_automobiles_admin/modules/model/salescounttractorimplementmodel.dart';
 
 class SalesRepository {
   final _apiServices = NetworkApiServices();
@@ -37,5 +39,18 @@ class SalesRepository {
     dynamic response =
         await _apiServices.getApi("${AppUrl.getsalesentrydetails}$data");
     return GetSalesEntryDetailsModel.fromJson(response);
+  }
+
+  Future<SalesCountPendingPaidModel> getSalesCountPendingPaidApi() async {
+    dynamic response =
+        await _apiServices.getApi(AppUrl.getsalescountpendingpaid);
+    return SalesCountPendingPaidModel.fromJson(response);
+  }
+
+  Future<SalesCountTractorImplementModel> getSalesCounttractorimplementApi(
+      var data) async {
+    dynamic response = await _apiServices
+        .getApi("${AppUrl.salesEquipementCount}?salerId=$data");
+    return SalesCountTractorImplementModel.fromJson(response);
   }
 }

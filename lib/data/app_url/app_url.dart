@@ -25,11 +25,8 @@ class AppUrl {
   static String sparepartinventory = '$baseUrl/api/sparePart/edit';
   static String oilinventory = '$baseUrl/api/oil/edit';
   static String getusers = '$baseUrl/api/admin/getUsers';
-
-  // static String getcategory =
-  //     '$baseUrl/api/category/getallcategory?page=1&pageSize=10';
-  // static String getbrand = '$baseUrl/api/brand/getall?page=';
-  // static String getbranddetails = '$baseUrl/api/brand/getby/';
-
-  // post
+  static String getsalescountpendingpaid = '$baseUrl/api/stats/salesCount';
+  static String salesEquipementCount =
+      '$baseUrl/api/stats/salesEquipementCount';
+  static String servicecount = '$baseUrl/api/stats/serviceCount';
 }

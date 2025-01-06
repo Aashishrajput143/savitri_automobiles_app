@@ -94,7 +94,7 @@ class AddServiceState {
     if (identical(this, other)) return true;
     return other is AddServiceState &&
         other.gettractormodel == gettractormodel &&
-        totalsparepartsprice == totalsparepartsprice &&
+        other.totalsparepartsprice == totalsparepartsprice &&
         other.totaloilprice == totaloilprice &&
         other.servicechargeamount == servicechargeamount &&
         other.selectedTractormodel == selectedTractormodel &&

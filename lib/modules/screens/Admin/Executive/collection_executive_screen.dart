@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:savitri_automobiles_admin/modules/cubit/Admin_cubit/executive_cubit/collection_executive/collection_executive_cubit.dart';
 import 'package:savitri_automobiles_admin/modules/cubit/Admin_cubit/executive_cubit/collection_executive/collection_person_state.dart';
 import 'package:savitri_automobiles_admin/resources/images.dart';
-import 'package:savitri_automobiles_admin/routes/routes.dart';
 
 class CollectionExecutiveScreen extends StatelessWidget {
   const CollectionExecutiveScreen({super.key});
@@ -57,8 +56,8 @@ class CollectionExecutivePageView extends StatelessWidget {
                     itemBuilder: (context, index) {
                       final user = state.getusers?.data?.docs?[index];
                       return InkWell(
-                        onTap: () => Navigator.pushNamed(
-                            context, Routes.executivedetails),
+                        // onTap: () => Navigator.pushNamed(
+                        //     context, Routes.executivedetails),
                         child: Column(
                           children: [
                             ListTile(

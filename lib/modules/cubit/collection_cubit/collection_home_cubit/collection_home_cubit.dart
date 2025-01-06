@@ -8,6 +8,7 @@ import 'package:savitri_automobiles_admin/data/response/status.dart';
 import 'package:savitri_automobiles_admin/modules/cubit/collection_cubit/collection_home_cubit/collection_home_state.dart';
 import 'package:savitri_automobiles_admin/modules/model/getlogoutmodel.dart';
 import 'package:savitri_automobiles_admin/modules/model/getsalesentrymodel.dart';
+import 'package:savitri_automobiles_admin/modules/model/salescountpendingpaidmodel.dart';
 import 'package:savitri_automobiles_admin/modules/repository/Sales_repository.dart';
 import 'package:savitri_automobiles_admin/modules/repository/loginrepository.dart';
 import 'package:savitri_automobiles_admin/resources/strings.dart';
@@ -15,7 +16,8 @@ import 'package:savitri_automobiles_admin/resources/strings.dart';
 class CollectionHomeCubit extends Cubit<CollectionHomeStates> {
   final SalesRepository salesrepository = SalesRepository();
   final LoginRepository logoutrepository = LoginRepository();
-  CollectionHomeCubit() : super(const CollectionHomeLoading()) {
+  CollectionHomeCubit() : super(CollectionHomeLoading()) {
+    getSalesCountPaidPendingApi();
     getSalesEntries();
   }
   String getdate(String datetime, bool date) {
@@ -45,14 +47,14 @@ class CollectionHomeCubit extends Cubit<CollectionHomeStates> {
 
       Map<String, dynamic> requestData = {
         "page": 1,
-        "pageSize": 20,
+        "pageSize": 5,
         "status": "PENDING" //"PAID"
       };
 
       try {
         GetSalesEntryModel response =
             await salesrepository.getSalesEntries(requestData);
-        emit(CollectionHomeLoaded(getSalesEntries: response));
+        emit(state.copyWith(getSalesEntries: response));
 
         setRxRequestStatus(Status.COMPLETED);
         Utils.printLog("Response===> ${response.toString()}");
@@ -66,8 +68,46 @@ class CollectionHomeCubit extends Cubit<CollectionHomeStates> {
             emit(CollectionHomeError(message: errorResponse['message']));
             return;
           } else {
-            emit(const CollectionHomeError(
-                message: "An unexpected error occurred."));
+            emit(CollectionHomeError(message: "An unexpected error occurred."));
+            return;
+          }
+        } else {
+          Utils.printLog("Error===> ${error.toString()}");
+          emit(CollectionHomeError(
+              message: "${error.toString()} Login failed..."));
+          return;
+        }
+      }
+    } else {
+      emit(CollectionHomeError(message: appStrings.weUnableCheckData));
+      return;
+    }
+  }
+
+  Future<void> getSalesCountPaidPendingApi() async {
+    bool connection = await CommonMethods.checkInternetConnectivity();
+    Utils.printLog("CheckInternetConnection===> ${connection.toString()}");
+
+    if (connection) {
+      setRxRequestStatus(Status.LOADING);
+      try {
+        SalesCountPendingPaidModel response =
+            await salesrepository.getSalesCountPendingPaidApi();
+        emit(state.copyWith(salescount: response));
+
+        setRxRequestStatus(Status.COMPLETED);
+        Utils.printLog("Response===> ${response.toString()}");
+      } catch (error) {
+        setRxRequestStatus(Status.ERROR);
+        setError(error.toString());
+
+        if (error.toString().contains("{")) {
+          var errorResponse = json.decode(error.toString());
+          if (errorResponse is Map && errorResponse.containsKey('message')) {
+            emit(CollectionHomeError(message: errorResponse['message']));
+            return;
+          } else {
+            emit(CollectionHomeError(message: "An unexpected error occurred."));
             return;
           }
         } else {
@@ -84,7 +124,7 @@ class CollectionHomeCubit extends Cubit<CollectionHomeStates> {
   }
 
   Future<void> logoutApi(context) async {
-    emit(const CollectionHomeLoading());
+    emit(CollectionHomeLoading());
     bool connection = await CommonMethods.checkInternetConnectivity();
     Utils.printLog("CheckInternetConnection===> ${connection.toString()}");
 
@@ -109,8 +149,7 @@ class CollectionHomeCubit extends Cubit<CollectionHomeStates> {
             emit(CollectionHomeError(message: errorResponse['message']));
             return;
           } else {
-            emit(const CollectionHomeError(
-                message: "An unexpected error occurred."));
+            emit(CollectionHomeError(message: "An unexpected error occurred."));
             return;
           }
         } else {

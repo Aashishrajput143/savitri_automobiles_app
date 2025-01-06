@@ -44,7 +44,7 @@ class SalesHomeCubit extends Cubit<SalesHomeStates> {
     if (connection) {
       setRxRequestStatus(Status.LOADING);
 
-      Map<String, dynamic> requestData = {"page": 1, "pageSize": 20};
+      Map<String, dynamic> requestData = {"page": 1, "pageSize": 5};
 
       try {
         GetSalesEntryModel response =

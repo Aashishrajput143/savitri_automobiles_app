@@ -58,7 +58,8 @@ class SalesExecutivePageView extends StatelessWidget {
                       final user = state.getusers?.data?.docs?[index];
                       return InkWell(
                         onTap: () => Navigator.pushNamed(
-                            context, Routes.executivedetails),
+                            context, Routes.salesexecutivedetails,
+                            arguments: state.getusers?.data?.docs?[index].sId),
                         child: Column(
                           children: [
                             ListTile(
