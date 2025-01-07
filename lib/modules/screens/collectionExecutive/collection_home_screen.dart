@@ -317,7 +317,10 @@ class CollectionHomeScreen extends StatelessWidget {
                           child: InkWell(
                             onTap: () {
                               Navigator.pushNamed(
-                                  context, Routes.servicereview);
+                                context,
+                                Routes.salespreview,
+                                arguments: entries?.sId ?? "",
+                              );
                             },
                             child: Container(
                               decoration: BoxDecoration(
@@ -452,7 +455,13 @@ class CollectionHomeScreen extends StatelessWidget {
                                           Center(
                                             heightFactor: 1.5,
                                             child: TextButton(
-                                              onPressed: () {},
+                                              onPressed: () {
+                                                Navigator.pushNamed(
+                                                  context,
+                                                  Routes.salespreview,
+                                                  arguments: entries?.sId ?? "",
+                                                );
+                                              },
                                               child: const Text(
                                                 "View",
                                                 style: TextStyle(

@@ -88,7 +88,7 @@ class CollectionExecutiveDetailsPageView extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
-                        width: 180,
+                        width: 170,
                         padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
                           color: Colors.white,
@@ -142,7 +142,7 @@ class CollectionExecutiveDetailsPageView extends StatelessWidget {
                         ),
                       ),
                       Container(
-                        width: 180,
+                        width: 170,
                         padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
                           color: Colors.white,
@@ -249,7 +249,11 @@ class CollectionExecutiveDetailsPageView extends StatelessWidget {
                             vertical: 10.0, horizontal: 2),
                         child: InkWell(
                           onTap: () {
-                            Navigator.pushNamed(context, Routes.servicereview);
+                            Navigator.pushNamed(
+                              context,
+                              Routes.salespreview,
+                              arguments: entries?.sId ?? "",
+                            );
                           },
                           child: Container(
                             decoration: BoxDecoration(
@@ -382,7 +386,13 @@ class CollectionExecutiveDetailsPageView extends StatelessWidget {
                                         Center(
                                           heightFactor: 1.5,
                                           child: TextButton(
-                                            onPressed: () {},
+                                            onPressed: () {
+                                              Navigator.pushNamed(
+                                                context,
+                                                Routes.salespreview,
+                                                arguments: entries?.sId ?? "",
+                                              );
+                                            },
                                             child: const Text(
                                               "View",
                                               style: TextStyle(
