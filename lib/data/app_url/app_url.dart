@@ -29,4 +29,6 @@ class AppUrl {
   static String salesEquipementCount =
       '$baseUrl/api/stats/salesEquipementCount';
   static String servicecount = '$baseUrl/api/stats/serviceCount';
+  static String salesgraph = '$baseUrl/api/stats/salesGraph';
+  static String servicegraph = '$baseUrl/api/stats/serviceGraph';
 }

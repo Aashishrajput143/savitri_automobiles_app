@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:savitri_automobiles_admin/modules/screens/Admin/Executive/executive_details_screen.dart';
+import 'package:savitri_automobiles_admin/modules/screens/Admin/Executive/collection_details_screen.dart';
+import 'package:savitri_automobiles_admin/modules/screens/Admin/Executive/sales_executive_details_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/Admin/Executive/service_details_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/Admin/Sales_Screen/sales_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/Admin/home_admin.dart';
@@ -47,7 +48,9 @@ class Routes {
   static const String addServiceEntry = '/addServiceEntry';
   static const String collectionHome = '/collection';
   static const String collectionSeeAll = '/collectionSeeAll';
-  static const String serviceexecutivedetails = '/collectionSeeAll';
+  static const String serviceexecutivedetails = '/serviceexecutivedetails';
+  static const String collectionexecutivedetails =
+      '/collectionexecutivedetails';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -90,6 +93,10 @@ class Routes {
       case serviceexecutivedetails:
         return MaterialPageRoute(
             builder: (_) => const ServiceExecutiveDetailsScreen(),
+            settings: settings);
+      case collectionexecutivedetails:
+        return MaterialPageRoute(
+            builder: (_) => const CollectionExecutiveDetailsScreen(),
             settings: settings);
       case reviewSalesEntry:
         return MaterialPageRoute(

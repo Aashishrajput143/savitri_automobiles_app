@@ -1,38 +1,65 @@
-import 'package:equatable/equatable.dart';
+import 'package:savitri_automobiles_admin/modules/model/getsalesentrymodel.dart';
 import 'package:savitri_automobiles_admin/modules/model/salescounttractorimplementmodel.dart';
 
-abstract class SalesDetailsState extends Equatable {
-  @override
-  List<Object?> get props => [];
-}
-
-class SalesDetailsInitial extends SalesDetailsState {}
-
-class SalesDetailsLoading extends SalesDetailsState {}
-
-class SalesDetailsSuccess extends SalesDetailsState {
-  final String message;
-
-  SalesDetailsSuccess({required this.message});
-
-  @override
-  List<Object?> get props => [message];
-}
-
-class SalesDetailsLoaded extends SalesDetailsState {
-  final SalesCountTractorImplementModel? countractorimplement;
+class SalesExecutiveDetailsState {
+  final SalesCountTractorImplementModel? getSalescount;
+  final GetSalesEntryModel? getSalesentries;
   final String? message;
-  SalesDetailsLoaded({this.countractorimplement, this.message});
+  SalesExecutiveDetailsState({
+    this.getSalescount,
+    this.getSalesentries,
+    this.message = "",
+  });
+  SalesExecutiveDetailsState copyWith({
+    SalesCountTractorImplementModel? getSalescount,
+    GetSalesEntryModel? getSalesentries,
+    String? message,
+  }) {
+    return SalesExecutiveDetailsState(
+      getSalescount: getSalescount ?? this.getSalescount,
+      getSalesentries: getSalesentries ?? this.getSalesentries,
+      message: message ?? this.message,
+    );
+  }
 
   @override
-  List<Object?> get props => [countractorimplement];
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is SalesExecutiveDetailsState &&
+        other.getSalescount == getSalescount &&
+        other.getSalesentries == getSalesentries &&
+        other.message == message;
+  }
+
+  @override
+  int get hashCode {
+    return getSalescount.hashCode ^ getSalesentries.hashCode ^ message.hashCode;
+  }
 }
 
-class SalesDetailsError extends SalesDetailsState {
-  final String message;
+class SalesExecutiveDetailsSuccess extends SalesExecutiveDetailsState {
+  SalesExecutiveDetailsSuccess(String message)
+      : super(
+          getSalescount: null,
+          getSalesentries: null,
+          message: message,
+        );
+}
 
-  SalesDetailsError({required this.message});
+class SalesExecutiveDetailsError extends SalesExecutiveDetailsState {
+  SalesExecutiveDetailsError(String message)
+      : super(
+          getSalescount: null,
+          getSalesentries: null,
+          message: message,
+        );
+}
 
-  @override
-  List<Object?> get props => [message];
+class SalesExecutiveDetailsLoading extends SalesExecutiveDetailsState {
+  SalesExecutiveDetailsLoading()
+      : super(
+          getSalescount: null,
+          getSalesentries: null,
+          message: 'Loading...',
+        );
 }

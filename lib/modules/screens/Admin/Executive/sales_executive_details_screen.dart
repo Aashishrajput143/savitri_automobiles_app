@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:savitri_automobiles_admin/modules/cubit/Admin_cubit/executive_cubit/service_executive/service_executive_details_cubit.dart';
-import 'package:savitri_automobiles_admin/modules/cubit/Admin_cubit/executive_cubit/service_executive/service_executive_details_state.dart';
+import 'package:savitri_automobiles_admin/modules/cubit/Admin_cubit/executive_cubit/sales_executive/sales_executive_details_cubit.dart';
+import 'package:savitri_automobiles_admin/modules/cubit/Admin_cubit/executive_cubit/sales_executive/sales_executive_details_state.dart';
 import 'package:savitri_automobiles_admin/resources/formatter.dart';
 import 'package:savitri_automobiles_admin/resources/images.dart';
 import 'package:savitri_automobiles_admin/routes/routes.dart';
 
-class ServiceExecutiveDetailsScreen extends StatelessWidget {
-  const ServiceExecutiveDetailsScreen({super.key});
+class SalesExecutiveDetailsScreen extends StatelessWidget {
+  const SalesExecutiveDetailsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     final String? id = ModalRoute.of(context)?.settings.arguments as String?;
     return BlocProvider(
-      create: (_) => ServiceExecutiveDetailsCubit(id),
-      child: const ServiceExecutiveDetailsPageView(),
+      create: (_) => SalesExecutiveDetailsCubit(id),
+      child: const SalesExecutiveDetailsPageView(),
     );
   }
 }
 
-class ServiceExecutiveDetailsPageView extends StatelessWidget {
-  const ServiceExecutiveDetailsPageView({super.key});
+class SalesExecutiveDetailsPageView extends StatelessWidget {
+  const SalesExecutiveDetailsPageView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -58,11 +58,10 @@ class ServiceExecutiveDetailsPageView extends StatelessWidget {
           ),
         ],
       ),
-      body: BlocBuilder<ServiceExecutiveDetailsCubit,
-          ServiceExecutiveDetailsState>(
+      body: BlocBuilder<SalesExecutiveDetailsCubit, SalesExecutiveDetailsState>(
         builder: (context, state) {
-          final cubit = context.read<ServiceExecutiveDetailsCubit>();
-          if (state is ServiceExecutiveDetailsLoading) {
+          final cubit = context.read<SalesExecutiveDetailsCubit>();
+          if (state is SalesExecutiveDetailsLoading) {
             return const Center(
               child: CircularProgressIndicator(),
             );
@@ -118,7 +117,7 @@ class ServiceExecutiveDetailsPageView extends StatelessWidget {
                                 ),
                                 const SizedBox(width: 8),
                                 const Text(
-                                  "Sold Spare Parts",
+                                  "Sold Tractors",
                                   style: TextStyle(
                                     fontSize: 13,
                                     fontWeight: FontWeight.w600,
@@ -131,7 +130,7 @@ class ServiceExecutiveDetailsPageView extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
                               child: Text(
-                                "${state.getServicecount?.data?.sparePartsCount ?? 0}",
+                                "${state.getSalescount?.data?.salesCount ?? 0}",
                                 style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 18,
@@ -171,7 +170,7 @@ class ServiceExecutiveDetailsPageView extends StatelessWidget {
                                 ),
                                 const SizedBox(width: 8),
                                 const Text(
-                                  "Sold Oil",
+                                  "Sold Implements",
                                   style: TextStyle(
                                     fontSize: 13,
                                     fontWeight: FontWeight.w600,
@@ -184,7 +183,7 @@ class ServiceExecutiveDetailsPageView extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
                               child: Text(
-                                "${state.getServicecount?.data?.oilCount ?? 0}",
+                                "${state.getSalescount?.data?.equipmentCount ?? 0}",
                                 style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 18,
@@ -227,7 +226,7 @@ class ServiceExecutiveDetailsPageView extends StatelessWidget {
                   const Padding(
                     padding: EdgeInsets.symmetric(vertical: 15.0),
                     child: Text(
-                      "Sold Spare Parts & Oils",
+                      "Sold Tractors & Implements",
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
@@ -238,15 +237,14 @@ class ServiceExecutiveDetailsPageView extends StatelessWidget {
                   ListView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    itemCount: state.getServiceentries?.data?.docs?.length ?? 0,
+                    itemCount: state.getSalesentries?.data?.docs?.length ?? 0,
                     itemBuilder: (context, index) {
-                      final entries =
-                          state.getServiceentries?.data?.docs?[index];
+                      final entries = state.getSalesentries?.data?.docs?[index];
                       return InkWell(
                         onTap: () {
                           Navigator.pushNamed(
                             context,
-                            Routes.servicereview,
+                            Routes.salespreview,
                             arguments: entries?.sId ?? "",
                           );
                         },
@@ -305,7 +303,7 @@ class ServiceExecutiveDetailsPageView extends StatelessWidget {
                                       ),
                                       const SizedBox(height: 5),
                                       Text(
-                                        "₹${PriceFormatter.formatPrice(entries?.totalCost ?? 0)} ",
+                                        "₹${PriceFormatter.formatPrice(entries?.totalAmount ?? 0)} ",
                                         style: const TextStyle(
                                           fontSize: 14,
                                           color: Colors.green,
@@ -314,7 +312,7 @@ class ServiceExecutiveDetailsPageView extends StatelessWidget {
                                       ),
                                       const SizedBox(height: 5),
                                       Text(
-                                        "Serviceman : ${entries?.customerName ?? "Not Available"}",
+                                        "Customer : ${entries?.customerName ?? "Not Available"}",
                                         style: const TextStyle(
                                           fontSize: 12,
                                           fontWeight: FontWeight.bold,

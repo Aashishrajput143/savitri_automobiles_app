@@ -1,38 +1,67 @@
-import 'package:equatable/equatable.dart';
+import 'package:savitri_automobiles_admin/modules/model/getserviceentrymodel.dart';
 import 'package:savitri_automobiles_admin/modules/model/servicecountmodel.dart';
 
-abstract class ServiceDetailsState extends Equatable {
-  @override
-  List<Object?> get props => [];
-}
-
-class ServiceDetailsInitial extends ServiceDetailsState {}
-
-class ServiceDetailsLoading extends ServiceDetailsState {}
-
-class ServiceDetailsSuccess extends ServiceDetailsState {
-  final String message;
-
-  ServiceDetailsSuccess({required this.message});
-
-  @override
-  List<Object?> get props => [message];
-}
-
-class ServiceDetailsLoaded extends ServiceDetailsState {
-  final ServiceCountModel? servicecount;
+class ServiceExecutiveDetailsState {
+  final ServiceCountModel? getServicecount;
+  final GetServiceEntryModel? getServiceentries;
   final String? message;
-  ServiceDetailsLoaded({this.servicecount, this.message});
+  ServiceExecutiveDetailsState({
+    this.getServicecount,
+    this.getServiceentries,
+    this.message = "",
+  });
+  ServiceExecutiveDetailsState copyWith({
+    ServiceCountModel? getServicecount,
+    GetServiceEntryModel? getServiceentries,
+    String? message,
+  }) {
+    return ServiceExecutiveDetailsState(
+      getServicecount: getServicecount ?? this.getServicecount,
+      getServiceentries: getServiceentries ?? this.getServiceentries,
+      message: message ?? this.message,
+    );
+  }
 
   @override
-  List<Object?> get props => [servicecount];
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is ServiceExecutiveDetailsState &&
+        other.getServicecount == getServicecount &&
+        other.getServiceentries == getServiceentries &&
+        other.message == message;
+  }
+
+  @override
+  int get hashCode {
+    return getServicecount.hashCode ^
+        getServiceentries.hashCode ^
+        message.hashCode;
+  }
 }
 
-class ServiceDetailsError extends ServiceDetailsState {
-  final String message;
+class ServiceExecutiveDetailsSuccess extends ServiceExecutiveDetailsState {
+  ServiceExecutiveDetailsSuccess(String message)
+      : super(
+          getServicecount: null,
+          getServiceentries: null,
+          message: message,
+        );
+}
 
-  ServiceDetailsError({required this.message});
+class ServiceExecutiveDetailsError extends ServiceExecutiveDetailsState {
+  ServiceExecutiveDetailsError(String message)
+      : super(
+          getServicecount: null,
+          getServiceentries: null,
+          message: message,
+        );
+}
 
-  @override
-  List<Object?> get props => [message];
+class ServiceExecutiveDetailsLoading extends ServiceExecutiveDetailsState {
+  ServiceExecutiveDetailsLoading()
+      : super(
+          getServicecount: null,
+          getServiceentries: null,
+          message: 'Loading...',
+        );
 }

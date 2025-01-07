@@ -4,6 +4,7 @@ import 'package:savitri_automobiles_admin/modules/model/addserviceentrymodel.dar
 import 'package:savitri_automobiles_admin/modules/model/getoilmodel.dart';
 import 'package:savitri_automobiles_admin/modules/model/getserviceentrydetailmodel.dart';
 import 'package:savitri_automobiles_admin/modules/model/getserviceentrymodel.dart';
+import 'package:savitri_automobiles_admin/modules/model/getservicegraphmodel.dart';
 import 'package:savitri_automobiles_admin/modules/model/getsparepartsmodel.dart';
 import 'package:savitri_automobiles_admin/modules/model/gettractormodel.dart';
 import 'package:savitri_automobiles_admin/modules/model/servicecountmodel.dart';
@@ -50,5 +51,15 @@ class ServiceRepository {
     dynamic response =
         await _apiServices.getApi("${AppUrl.servicecount}?addedBy=$data");
     return ServiceCountModel.fromJson(response);
+  }
+
+  Future<ServiceCountModel> getServiceCountallApi() async {
+    dynamic response = await _apiServices.getApi(AppUrl.servicecount);
+    return ServiceCountModel.fromJson(response);
+  }
+
+  Future<GetServiceGraphModel> getServiceGraphApi() async {
+    dynamic response = await _apiServices.getApi(AppUrl.servicegraph);
+    return GetServiceGraphModel.fromJson(response);
   }
 }

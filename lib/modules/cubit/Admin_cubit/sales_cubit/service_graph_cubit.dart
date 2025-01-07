@@ -4,27 +4,59 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:savitri_automobiles_admin/Constants/utils.dart';
 import 'package:savitri_automobiles_admin/common/commonmethods.dart';
 import 'package:savitri_automobiles_admin/data/response/status.dart';
-import 'package:savitri_automobiles_admin/modules/cubit/Admin_cubit/executive_cubit/service_executive/service_executive_details_state.dart';
-import 'package:savitri_automobiles_admin/modules/model/getserviceentrymodel.dart';
+import 'package:savitri_automobiles_admin/modules/cubit/Admin_cubit/sales_cubit/service_graph_state.dart';
+import 'package:savitri_automobiles_admin/modules/model/getservicegraphmodel.dart';
 import 'package:savitri_automobiles_admin/modules/model/servicecountmodel.dart';
 import 'package:savitri_automobiles_admin/modules/repository/Service_repository.dart';
 import 'package:savitri_automobiles_admin/resources/strings.dart';
 
-class ServiceExecutiveDetailsCubit extends Cubit<ServiceExecutiveDetailsState> {
+class ServiceGraphCubit extends Cubit<ServiceGraphState> {
   final ServiceRepository servicerepository = ServiceRepository();
-  ServiceExecutiveDetailsCubit(String? id)
-      : super(ServiceExecutiveDetailsLoading()) {
-    getServiceCountApi(id);
-    getServiceEntries(id);
+  ServiceGraphCubit() : super(ServiceGraphLoading()) {
+    getServiceCountApi();
+    getServiceGraphApi();
   }
 
-  String getdate(String datetime, bool date) {
-    String dateTime = datetime;
-    List<String> dT = dateTime.split('T');
-    if (date) {
-      return dT[0];
+  List<Map<String, dynamic>> processChartData(List<Datagraph> rawData) {
+    const monthNames = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sept',
+      'Oct',
+      'Nov',
+      'Dec',
+    ];
+
+    return rawData.map((item) {
+      return {
+        'month':
+            monthNames[(item.month ?? 1) - 1], // Convert month number to name
+        'sparePartsCount': item.sparePartsCount ?? 0,
+        'oilsCount': item.oilsCount ?? 0,
+      };
+    }).toList();
+  }
+
+  void updateChartData(data) {
+    if (data != null) {
+      final processedData = processChartData(data ?? []);
+
+      emit(state.copyWith(
+          sparePartData: processedData
+              .map((item) =>
+                  {'month': item['month'], 'sales': item['sparePartsCount']})
+              .toList(),
+          oilData: processedData
+              .map((item) =>
+                  {'month': item['month'], 'sales': item['oilsCount']})
+              .toList()));
     }
-    return dT[1];
   }
 
   void setError(String value) => error = value;
@@ -35,7 +67,7 @@ class ServiceExecutiveDetailsCubit extends Cubit<ServiceExecutiveDetailsState> {
 
   void setRxRequestStatus(Status value) => rxRequestStatus = value;
 
-  Future<void> getServiceCountApi(var id) async {
+  Future<void> getServiceCountApi() async {
     bool connection = await CommonMethods.checkInternetConnectivity();
     Utils.printLog("CheckInternetConnection===> ${connection.toString()}");
 
@@ -43,8 +75,8 @@ class ServiceExecutiveDetailsCubit extends Cubit<ServiceExecutiveDetailsState> {
       setRxRequestStatus(Status.LOADING);
       try {
         ServiceCountModel response =
-            await servicerepository.getServiceCountApi(id);
-        emit(state.copyWith(getServicecount: response));
+            await servicerepository.getServiceCountallApi();
+        emit(state.copyWith(getservicecount: response));
 
         setRxRequestStatus(Status.COMPLETED);
         Utils.printLog("Response===> ${response.toString()}");
@@ -55,43 +87,35 @@ class ServiceExecutiveDetailsCubit extends Cubit<ServiceExecutiveDetailsState> {
         if (error.toString().contains("{")) {
           var errorResponse = json.decode(error.toString());
           if (errorResponse is Map && errorResponse.containsKey('message')) {
-            emit(ServiceExecutiveDetailsError(errorResponse['message']));
+            emit(ServiceGraphError(errorResponse['message']));
             return;
           } else {
-            emit(ServiceExecutiveDetailsError("An unexpected error occurred."));
+            emit(ServiceGraphError("An unexpected error occurred."));
             return;
           }
         } else {
           Utils.printLog("Error===> ${error.toString()}");
-          emit(ServiceExecutiveDetailsError(
-              "${error.toString()} Login failed..."));
+          emit(ServiceGraphError("${error.toString()} Login failed..."));
           return;
         }
       }
     } else {
-      emit(ServiceExecutiveDetailsError(appStrings.weUnableCheckData));
+      emit(ServiceGraphError(appStrings.weUnableCheckData));
       return;
     }
   }
 
-  Future<void> getServiceEntries(var id) async {
-    emit(ServiceExecutiveDetailsLoading());
+  Future<void> getServiceGraphApi() async {
     bool connection = await CommonMethods.checkInternetConnectivity();
     Utils.printLog("CheckInternetConnection===> ${connection.toString()}");
 
     if (connection) {
       setRxRequestStatus(Status.LOADING);
-
-      Map<String, dynamic> requestData = {
-        "page": 1,
-        "pageSize": 20,
-        "service": id
-      };
-
       try {
-        GetServiceEntryModel response =
-            await servicerepository.getServiceEntries(requestData);
-        emit(state.copyWith(getServiceentries: response));
+        GetServiceGraphModel response =
+            await servicerepository.getServiceGraphApi();
+        emit(state.copyWith(getServiceGraph: response));
+        updateChartData(response.data);
 
         setRxRequestStatus(Status.COMPLETED);
         Utils.printLog("Response===> ${response.toString()}");
@@ -102,18 +126,20 @@ class ServiceExecutiveDetailsCubit extends Cubit<ServiceExecutiveDetailsState> {
         if (error.toString().contains("{")) {
           var errorResponse = json.decode(error.toString());
           if (errorResponse is Map && errorResponse.containsKey('message')) {
-            emit(ServiceExecutiveDetailsError(errorResponse['message']));
+            emit(ServiceGraphError(errorResponse['message']));
             return;
           } else {
-            emit(ServiceExecutiveDetailsError("An unexpected error occurred."));
+            emit(ServiceGraphError("An unexpected error occurred."));
             return;
           }
         } else {
           Utils.printLog("Error===> ${error.toString()}");
+          emit(ServiceGraphError("${error.toString()} Login failed..."));
+          return;
         }
       }
     } else {
-      emit(ServiceExecutiveDetailsError(appStrings.weUnableCheckData));
+      emit(ServiceGraphError(appStrings.weUnableCheckData));
       return;
     }
   }

@@ -1,27 +1,29 @@
 import 'package:savitri_automobiles_admin/modules/model/getsalesentrymodel.dart';
 import 'package:savitri_automobiles_admin/modules/model/getserviceentrymodel.dart';
+import 'package:savitri_automobiles_admin/modules/model/salescounttractorimplementmodel.dart';
 
 class HomeState {
-  final List<Map<String, dynamic>>? salesperson;
   final GetSalesEntryModel? getSalesEntries;
+  final SalesCountTractorImplementModel? getSalesCount;
+
   final GetServiceEntryModel? getServiceEntries;
   final String? message;
   HomeState({
-    this.salesperson,
     this.getSalesEntries,
+    this.getSalesCount,
     this.getServiceEntries,
     this.message = "",
   });
   HomeState copyWith({
-    List<Map<String, dynamic>>? salesperson,
     GetSalesEntryModel? getSalesEntries,
     GetServiceEntryModel? getServiceEntries,
+    SalesCountTractorImplementModel? getSalesCount,
     String? message,
   }) {
     return HomeState(
-      salesperson: salesperson ?? this.salesperson,
       getSalesEntries: getSalesEntries ?? this.getSalesEntries,
       getServiceEntries: getServiceEntries ?? this.getServiceEntries,
+      getSalesCount: getSalesCount ?? this.getSalesCount,
       message: message ?? this.message,
     );
   }
@@ -30,7 +32,7 @@ class HomeState {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
     return other is HomeState &&
-        other.salesperson == salesperson &&
+        other.getSalesCount == getSalesCount &&
         other.getSalesEntries == getSalesEntries &&
         other.getServiceEntries == getServiceEntries &&
         other.message == message;
@@ -38,9 +40,9 @@ class HomeState {
 
   @override
   int get hashCode {
-    return salesperson.hashCode ^
-        message.hashCode ^
+    return message.hashCode ^
         getSalesEntries.hashCode ^
+        getSalesCount.hashCode ^
         getServiceEntries.hashCode;
   }
 }
@@ -50,6 +52,7 @@ class HomeSuccess extends HomeState {
       : super(
           getSalesEntries: null,
           getServiceEntries: null,
+          getSalesCount: null,
           message: message,
         );
 }
@@ -59,6 +62,7 @@ class HomeLogout extends HomeState {
       : super(
           getSalesEntries: null,
           getServiceEntries: null,
+          getSalesCount: null,
           message: message,
         );
 }
@@ -68,6 +72,7 @@ class HomeError extends HomeState {
       : super(
           getSalesEntries: null,
           getServiceEntries: null,
+          getSalesCount: null,
           message: message,
         );
 }
@@ -77,6 +82,7 @@ class HomeLoading extends HomeState {
       : super(
           getSalesEntries: null,
           getServiceEntries: null,
+          getSalesCount: null,
           message: 'Loading...',
         );
 }

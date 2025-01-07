@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:savitri_automobiles_admin/modules/cubit/Admin_cubit/home_cubit/home_cubit.dart';
 import 'package:savitri_automobiles_admin/modules/cubit/Admin_cubit/home_cubit/home_state.dart';
 import 'package:savitri_automobiles_admin/modules/screens/common_screen.dart';
+import 'package:savitri_automobiles_admin/resources/formatter.dart';
 import 'package:savitri_automobiles_admin/resources/images.dart';
 import 'package:savitri_automobiles_admin/routes/routes.dart';
 
@@ -207,7 +208,7 @@ class HomePageView extends StatelessWidget {
                                       ),
                                       const SizedBox(width: 8),
                                       const Text(
-                                        "Tractor Sales",
+                                        "Last Sales",
                                         style: TextStyle(
                                           fontSize: 13,
                                           fontWeight: FontWeight.w600,
@@ -217,11 +218,16 @@ class HomePageView extends StatelessWidget {
                                     ],
                                   ),
                                   const SizedBox(height: 16),
-                                  const Padding(
-                                    padding: EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
                                     child: Text(
-                                      "₹ 15 Lakh",
-                                      style: TextStyle(
+                                      PriceWordFormatter.formatwordPrice(
+                                          double.parse((state.getSalesEntries
+                                                  ?.data?.docs?[0].totalAmount
+                                                  .toString() ??
+                                              "0"))),
+                                      style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 18,
                                         color: Colors.black,
@@ -349,7 +355,7 @@ class HomePageView extends StatelessWidget {
                                     padding:
                                         const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
                                     child: Text(
-                                      "${state.getSalesEntries?.data?.docs?.length}",
+                                      "${state.getSalesCount?.data?.salesCount ?? 0}",
                                       style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 18,
@@ -398,7 +404,7 @@ class HomePageView extends StatelessWidget {
                                       ),
                                       const SizedBox(width: 8),
                                       const Text(
-                                        "Services Sales",
+                                        "Last Service",
                                         style: TextStyle(
                                           fontSize: 13,
                                           fontWeight: FontWeight.w600,
@@ -408,11 +414,16 @@ class HomePageView extends StatelessWidget {
                                     ],
                                   ),
                                   const SizedBox(height: 16),
-                                  const Padding(
-                                    padding: EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
                                     child: Text(
-                                      "₹ 78 K",
-                                      style: TextStyle(
+                                      PriceWordFormatter.formatwordPrice(
+                                          double.parse((state.getServiceEntries
+                                                  ?.data?.docs?[0].totalCost
+                                                  .toString() ??
+                                              "0"))),
+                                      style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 18,
                                         color: Colors.black,
@@ -426,351 +437,296 @@ class HomePageView extends StatelessWidget {
                         ],
                       ),
                       const SizedBox(height: 20),
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //   children: [
-                      //     const Text(
-                      //       "Recent Sales Entries",
-                      //       style: TextStyle(
-                      //         fontSize: 18,
-                      //         fontWeight: FontWeight.bold,
-                      //       ),
-                      //     ),
-                      //     TextButton(
-                      //       onPressed: () {
-                      //         Navigator.pushNamed(context, Routes.registration);
-                      //       },
-                      //       child: const Text("See all"),
-                      //     ),
-                      //   ],
-                      // ),
-                      // const SizedBox(height: 10),
-                      // ListView.builder(
-                      //   shrinkWrap: true,
-                      //   physics: const NeverScrollableScrollPhysics(),
-                      //   itemCount:
-                      //       (state.getSalesEntries?.data?.docs?.length ?? 0) > 5
-                      //           ? 5
-                      //           : state.getSalesEntries?.data?.docs?.length,
-                      //   itemBuilder: (context, index) {
-                      //     final entries =
-                      //         state.getSalesEntries?.data?.docs?[index];
-                      //     return InkWell(
-                      //       onTap: () {
-                      //         Navigator.pushNamed(
-                      //           context,
-                      //           Routes.salespreview,
-                      //           arguments: entries?.sId ?? "",
-                      //         );
-                      //       },
-                      //       child: Card(
-                      //         color: Colors.white,
-                      //         shape: RoundedRectangleBorder(
-                      //           borderRadius: BorderRadius.circular(10),
-                      //         ),
-                      //         margin: const EdgeInsets.symmetric(
-                      //             vertical: 10.0, horizontal: 2),
-                      //         child: Row(
-                      //           crossAxisAlignment: CrossAxisAlignment.start,
-                      //           children: [
-                      //             ClipRRect(
-                      //               borderRadius: BorderRadius.circular(8.0),
-                      //               child: Image.asset(
-                      //                 AppImages.swaraj735XT,
-                      //                 width: 80,
-                      //                 height: 80,
-                      //                 fit: BoxFit.contain,
-                      //                 errorBuilder:
-                      //                     (context, error, stackTrace) {
-                      //                   return const SizedBox(
-                      //                     width: 80,
-                      //                     height: 80,
-                      //                     child: Center(
-                      //                       child: Text(
-                      //                         "No Image",
-                      //                         style: TextStyle(fontSize: 11),
-                      //                         textAlign: TextAlign.center,
-                      //                       ),
-                      //                     ),
-                      //                   );
-                      //                 },
-                      //               ),
-                      //             ),
-                      //             const SizedBox(width: 10),
-                      //             Expanded(
-                      //               child: Padding(
-                      //                 padding: const EdgeInsets.all(10.0),
-                      //                 child: Column(
-                      //                   crossAxisAlignment:
-                      //                       CrossAxisAlignment.start,
-                      //                   children: [
-                      //                     SizedBox(
-                      //                       width: MediaQuery.of(context)
-                      //                               .size
-                      //                               .width *
-                      //                           0.4,
-                      //                       child: Text(
-                      //                         entries?.tractor?.modelName ??
-                      //                             "Not Available",
-                      //                         style: const TextStyle(
-                      //                           fontWeight: FontWeight.bold,
-                      //                           fontSize: 14,
-                      //                         ),
-                      //                       ),
-                      //                     ),
-                      //                     const SizedBox(height: 5),
-                      //                     Text(
-                      //                       "₹${PriceFormatter.formatPrice(entries?.totalAmount ?? 0)} ",
-                      //                       style: const TextStyle(
-                      //                         fontSize: 14,
-                      //                         color: Colors.green,
-                      //                         fontWeight: FontWeight.bold,
-                      //                       ),
-                      //                     ),
-                      //                     const SizedBox(height: 5),
-                      //                     Text(
-                      //                       "Salesman : ${entries?.customerName ?? "Not Available"}",
-                      //                       style: const TextStyle(
-                      //                         fontSize: 12,
-                      //                         fontWeight: FontWeight.bold,
-                      //                       ),
-                      //                     ),
-                      //                     const SizedBox(height: 5),
-                      //                     Text(
-                      //                       cubit.getdate(
-                      //                           entries?.createdAt ?? "", true),
-                      //                       style: const TextStyle(
-                      //                           fontSize: 11,
-                      //                           fontWeight: FontWeight.bold,
-                      //                           color: Color.fromARGB(
-                      //                               255, 138, 137, 137)),
-                      //                     ),
-                      //                   ],
-                      //                 ),
-                      //               ),
-                      //             ),
-                      //             const Padding(
-                      //               padding: EdgeInsets.only(right: 15),
-                      //               child: Center(
-                      //                 heightFactor: 5.5,
-                      //                 child: Text(
-                      //                   "View Details",
-                      //                   style: TextStyle(
-                      //                       fontSize: 12,
-                      //                       color: Color.fromARGB(
-                      //                           255, 119, 33, 135),
-                      //                       fontWeight: FontWeight.bold),
-                      //                 ),
-                      //               ),
-                      //             ),
-                      //           ],
-                      //         ),
-                      //       ),
-                      //     );
-                      //   },
-                      // ),
-                      // const SizedBox(height: 10),
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //   children: [
-                      //     const Text(
-                      //       "Recent Service Entries",
-                      //       style: TextStyle(
-                      //         fontSize: 18,
-                      //         fontWeight: FontWeight.bold,
-                      //       ),
-                      //     ),
-                      //     TextButton(
-                      //       onPressed: () {
-                      //         Navigator.pushNamed(context, Routes.registration,
-                      //             arguments: 1);
-                      //       },
-                      //       child: const Text("See all"),
-                      //     ),
-                      //   ],
-                      // ),
-                      // ListView.builder(
-                      //   shrinkWrap: true,
-                      //   physics: const NeverScrollableScrollPhysics(),
-                      //   itemCount:
-                      //       (state.getServiceEntries?.data?.docs?.length ?? 0) >
-                      //               5
-                      //           ? 5
-                      //           : state.getServiceEntries?.data?.docs?.length,
-                      //   itemBuilder: (context, index) {
-                      //     final entries =
-                      //         state.getServiceEntries?.data?.docs?[index];
-                      //     return InkWell(
-                      //       onTap: () {
-                      //         Navigator.pushNamed(
-                      //           context,
-                      //           Routes.servicereview,
-                      //           arguments: entries?.sId ?? "",
-                      //         );
-                      //       },
-                      //       child: Card(
-                      //         color: Colors.white,
-                      //         shape: RoundedRectangleBorder(
-                      //           borderRadius: BorderRadius.circular(10),
-                      //         ),
-                      //         margin: const EdgeInsets.symmetric(
-                      //             vertical: 10.0, horizontal: 2),
-                      //         child: Row(
-                      //           crossAxisAlignment: CrossAxisAlignment.start,
-                      //           children: [
-                      //             ClipRRect(
-                      //               borderRadius: BorderRadius.circular(8.0),
-                      //               child: Image.asset(
-                      //                 AppImages.swaraj735XT,
-                      //                 width: 80,
-                      //                 height: 80,
-                      //                 fit: BoxFit.contain,
-                      //                 errorBuilder:
-                      //                     (context, error, stackTrace) {
-                      //                   return const SizedBox(
-                      //                     width: 80,
-                      //                     height: 80,
-                      //                     child: Center(
-                      //                       child: Text(
-                      //                         "No Image",
-                      //                         style: TextStyle(fontSize: 11),
-                      //                         textAlign: TextAlign.center,
-                      //                       ),
-                      //                     ),
-                      //                   );
-                      //                 },
-                      //               ),
-                      //             ),
-                      //             const SizedBox(width: 10),
-                      //             Expanded(
-                      //               child: Padding(
-                      //                 padding: const EdgeInsets.all(10.0),
-                      //                 child: Column(
-                      //                   crossAxisAlignment:
-                      //                       CrossAxisAlignment.start,
-                      //                   children: [
-                      //                     SizedBox(
-                      //                       width: MediaQuery.of(context)
-                      //                               .size
-                      //                               .width *
-                      //                           0.4,
-                      //                       child: Text(
-                      //                         entries?.tractor?.modelName ??
-                      //                             "Not Available",
-                      //                         style: const TextStyle(
-                      //                           fontWeight: FontWeight.bold,
-                      //                           fontSize: 14,
-                      //                         ),
-                      //                       ),
-                      //                     ),
-                      //                     const SizedBox(height: 5),
-                      //                     Text(
-                      //                       "₹${PriceFormatter.formatPrice(entries?.totalCost ?? 0)} ",
-                      //                       style: const TextStyle(
-                      //                         fontSize: 14,
-                      //                         color: Colors.green,
-                      //                         fontWeight: FontWeight.bold,
-                      //                       ),
-                      //                     ),
-                      //                     const SizedBox(height: 5),
-                      //                     Text(
-                      //                       "Serviceman : ${entries?.customerName ?? "Not Available"}",
-                      //                       style: const TextStyle(
-                      //                         fontSize: 12,
-                      //                         fontWeight: FontWeight.bold,
-                      //                       ),
-                      //                     ),
-                      //                     const SizedBox(height: 5),
-                      //                     Text(
-                      //                       cubit.getdate(
-                      //                           entries?.createdAt ?? "", true),
-                      //                       style: const TextStyle(
-                      //                           fontSize: 11,
-                      //                           fontWeight: FontWeight.bold,
-                      //                           color: Color.fromARGB(
-                      //                               255, 138, 137, 137)),
-                      //                     ),
-                      //                   ],
-                      //                 ),
-                      //               ),
-                      //             ),
-                      //             const Padding(
-                      //               padding: EdgeInsets.only(right: 15),
-                      //               child: Center(
-                      //                 heightFactor: 5.5,
-                      //                 child: Text(
-                      //                   "View Details",
-                      //                   style: TextStyle(
-                      //                       fontSize: 12,
-                      //                       color: Color.fromARGB(
-                      //                           255, 119, 33, 135),
-                      //                       fontWeight: FontWeight.bold),
-                      //                 ),
-                      //               ),
-                      //             ),
-                      //           ],
-                      //         ),
-                      //       ),
-                      //     );
-                      //   },
-                      // ),
-                      // const SizedBox(height: 20),
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //   children: [
-                      //     const Text(
-                      //       "Sales Executive",
-                      //       style: TextStyle(
-                      //         fontSize: 18,
-                      //         fontWeight: FontWeight.bold,
-                      //       ),
-                      //     ),
-                      //     TextButton(
-                      //       onPressed: () {
-                      //         Navigator.pushNamed(context, Routes.executive);
-                      //       },
-                      //       child: const Text("See all"),
-                      //     ),
-                      //   ],
-                      // ),
-                      // const SizedBox(height: 10),
-                      // Container(
-                      //   padding: const EdgeInsets.symmetric(horizontal: 8),
-                      //   child: ListView.separated(
-                      //       shrinkWrap: true,
-                      //       physics: const NeverScrollableScrollPhysics(),
-                      //       itemCount: state.salesperson?.length ?? 0,
-                      //       separatorBuilder: (context, index) =>
-                      //           const Divider(),
-                      //       itemBuilder: (context, index) {
-                      //         final product = state.salesperson![index];
-                      //         return InkWell(
-                      //           child: ListTile(
-                      //             onTap: () => Navigator.pushNamed(
-                      //                 context, Routes.executivedetails),
-                      //             leading: CircleAvatar(
-                      //               backgroundImage:
-                      //                   AssetImage("${product['profile']}"),
-                      //             ),
-                      //             title: Text(
-                      //               "${product['name']}",
-                      //               style: const TextStyle(
-                      //                 fontWeight: FontWeight.bold,
-                      //                 fontSize: 16,
-                      //               ),
-                      //             ),
-                      //             subtitle: Text(
-                      //               "Salesman-id ${product['id']}",
-                      //               style: const TextStyle(
-                      //                 color: Colors.grey,
-                      //                 fontSize: 14,
-                      //               ),
-                      //             ),
-                      //             trailing: const Icon(Icons.arrow_forward_ios),
-                      //           ),
-                      //         );
-                      //       }),
-                      // ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            "Recent Sales Entries",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pushNamed(context, Routes.registration);
+                            },
+                            child: const Text("See all"),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount:
+                            (state.getSalesEntries?.data?.docs?.length ?? 0) > 5
+                                ? 5
+                                : state.getSalesEntries?.data?.docs?.length ??
+                                    0,
+                        itemBuilder: (context, index) {
+                          final entries =
+                              state.getSalesEntries?.data?.docs?[index];
+                          return InkWell(
+                            onTap: () {
+                              Navigator.pushNamed(
+                                context,
+                                Routes.salespreview,
+                                arguments: entries?.sId ?? "",
+                              );
+                            },
+                            child: Card(
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              margin: const EdgeInsets.symmetric(
+                                  vertical: 10.0, horizontal: 2),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    child: Image.asset(
+                                      AppImages.swaraj735XT,
+                                      width: 80,
+                                      height: 80,
+                                      fit: BoxFit.contain,
+                                      errorBuilder:
+                                          (context, error, stackTrace) {
+                                        return const SizedBox(
+                                          width: 80,
+                                          height: 80,
+                                          child: Center(
+                                            child: Text(
+                                              "No Image",
+                                              style: TextStyle(fontSize: 11),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.4,
+                                            child: Text(
+                                              entries?.tractor?.modelName ??
+                                                  "Not Available",
+                                              style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(height: 5),
+                                          Text(
+                                            "₹${PriceFormatter.formatPrice(entries?.totalAmount ?? 0)} ",
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                              color: Colors.green,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          const SizedBox(height: 5),
+                                          Text(
+                                            "Salesman : ${entries?.customerName ?? "Not Available"}",
+                                            style: const TextStyle(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          const SizedBox(height: 5),
+                                          Text(
+                                            cubit.getdate(
+                                                entries?.createdAt ?? "", true),
+                                            style: const TextStyle(
+                                                fontSize: 11,
+                                                fontWeight: FontWeight.bold,
+                                                color: Color.fromARGB(
+                                                    255, 138, 137, 137)),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  const Padding(
+                                    padding: EdgeInsets.only(right: 15),
+                                    child: Center(
+                                      heightFactor: 5.5,
+                                      child: Text(
+                                        "View Details",
+                                        style: TextStyle(
+                                            fontSize: 12,
+                                            color: Color.fromARGB(
+                                                255, 119, 33, 135),
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                      const SizedBox(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            "Recent Service Entries",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pushNamed(context, Routes.registration,
+                                  arguments: 1);
+                            },
+                            child: const Text("See all"),
+                          ),
+                        ],
+                      ),
+                      ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount:
+                            (state.getServiceEntries?.data?.docs?.length ?? 0) >
+                                    5
+                                ? 5
+                                : state.getServiceEntries?.data?.docs?.length ??
+                                    0,
+                        itemBuilder: (context, index) {
+                          final entries =
+                              state.getServiceEntries?.data?.docs?[index];
+                          return InkWell(
+                            onTap: () {
+                              Navigator.pushNamed(
+                                context,
+                                Routes.servicereview,
+                                arguments: entries?.sId ?? "",
+                              );
+                            },
+                            child: Card(
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              margin: const EdgeInsets.symmetric(
+                                  vertical: 10.0, horizontal: 2),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    child: Image.asset(
+                                      AppImages.swaraj735XT,
+                                      width: 80,
+                                      height: 80,
+                                      fit: BoxFit.contain,
+                                      errorBuilder:
+                                          (context, error, stackTrace) {
+                                        return const SizedBox(
+                                          width: 80,
+                                          height: 80,
+                                          child: Center(
+                                            child: Text(
+                                              "No Image",
+                                              style: TextStyle(fontSize: 11),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.4,
+                                            child: Text(
+                                              entries?.tractor?.modelName ??
+                                                  "Not Available",
+                                              style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(height: 5),
+                                          Text(
+                                            "₹${PriceFormatter.formatPrice(entries?.totalCost ?? 0)} ",
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                              color: Colors.green,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          const SizedBox(height: 5),
+                                          Text(
+                                            "Serviceman : ${entries?.customerName ?? "Not Available"}",
+                                            style: const TextStyle(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          const SizedBox(height: 5),
+                                          Text(
+                                            cubit.getdate(
+                                                entries?.createdAt ?? "", true),
+                                            style: const TextStyle(
+                                                fontSize: 11,
+                                                fontWeight: FontWeight.bold,
+                                                color: Color.fromARGB(
+                                                    255, 138, 137, 137)),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  const Padding(
+                                    padding: EdgeInsets.only(right: 15),
+                                    child: Center(
+                                      heightFactor: 5.5,
+                                      child: Text(
+                                        "View Details",
+                                        style: TextStyle(
+                                            fontSize: 12,
+                                            color: Color.fromARGB(
+                                                255, 119, 33, 135),
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      ),
                     ],
                   ),
                 ),

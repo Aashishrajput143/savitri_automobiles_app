@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:savitri_automobiles_admin/modules/cubit/Admin_cubit/sales_cubit/service_sales_cubit.dart';
+import 'package:savitri_automobiles_admin/modules/cubit/Admin_cubit/sales_cubit/service_graph_cubit.dart';
+import 'package:savitri_automobiles_admin/modules/cubit/Admin_cubit/sales_cubit/service_graph_state.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class ServiceSalesScreen extends StatelessWidget {
@@ -9,7 +10,7 @@ class ServiceSalesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => ServiceSalesCubit()..loadChartData(),
+      create: (_) => ServiceGraphCubit(),
       child: const ServiceSalesPageView(),
     );
   }
@@ -20,8 +21,13 @@ class ServiceSalesPageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ServiceSalesCubit, ServiceSalesState>(
+    return BlocBuilder<ServiceGraphCubit, ServiceGraphState>(
       builder: (context, state) {
+        if (state is ServiceGraphLoading) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
         return SingleChildScrollView(
           child: Container(
             height: MediaQuery.of(context).size.height * 0.8,
@@ -81,11 +87,11 @@ class ServiceSalesPageView extends StatelessWidget {
                             ],
                           ),
                           const SizedBox(height: 16),
-                          const Padding(
-                            padding: EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
                             child: Text(
-                              "25",
-                              style: TextStyle(
+                              "${state.getservicecount?.data?.sparePartsCount ?? 0}",
+                              style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 18,
                                 color: Colors.black,
@@ -133,11 +139,11 @@ class ServiceSalesPageView extends StatelessWidget {
                             ],
                           ),
                           const SizedBox(height: 16),
-                          const Padding(
-                            padding: EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
                             child: Text(
-                              "5",
-                              style: TextStyle(
+                              "${state.getservicecount?.data?.oilCount ?? 0}",
+                              style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 18,
                                 color: Colors.black,
@@ -179,6 +185,8 @@ class ServiceSalesPageView extends StatelessWidget {
                             data['month'] as String,
                         yValueMapper: (Map<String, dynamic> data, _) =>
                             data['sales'] as num,
+                        dataLabelMapper: (Map<String, dynamic> data, _) =>
+                            data['sales'] > 0 ? data['sales'].toString() : null,
                         gradient: const LinearGradient(
                           colors: [
                             Color.fromARGB(255, 37, 153, 255),
@@ -199,6 +207,8 @@ class ServiceSalesPageView extends StatelessWidget {
                             data['month'] as String,
                         yValueMapper: (Map<String, dynamic> data, _) =>
                             data['sales'] as num,
+                        dataLabelMapper: (Map<String, dynamic> data, _) =>
+                            data['sales'] > 0 ? data['sales'].toString() : null,
                         gradient: const LinearGradient(
                           colors: [
                             Color.fromARGB(255, 255, 102, 102),

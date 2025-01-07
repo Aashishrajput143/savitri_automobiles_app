@@ -158,127 +158,116 @@ class CollectionHomeScreen extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            InkWell(
-                              onTap: () {
-                                Navigator.pushNamed(
-                                    context, Routes.salesscreen);
-                              },
-                              child: Container(
-                                width: 170,
-                                padding: const EdgeInsets.all(16),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(12),
-                                  border: Border.all(
-                                      color: Colors.grey.withOpacity(0.3)),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black.withOpacity(0.2),
-                                      blurRadius: 3,
-                                      offset: const Offset(0, 3),
-                                    ),
-                                  ],
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        CircleAvatar(
-                                          radius: 12,
-                                          backgroundColor:
-                                              Colors.green.withOpacity(0.2),
-                                          child: const Icon(Icons.paid_outlined,
-                                              color: Colors.green, size: 16),
-                                        ),
-                                        const SizedBox(width: 8),
-                                        const Text(
-                                          "Paid Entries",
-                                          style: TextStyle(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w600,
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(height: 16),
-                                    Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          5.0, 0, 0, 0),
-                                      child: Text(
-                                        "${state.salescount?.data?[0].count}",
-                                        style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 18,
+                            Container(
+                              width: 170,
+                              padding: const EdgeInsets.all(16),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(
+                                    color: Colors.grey.withOpacity(0.3)),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.2),
+                                    blurRadius: 3,
+                                    offset: const Offset(0, 3),
+                                  ),
+                                ],
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      CircleAvatar(
+                                        radius: 12,
+                                        backgroundColor:
+                                            Colors.green.withOpacity(0.2),
+                                        child: const Icon(Icons.paid_outlined,
+                                            color: Colors.green, size: 16),
+                                      ),
+                                      const SizedBox(width: 8),
+                                      const Text(
+                                        "Paid Entries",
+                                        style: TextStyle(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w600,
                                           color: Colors.black,
                                         ),
                                       ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 16),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                                    child: Text(
+                                      "${state.salescount?.data?[0].count}",
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18,
+                                        color: Colors.black,
+                                      ),
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             ),
-                            InkWell(
-                              onTap: () {
-                                Navigator.pushNamed(context, Routes.executive);
-                              },
-                              child: Container(
-                                width: 170,
-                                padding: const EdgeInsets.all(16),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(12),
-                                  border: Border.all(
-                                      color: Colors.grey.withOpacity(0.3)),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black.withOpacity(0.2),
-                                      blurRadius: 3,
-                                      offset: const Offset(0, 3),
-                                    ),
-                                  ],
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        CircleAvatar(
-                                          radius: 12,
-                                          backgroundColor:
-                                              Colors.red.withOpacity(0.2),
-                                          child: const Icon(
-                                              Icons.pending_outlined,
-                                              color: Colors.red,
-                                              size: 16),
-                                        ),
-                                        const SizedBox(width: 8),
-                                        const Text(
-                                          "Due Entries",
-                                          style: TextStyle(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w600,
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(height: 16),
-                                    Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          5.0, 0, 0, 0),
-                                      child: Text(
-                                        "${state.salescount?.data?[1].count}",
-                                        style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 18,
+                            Container(
+                              width: 170,
+                              padding: const EdgeInsets.all(16),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(
+                                    color: Colors.grey.withOpacity(0.3)),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.2),
+                                    blurRadius: 3,
+                                    offset: const Offset(0, 3),
+                                  ),
+                                ],
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      CircleAvatar(
+                                        radius: 12,
+                                        backgroundColor:
+                                            Colors.red.withOpacity(0.2),
+                                        child: const Icon(
+                                            Icons.pending_outlined,
+                                            color: Colors.red,
+                                            size: 16),
+                                      ),
+                                      const SizedBox(width: 8),
+                                      const Text(
+                                        "Due Entries",
+                                        style: TextStyle(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w600,
                                           color: Colors.black,
                                         ),
                                       ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 16),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                                    child: Text(
+                                      "${state.salescount?.data?[1].count}",
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18,
+                                        color: Colors.black,
+                                      ),
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             ),
                           ],
@@ -314,7 +303,7 @@ class CollectionHomeScreen extends StatelessWidget {
                       itemCount:
                           (state.getSalesEntries?.data?.docs?.length ?? 0) > 5
                               ? 5
-                              : state.getSalesEntries?.data?.docs?.length,
+                              : state.getSalesEntries?.data?.docs?.length ?? 0,
                       itemBuilder: (context, index) {
                         final entries =
                             state.getSalesEntries?.data?.docs?[index];

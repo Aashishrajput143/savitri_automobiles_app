@@ -4,27 +4,59 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:savitri_automobiles_admin/Constants/utils.dart';
 import 'package:savitri_automobiles_admin/common/commonmethods.dart';
 import 'package:savitri_automobiles_admin/data/response/status.dart';
-import 'package:savitri_automobiles_admin/modules/cubit/Admin_cubit/executive_cubit/sales_executive/sales_executive_details_state.dart';
-import 'package:savitri_automobiles_admin/modules/model/getsalesentrymodel.dart';
+import 'package:savitri_automobiles_admin/modules/cubit/Admin_cubit/sales_cubit/sales_graph_state.dart';
+import 'package:savitri_automobiles_admin/modules/model/getsalesgraph.dart';
 import 'package:savitri_automobiles_admin/modules/model/salescounttractorimplementmodel.dart';
 import 'package:savitri_automobiles_admin/modules/repository/Sales_repository.dart';
 import 'package:savitri_automobiles_admin/resources/strings.dart';
 
-class SalesExecutiveDetailsCubit extends Cubit<SalesExecutiveDetailsState> {
+class SalesGraphCubit extends Cubit<SalesGraphState> {
   final SalesRepository salesrepository = SalesRepository();
-  SalesExecutiveDetailsCubit(String? id)
-      : super(SalesExecutiveDetailsLoading()) {
-    getSalesCountTractorImplementApi(id);
-    getSalesEntries(id);
+  SalesGraphCubit() : super(SalesGraphLoading()) {
+    getSalesCountApi();
+    getSalesGraphApi();
   }
 
-  String getdate(String datetime, bool date) {
-    String dateTime = datetime;
-    List<String> dT = dateTime.split('T');
-    if (date) {
-      return dT[0];
+  List<Map<String, dynamic>> processChartData(List<DataSalesGraph> rawData) {
+    const monthNames = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sept',
+      'Oct',
+      'Nov',
+      'Dec',
+    ];
+
+    return rawData.map((item) {
+      return {
+        'month':
+            monthNames[(item.month ?? 1) - 1], // Convert month number to name
+        'equipmentCount': item.equipmentCount ?? 0,
+        'tractorCount': item.tractorCount ?? 0,
+      };
+    }).toList();
+  }
+
+  void updateChartData(data) {
+    if (data != null) {
+      final processedData = processChartData(data ?? []);
+
+      emit(state.copyWith(
+          tractorData: processedData
+              .map((item) =>
+                  {'month': item['month'], 'sales': item['tractorCount']})
+              .toList(),
+          accessoryData: processedData
+              .map((item) =>
+                  {'month': item['month'], 'sales': item['equipmentCount']})
+              .toList()));
     }
-    return dT[1];
   }
 
   void setError(String value) => error = value;
@@ -35,8 +67,7 @@ class SalesExecutiveDetailsCubit extends Cubit<SalesExecutiveDetailsState> {
 
   void setRxRequestStatus(Status value) => rxRequestStatus = value;
 
-  Future<void> getSalesCountTractorImplementApi(var id) async {
-    SalesExecutiveDetailsLoading();
+  Future<void> getSalesCountApi() async {
     bool connection = await CommonMethods.checkInternetConnectivity();
     Utils.printLog("CheckInternetConnection===> ${connection.toString()}");
 
@@ -44,7 +75,7 @@ class SalesExecutiveDetailsCubit extends Cubit<SalesExecutiveDetailsState> {
       setRxRequestStatus(Status.LOADING);
       try {
         SalesCountTractorImplementModel response =
-            await salesrepository.getSalesCounttractorimplementApi(id);
+            await salesrepository.getSalesCountAllApi();
         emit(state.copyWith(getSalescount: response));
 
         setRxRequestStatus(Status.COMPLETED);
@@ -56,43 +87,34 @@ class SalesExecutiveDetailsCubit extends Cubit<SalesExecutiveDetailsState> {
         if (error.toString().contains("{")) {
           var errorResponse = json.decode(error.toString());
           if (errorResponse is Map && errorResponse.containsKey('message')) {
-            emit(SalesExecutiveDetailsError(errorResponse['message']));
+            emit(SalesGraphError(errorResponse['message']));
             return;
           } else {
-            emit(SalesExecutiveDetailsError("An unexpected error occurred."));
+            emit(SalesGraphError("An unexpected error occurred."));
             return;
           }
         } else {
           Utils.printLog("Error===> ${error.toString()}");
-          emit(SalesExecutiveDetailsError(
-              "${error.toString()} Login failed..."));
+          emit(SalesGraphError("${error.toString()} Login failed..."));
           return;
         }
       }
     } else {
-      emit(SalesExecutiveDetailsError(appStrings.weUnableCheckData));
+      emit(SalesGraphError(appStrings.weUnableCheckData));
       return;
     }
   }
 
-  Future<void> getSalesEntries(var id) async {
-    SalesExecutiveDetailsLoading();
+  Future<void> getSalesGraphApi() async {
     bool connection = await CommonMethods.checkInternetConnectivity();
     Utils.printLog("CheckInternetConnection===> ${connection.toString()}");
 
     if (connection) {
       setRxRequestStatus(Status.LOADING);
-
-      Map<String, dynamic> requestData = {
-        "page": 1,
-        "pageSize": 20,
-        "salesPerson": id
-      };
-
       try {
-        GetSalesEntryModel response =
-            await salesrepository.getSalesEntries(requestData);
-        emit(state.copyWith(getSalesentries: response));
+        SalesGraphModel response = await salesrepository.getSalesGraphApi();
+        emit(state.copyWith(getSalesGraph: response));
+        updateChartData(response.data);
 
         setRxRequestStatus(Status.COMPLETED);
         Utils.printLog("Response===> ${response.toString()}");
@@ -103,18 +125,20 @@ class SalesExecutiveDetailsCubit extends Cubit<SalesExecutiveDetailsState> {
         if (error.toString().contains("{")) {
           var errorResponse = json.decode(error.toString());
           if (errorResponse is Map && errorResponse.containsKey('message')) {
-            emit(SalesExecutiveDetailsError(errorResponse['message']));
+            emit(SalesGraphError(errorResponse['message']));
             return;
           } else {
-            emit(SalesExecutiveDetailsError("An unexpected error occurred."));
+            emit(SalesGraphError("An unexpected error occurred."));
             return;
           }
         } else {
           Utils.printLog("Error===> ${error.toString()}");
+          emit(SalesGraphError("${error.toString()} Login failed..."));
+          return;
         }
       }
     } else {
-      emit(SalesExecutiveDetailsError(appStrings.weUnableCheckData));
+      emit(SalesGraphError(appStrings.weUnableCheckData));
       return;
     }
   }

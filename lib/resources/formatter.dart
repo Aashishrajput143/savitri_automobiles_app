@@ -12,6 +12,21 @@ class PriceFormatter {
   }
 }
 
+class PriceWordFormatter {
+  static String formatwordPrice(double price) {
+    if (price >= 10000000) {
+      double croreValue = price / 10000000;
+      return '₹ $croreValue Crore';
+    } else if (price >= 100000) {
+      double lakhValue = price / 100000;
+      return '₹ $lakhValue Lakh';
+    } else {
+      double thousandValue = price / 1000;
+      return '₹ $thousandValue K';
+    }
+  }
+}
+
 class NoLeadingSpaceFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(
@@ -41,7 +56,7 @@ class NoLeadingZeroFormatter extends TextInputFormatter {
     TextEditingValue newValue,
   ) {
     if (newValue.text.isNotEmpty && newValue.text.startsWith('0')) {
-      return oldValue; // Prevent the first digit from being zero
+      return oldValue;
     }
     return newValue;
   }
@@ -54,9 +69,9 @@ class EmailInputFormatter extends TextInputFormatter {
     final emailRegex = RegExp(r'^[a-zA-Z0-9@._-]*$');
 
     if (emailRegex.hasMatch(newValue.text)) {
-      return newValue; // Allows valid email characters
+      return newValue;
     }
-    return oldValue; // Ignores the invalid character
+    return oldValue;
   }
 }
 
@@ -66,10 +81,8 @@ class RemoveTrailingPeriodsFormatter extends TextInputFormatter {
     TextEditingValue oldValue,
     TextEditingValue newValue,
   ) {
-    // Replace multiple consecutive spaces with a single space
     String newText = newValue.text.replaceAll(RegExp(r'\s+'), ' ');
 
-    // Remove trailing periods after each word
     newText = newText.replaceAllMapped(RegExp(r'(\w+)\.'), (match) {
       return match.group(1) ?? '';
     });
@@ -88,17 +101,16 @@ class RangeInputFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(
       TextEditingValue oldValue, TextEditingValue newValue) {
-    // Ensure input is a valid number
     if (newValue.text.isEmpty) {
       return newValue;
     }
 
     final int? value = int.tryParse(newValue.text);
     if (value == null || value < 0 || value > 100) {
-      return oldValue; // If the value is not valid, keep the old value
+      return oldValue;
     }
 
-    return newValue; // Otherwise, allow the input
+    return newValue;
   }
 }
 
@@ -106,7 +118,6 @@ class EmojiInputFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(
       TextEditingValue oldValue, TextEditingValue newValue) {
-    // Regular expression to match any emoji character
     final RegExp emojiRegex = RegExp(
         r'[\u{1F600}-\u{1F64F}]|' // Emoticons
         r'[\u{1F300}-\u{1F5FF}]|' // Miscellaneous Symbols and Pictographs
@@ -122,7 +133,6 @@ class EmojiInputFormatter extends TextInputFormatter {
         ,
         unicode: true);
 
-    // Remove any emoji characters from the new text
     String filteredText = newValue.text.replaceAll(emojiRegex, '');
 
     return TextEditingValue(
@@ -140,7 +150,7 @@ class SpecialCharacterValidator extends TextInputFormatter {
     if (allowedPattern.hasMatch(newValue.text)) {
       return newValue;
     }
-    return oldValue; // Reject changes with special characters
+    return oldValue;
   }
 }
 
@@ -150,7 +160,6 @@ class NoDigitInputFormatter extends TextInputFormatter {
     TextEditingValue oldValue,
     TextEditingValue newValue,
   ) {
-    // Use regular expression to remove any digits
     String filteredText = newValue.text.replaceAll(RegExp(r'\d'), '');
     return TextEditingValue(
       text: filteredText,

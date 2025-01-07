@@ -10,6 +10,7 @@ import 'package:savitri_automobiles_admin/modules/cubit/Admin_cubit/home_cubit/h
 import 'package:savitri_automobiles_admin/modules/model/getlogoutmodel.dart';
 import 'package:savitri_automobiles_admin/modules/model/getsalesentrymodel.dart';
 import 'package:savitri_automobiles_admin/modules/model/getserviceentrymodel.dart';
+import 'package:savitri_automobiles_admin/modules/model/salescounttractorimplementmodel.dart';
 import 'package:savitri_automobiles_admin/modules/repository/Sales_repository.dart';
 import 'package:savitri_automobiles_admin/modules/repository/Service_repository.dart';
 import 'package:savitri_automobiles_admin/modules/repository/loginrepository.dart';
@@ -23,27 +24,10 @@ class HomeCubit extends Cubit<HomeState> {
   final LoginRepository logoutrepository = LoginRepository();
 
   final ServiceRepository servicerepository = ServiceRepository();
-  final List<Map<String, dynamic>> salesperson = [
-    {
-      "name": "Rajendra Singh",
-      "id": "#100052",
-      "profile": AppImages.profile,
-    },
-    {
-      "name": "Pawan Kumar",
-      "id": "#100049",
-      "profile": AppImages.profile,
-    },
-    {
-      "name": "Nipendra Singh",
-      "id": "#100045",
-      "profile": AppImages.profile,
-    },
-  ];
-
   HomeCubit() : super(HomeLoading()) {
     getSalesEntries();
-    //getServiceEntries();
+    getSalesCountApi();
+    getServiceEntries();
   }
 
   String getdate(String datetime, bool date) {
@@ -53,7 +37,6 @@ class HomeCubit extends Cubit<HomeState> {
       return dT[0];
     }
     return dT[1];
-    // Output: ['2024-12-19', '12:07:02.910Z']
   }
 
   void setError(String value) => error = value;
@@ -105,6 +88,42 @@ class HomeCubit extends Cubit<HomeState> {
     }
   }
 
+  Future<void> getSalesCountApi() async {
+    bool connection = await CommonMethods.checkInternetConnectivity();
+    Utils.printLog("CheckInternetConnection===> ${connection.toString()}");
+
+    if (connection) {
+      setRxRequestStatus(Status.LOADING);
+      try {
+        SalesCountTractorImplementModel response =
+            await salesrepository.getSalesCountAllApi();
+        emit(state.copyWith(getSalesCount: response));
+
+        setRxRequestStatus(Status.COMPLETED);
+        Utils.printLog("Response===> ${response.toString()}");
+      } catch (error) {
+        setRxRequestStatus(Status.ERROR);
+        setError(error.toString());
+
+        if (error.toString().contains("{")) {
+          var errorResponse = json.decode(error.toString());
+          if (errorResponse is Map && errorResponse.containsKey('message')) {
+            emit(HomeError(errorResponse['message']));
+            return;
+          } else {
+            emit(HomeError("An unexpected error occurred."));
+            return;
+          }
+        } else {
+          Utils.printLog("Error===> ${error.toString()}");
+        }
+      }
+    } else {
+      emit(HomeError(appStrings.weUnableCheckData));
+      return;
+    }
+  }
+
   Future<void> getSalesEntries() async {
     emit(HomeLoading());
     bool connection = await CommonMethods.checkInternetConnectivity();
@@ -118,8 +137,7 @@ class HomeCubit extends Cubit<HomeState> {
       try {
         GetSalesEntryModel response =
             await salesrepository.getSalesEntries(requestData);
-        emit(state.copyWith(
-            getSalesEntries: response, salesperson: salesperson));
+        emit(state.copyWith(getSalesEntries: response));
 
         setRxRequestStatus(Status.COMPLETED);
         Utils.printLog("Response===> ${response.toString()}");

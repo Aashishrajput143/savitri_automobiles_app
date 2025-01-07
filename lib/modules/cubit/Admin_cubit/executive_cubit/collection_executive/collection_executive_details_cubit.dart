@@ -4,18 +4,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:savitri_automobiles_admin/Constants/utils.dart';
 import 'package:savitri_automobiles_admin/common/commonmethods.dart';
 import 'package:savitri_automobiles_admin/data/response/status.dart';
-import 'package:savitri_automobiles_admin/modules/cubit/Admin_cubit/executive_cubit/service_executive/service_executive_details_state.dart';
-import 'package:savitri_automobiles_admin/modules/model/getserviceentrymodel.dart';
-import 'package:savitri_automobiles_admin/modules/model/servicecountmodel.dart';
-import 'package:savitri_automobiles_admin/modules/repository/Service_repository.dart';
+import 'package:savitri_automobiles_admin/modules/cubit/Admin_cubit/executive_cubit/collection_executive/collection_executive_details_state.dart';
+import 'package:savitri_automobiles_admin/modules/model/getsalesentrymodel.dart';
+import 'package:savitri_automobiles_admin/modules/model/salescountpendingpaidmodel.dart';
+import 'package:savitri_automobiles_admin/modules/repository/Sales_repository.dart';
 import 'package:savitri_automobiles_admin/resources/strings.dart';
 
-class ServiceExecutiveDetailsCubit extends Cubit<ServiceExecutiveDetailsState> {
-  final ServiceRepository servicerepository = ServiceRepository();
-  ServiceExecutiveDetailsCubit(String? id)
-      : super(ServiceExecutiveDetailsLoading()) {
-    getServiceCountApi(id);
-    getServiceEntries(id);
+class CollectionExecutiveDetailsCubit
+    extends Cubit<CollectionExecutiveDetailsState> {
+  final SalesRepository salesrepository = SalesRepository();
+  CollectionExecutiveDetailsCubit()
+      : super(CollectionExecutiveDetailsLoading()) {
+    getSalesCountPaidPendingApi();
+    getSalesEntries();
   }
 
   String getdate(String datetime, bool date) {
@@ -35,47 +36,8 @@ class ServiceExecutiveDetailsCubit extends Cubit<ServiceExecutiveDetailsState> {
 
   void setRxRequestStatus(Status value) => rxRequestStatus = value;
 
-  Future<void> getServiceCountApi(var id) async {
-    bool connection = await CommonMethods.checkInternetConnectivity();
-    Utils.printLog("CheckInternetConnection===> ${connection.toString()}");
-
-    if (connection) {
-      setRxRequestStatus(Status.LOADING);
-      try {
-        ServiceCountModel response =
-            await servicerepository.getServiceCountApi(id);
-        emit(state.copyWith(getServicecount: response));
-
-        setRxRequestStatus(Status.COMPLETED);
-        Utils.printLog("Response===> ${response.toString()}");
-      } catch (error) {
-        setRxRequestStatus(Status.ERROR);
-        setError(error.toString());
-
-        if (error.toString().contains("{")) {
-          var errorResponse = json.decode(error.toString());
-          if (errorResponse is Map && errorResponse.containsKey('message')) {
-            emit(ServiceExecutiveDetailsError(errorResponse['message']));
-            return;
-          } else {
-            emit(ServiceExecutiveDetailsError("An unexpected error occurred."));
-            return;
-          }
-        } else {
-          Utils.printLog("Error===> ${error.toString()}");
-          emit(ServiceExecutiveDetailsError(
-              "${error.toString()} Login failed..."));
-          return;
-        }
-      }
-    } else {
-      emit(ServiceExecutiveDetailsError(appStrings.weUnableCheckData));
-      return;
-    }
-  }
-
-  Future<void> getServiceEntries(var id) async {
-    emit(ServiceExecutiveDetailsLoading());
+  Future<void> getSalesEntries() async {
+    CollectionExecutiveDetailsLoading();
     bool connection = await CommonMethods.checkInternetConnectivity();
     Utils.printLog("CheckInternetConnection===> ${connection.toString()}");
 
@@ -84,14 +46,14 @@ class ServiceExecutiveDetailsCubit extends Cubit<ServiceExecutiveDetailsState> {
 
       Map<String, dynamic> requestData = {
         "page": 1,
-        "pageSize": 20,
-        "service": id
+        "pageSize": 5,
+        "status": "PENDING", //"PAID"
       };
 
       try {
-        GetServiceEntryModel response =
-            await servicerepository.getServiceEntries(requestData);
-        emit(state.copyWith(getServiceentries: response));
+        GetSalesEntryModel response =
+            await salesrepository.getSalesEntries(requestData);
+        emit(state.copyWith(getSalesentries: response));
 
         setRxRequestStatus(Status.COMPLETED);
         Utils.printLog("Response===> ${response.toString()}");
@@ -102,10 +64,52 @@ class ServiceExecutiveDetailsCubit extends Cubit<ServiceExecutiveDetailsState> {
         if (error.toString().contains("{")) {
           var errorResponse = json.decode(error.toString());
           if (errorResponse is Map && errorResponse.containsKey('message')) {
-            emit(ServiceExecutiveDetailsError(errorResponse['message']));
+            emit(CollectionExecutiveDetailsError(errorResponse['message']));
             return;
           } else {
-            emit(ServiceExecutiveDetailsError("An unexpected error occurred."));
+            emit(CollectionExecutiveDetailsError(
+                "An unexpected error occurred."));
+            return;
+          }
+        } else {
+          Utils.printLog("Error===> ${error.toString()}");
+          emit(CollectionExecutiveDetailsError(
+              "${error.toString()} Login failed..."));
+          return;
+        }
+      }
+    } else {
+      emit(CollectionExecutiveDetailsError(appStrings.weUnableCheckData));
+      return;
+    }
+  }
+
+  Future<void> getSalesCountPaidPendingApi() async {
+    CollectionExecutiveDetailsLoading();
+    bool connection = await CommonMethods.checkInternetConnectivity();
+    Utils.printLog("CheckInternetConnection===> ${connection.toString()}");
+
+    if (connection) {
+      setRxRequestStatus(Status.LOADING);
+      try {
+        SalesCountPendingPaidModel response =
+            await salesrepository.getSalesCountPendingPaidApi();
+        emit(state.copyWith(getpendingpaidcount: response));
+
+        setRxRequestStatus(Status.COMPLETED);
+        Utils.printLog("Response===> ${response.toString()}");
+      } catch (error) {
+        setRxRequestStatus(Status.ERROR);
+        setError(error.toString());
+
+        if (error.toString().contains("{")) {
+          var errorResponse = json.decode(error.toString());
+          if (errorResponse is Map && errorResponse.containsKey('message')) {
+            emit(CollectionExecutiveDetailsError(errorResponse['message']));
+            return;
+          } else {
+            emit(CollectionExecutiveDetailsError(
+                "An unexpected error occurred."));
             return;
           }
         } else {
@@ -113,7 +117,7 @@ class ServiceExecutiveDetailsCubit extends Cubit<ServiceExecutiveDetailsState> {
         }
       }
     } else {
-      emit(ServiceExecutiveDetailsError(appStrings.weUnableCheckData));
+      emit(CollectionExecutiveDetailsError(appStrings.weUnableCheckData));
       return;
     }
   }
