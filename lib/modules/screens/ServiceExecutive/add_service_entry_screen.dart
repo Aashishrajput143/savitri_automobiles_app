@@ -40,6 +40,14 @@ class ServiceEntryScreen extends StatelessWidget {
                 return const Center(
                   child: CircularProgressIndicator(),
                 );
+              }
+              if (state is AddServiceError) {
+                return Center(
+                  child: Text(
+                    state.message ?? "",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                );
               } else if (state is AddServiceLoading) {
                 return const Center(
                   child: CircularProgressIndicator(),
@@ -54,10 +62,25 @@ class ServiceEntryScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        "Select Tractor Model",
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
+                      const Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            "Select Tractor Model",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          Text(
+                            " *",
+                            style: TextStyle(
+                              color: Colors.red,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
                       ),
                       const Divider(thickness: 1.5),
                       const SizedBox(height: 8),
@@ -124,16 +147,31 @@ class ServiceEntryScreen extends StatelessWidget {
                             "Fuel Capacity",
                             state.selectedTractor?.fuelCapacity ??
                                 "Not Available"),
-                        _buildDetailRow("fuelType",
+                        _buildDetailRow("Fuel Type",
                             state.selectedTractor?.fuelType ?? "Not Available"),
-                        _buildDetailRow("features",
+                        _buildDetailRow("Features",
                             state.selectedTractor?.features ?? "Not Available"),
                       ],
                       const SizedBox(height: 20),
-                      const Text(
-                        "Customer Details",
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
+                      const Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            "Customer Details",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          Text(
+                            " *",
+                            style: TextStyle(
+                              color: Colors.red,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
                       ),
                       const Divider(thickness: 1.5),
                       const SizedBox(height: 8),
@@ -144,10 +182,25 @@ class ServiceEntryScreen extends StatelessWidget {
                       _buildDetailRowWithTextField("Address",
                           cubit.addressController, "Enter Address", 50),
                       const SizedBox(height: 20),
-                      const Text(
-                        "Service Details",
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
+                      const Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            "Service Details",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          Text(
+                            " *",
+                            style: TextStyle(
+                              color: Colors.red,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
                       ),
                       const Divider(thickness: 1.5),
                       const SizedBox(height: 10),
@@ -222,7 +275,7 @@ class ServiceEntryScreen extends StatelessWidget {
                         ],
                         controller: cubit.servicedescriptionController,
                         decoration: const InputDecoration(
-                          label: Text("Service Description"),
+                          label: Text("Service Description (optional)"),
                           counterText: "",
                           border: OutlineInputBorder(),
                           hintText: "Enter Service Description",
@@ -584,10 +637,25 @@ class ServiceEntryScreen extends StatelessWidget {
                         const Divider(thickness: 1.5),
                       ],
                       const SizedBox(height: 20),
-                      const Text(
-                        "Payment Details",
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
+                      const Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            "Payment Details",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          Text(
+                            " *",
+                            style: TextStyle(
+                              color: Colors.red,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
                       ),
                       const Divider(thickness: 1.5),
                       const SizedBox(height: 8),
@@ -709,7 +777,46 @@ class ServiceEntryScreen extends StatelessWidget {
         ),
         listener: (BuildContext context, AddServiceState state) {
           if (state is AddServiceSuccess) {
-            Navigator.pushReplacementNamed(context, Routes.serviceHome);
+            showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: const Text(
+                    "Entry Updated Successfully",
+                    style: TextStyle(fontSize: 14),
+                  ),
+                  content: const Text(
+                      "The Service entry has been updated successfully."),
+                  actions: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: TextButton(
+                          style: TextButton.styleFrom(
+                            backgroundColor: Colors.green,
+                            foregroundColor: Colors.white,
+                            padding: const EdgeInsets.symmetric(vertical: 12.0),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                          ),
+                          onPressed: () {
+                            Navigator.pushReplacementNamed(
+                                context, Routes.serviceHome);
+                          },
+                          child: const Text(
+                            "Go Home",
+                            style: TextStyle(fontSize: 16.0),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              },
+            );
           }
           if (state is AddServiceError) {
             ScaffoldMessenger.of(context).showSnackBar(

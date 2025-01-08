@@ -129,6 +129,14 @@ class SalesHomeScreen extends StatelessWidget {
                     child: CircularProgressIndicator(),
                   ),
                 );
+              }
+              if (state is SalesHomeError) {
+                return Center(
+                  child: Text(
+                    state.message,
+                    style: TextStyle(fontSize: 16),
+                  ),
+                );
               } else if (state is SalesHomeLoaded) {
                 return WillPopScope(
                   onWillPop: () async {
@@ -220,177 +228,204 @@ class SalesHomeScreen extends StatelessWidget {
                             ],
                           ),
                           const SizedBox(height: 8),
-                          ListView.builder(
-                            physics: const NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount:
-                                (state.getSalesEntries.data?.docs?.length ??
-                                            0) >
-                                        5
-                                    ? 5
-                                    : state.getSalesEntries.data?.docs?.length,
-                            itemBuilder: (context, index) {
-                              final entries =
-                                  state.getSalesEntries.data?.docs?[index];
-                              return Card(
-                                color: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                margin: const EdgeInsets.symmetric(
-                                    vertical: 10.0, horizontal: 2),
-                                child: InkWell(
-                                  onTap: () {
-                                    Navigator.pushNamed(
-                                      context,
-                                      Routes.salespreview,
-                                      arguments: entries?.sId ?? "",
-                                    );
-                                  },
-                                  child: Container(
-                                    decoration: BoxDecoration(
+                          state.getSalesEntries.data?.docs?.isNotEmpty ?? false
+                              ? ListView.builder(
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemCount: (state.getSalesEntries.data?.docs
+                                                  ?.length ??
+                                              0) >
+                                          5
+                                      ? 5
+                                      : state
+                                          .getSalesEntries.data?.docs?.length,
+                                  itemBuilder: (context, index) {
+                                    final entries = state
+                                        .getSalesEntries.data?.docs?[index];
+                                    return Card(
                                       color: Colors.white,
-                                      borderRadius: BorderRadius.circular(8),
-                                      border: Border.all(
-                                          color: Colors.grey.withOpacity(0.2)),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.black.withOpacity(0.1),
-                                          blurRadius: 3,
-                                          offset: const Offset(0, 3),
-                                        ),
-                                      ],
-                                    ),
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(8.0),
-                                          child: Image.asset(
-                                            AppImages.swaraj735XT,
-                                            width: 80,
-                                            height: 80,
-                                            fit: BoxFit.contain,
-                                            errorBuilder:
-                                                (context, error, stackTrace) {
-                                              return const SizedBox(
-                                                width: 80,
-                                                height: 80,
-                                                child: Center(
-                                                  child: Text(
-                                                    "No Image",
-                                                    style:
-                                                        TextStyle(fontSize: 11),
-                                                    textAlign: TextAlign.center,
-                                                  ),
-                                                ),
-                                              );
-                                            },
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      margin: const EdgeInsets.symmetric(
+                                          vertical: 10.0, horizontal: 2),
+                                      child: InkWell(
+                                        onTap: () {
+                                          Navigator.pushNamed(
+                                            context,
+                                            Routes.salespreview,
+                                            arguments: entries?.sId ?? "",
+                                          );
+                                        },
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                            border: Border.all(
+                                                color: Colors.grey
+                                                    .withOpacity(0.2)),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.black
+                                                    .withOpacity(0.1),
+                                                blurRadius: 3,
+                                                offset: const Offset(0, 3),
+                                              ),
+                                            ],
                                           ),
-                                        ),
-                                        const SizedBox(width: 10),
-                                        Expanded(
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(10.0),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                SizedBox(
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      0.4,
-                                                  child: Text(
-                                                    entries?.tractor
-                                                            ?.modelName ??
-                                                        "",
-                                                    style: const TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 14,
-                                                    ),
-                                                  ),
-                                                ),
-                                                const SizedBox(height: 5),
-                                                Text(
-                                                  "₹${PriceFormatter.formatPrice(entries?.totalAmount ?? 0)} ",
-                                                  style: const TextStyle(
-                                                    fontSize: 14,
-                                                    color: Colors.green,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-                                                const SizedBox(height: 5),
-                                                Row(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    const Text(
-                                                      overflow:
-                                                          TextOverflow.clip,
-                                                      "Customer : ",
-                                                      style: TextStyle(
-                                                        fontSize: 12,
-                                                        fontWeight:
-                                                            FontWeight.bold,
+                                          child: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(8.0),
+                                                child: Image.asset(
+                                                  AppImages.swaraj735XT,
+                                                  width: 80,
+                                                  height: 80,
+                                                  fit: BoxFit.contain,
+                                                  errorBuilder: (context, error,
+                                                      stackTrace) {
+                                                    return const SizedBox(
+                                                      width: 80,
+                                                      height: 80,
+                                                      child: Center(
+                                                        child: Text(
+                                                          "No Image",
+                                                          style: TextStyle(
+                                                              fontSize: 11),
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                        ),
                                                       ),
-                                                    ),
-                                                    SizedBox(
-                                                      width: 95,
-                                                      child: Text(
-                                                        overflow:
-                                                            TextOverflow.clip,
-                                                        entries?.customerName ??
-                                                            "",
+                                                    );
+                                                  },
+                                                ),
+                                              ),
+                                              const SizedBox(width: 10),
+                                              Expanded(
+                                                child: Padding(
+                                                  padding: const EdgeInsets.all(
+                                                      10.0),
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      SizedBox(
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width *
+                                                            0.4,
+                                                        child: Text(
+                                                          entries?.tractor
+                                                                  ?.modelName ??
+                                                              "",
+                                                          style:
+                                                              const TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontSize: 14,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      const SizedBox(height: 5),
+                                                      Text(
+                                                        "₹${PriceFormatter.formatPrice(entries?.totalAmount ?? 0)} ",
                                                         style: const TextStyle(
-                                                          fontSize: 12,
+                                                          fontSize: 14,
+                                                          color: Colors.green,
                                                           fontWeight:
                                                               FontWeight.bold,
                                                         ),
                                                       ),
-                                                    ),
-                                                  ],
+                                                      const SizedBox(height: 5),
+                                                      Row(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          const Text(
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .clip,
+                                                            "Customer : ",
+                                                            style: TextStyle(
+                                                              fontSize: 12,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            width: 95,
+                                                            child: Text(
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .clip,
+                                                              entries?.customerName ??
+                                                                  "",
+                                                              style:
+                                                                  const TextStyle(
+                                                                fontSize: 12,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      const SizedBox(height: 3),
+                                                      Text(
+                                                        cubit.getdate(
+                                                            entries?.createdAt ??
+                                                                "",
+                                                            true),
+                                                        style: const TextStyle(
+                                                            fontSize: 11,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color:
+                                                                Color.fromARGB(
+                                                                    255,
+                                                                    138,
+                                                                    137,
+                                                                    137)),
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
-                                                const SizedBox(height: 3),
-                                                Text(
-                                                  cubit.getdate(
-                                                      entries?.createdAt ?? "",
-                                                      true),
-                                                  style: const TextStyle(
-                                                      fontSize: 11,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: Color.fromARGB(
-                                                          255, 138, 137, 137)),
+                                              ),
+                                              Center(
+                                                heightFactor: 2,
+                                                child: TextButton(
+                                                  onPressed: () {
+                                                    Navigator.pushNamed(
+                                                      context,
+                                                      Routes.salespreview,
+                                                      arguments:
+                                                          entries?.sId ?? "",
+                                                    );
+                                                  },
+                                                  child: const Icon(
+                                                      Icons.arrow_forward_ios),
                                                 ),
-                                              ],
-                                            ),
+                                              ),
+                                            ],
                                           ),
                                         ),
-                                        Center(
-                                          heightFactor: 2,
-                                          child: TextButton(
-                                            onPressed: () {
-                                              Navigator.pushNamed(
-                                                context,
-                                                Routes.salespreview,
-                                                arguments: entries?.sId ?? "",
-                                              );
-                                            },
-                                            child: const Icon(
-                                                Icons.arrow_forward_ios),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
+                                      ),
+                                    );
+                                  },
+                                )
+                              : const Center(
+                                  heightFactor: 10,
+                                  child: Text("No Entries Found..."),
                                 ),
-                              );
-                            },
-                          ),
                         ],
                       ),
                     ),

@@ -95,7 +95,7 @@ class SalesGraphCubit extends Cubit<SalesGraphState> {
           }
         } else {
           Utils.printLog("Error===> ${error.toString()}");
-          emit(SalesGraphError("${error.toString()} Login failed..."));
+          emit(SalesGraphError("${error.toString()} failed..."));
           return;
         }
       }
@@ -133,7 +133,7 @@ class SalesGraphCubit extends Cubit<SalesGraphState> {
           }
         } else {
           Utils.printLog("Error===> ${error.toString()}");
-          emit(SalesGraphError("${error.toString()} Login failed..."));
+          emit(SalesGraphError("${error.toString()} failed..."));
           return;
         }
       }

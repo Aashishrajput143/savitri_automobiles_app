@@ -30,6 +30,14 @@ class ServicePageView extends StatelessWidget {
           return const Center(
             child: CircularProgressIndicator(),
           );
+        }
+        if (state is ServiceRegistrationError) {
+          return Center(
+            child: Text(
+              state.message,
+              style: TextStyle(fontSize: 16),
+            ),
+          );
         } else if (state is ServiceRegistrationLoaded) {
           if (state.getServiceEntries?.data?.docs?.isEmpty ?? true) {
             return const Center(

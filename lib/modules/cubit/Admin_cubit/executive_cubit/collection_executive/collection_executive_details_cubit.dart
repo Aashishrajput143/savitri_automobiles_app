@@ -114,6 +114,9 @@ class CollectionExecutiveDetailsCubit
           }
         } else {
           Utils.printLog("Error===> ${error.toString()}");
+          emit(
+              CollectionExecutiveDetailsError("${error.toString()} failed..."));
+          return;
         }
       }
     } else {

@@ -63,8 +63,7 @@ class ServiceExecutiveDetailsCubit extends Cubit<ServiceExecutiveDetailsState> {
           }
         } else {
           Utils.printLog("Error===> ${error.toString()}");
-          emit(ServiceExecutiveDetailsError(
-              "${error.toString()} Login failed..."));
+          emit(ServiceExecutiveDetailsError("${error.toString()} failed..."));
           return;
         }
       }
@@ -110,6 +109,8 @@ class ServiceExecutiveDetailsCubit extends Cubit<ServiceExecutiveDetailsState> {
           }
         } else {
           Utils.printLog("Error===> ${error.toString()}");
+          emit(ServiceExecutiveDetailsError("${error.toString()} failed..."));
+          return;
         }
       }
     } else {

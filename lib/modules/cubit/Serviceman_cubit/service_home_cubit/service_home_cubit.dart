@@ -69,8 +69,7 @@ class ServiceHomeCubit extends Cubit<ServiceHomeStates> {
           }
         } else {
           Utils.printLog("Error===> ${error.toString()}");
-          emit(
-              ServiceHomeError(message: "${error.toString()} Login failed..."));
+          emit(ServiceHomeError(message: "${error.toString()} failed..."));
           return;
         }
       }
@@ -112,8 +111,7 @@ class ServiceHomeCubit extends Cubit<ServiceHomeStates> {
           }
         } else {
           Utils.printLog("Error===> ${error.toString()}");
-          emit(
-              ServiceHomeError(message: "${error.toString()} Login failed..."));
+          emit(ServiceHomeError(message: "${error.toString()} failed..."));
           return;
         }
       }

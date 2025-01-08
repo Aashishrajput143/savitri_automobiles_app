@@ -62,6 +62,8 @@ class OilInventoryCubit extends Cubit<OilInventoryState> {
           }
         } else {
           Utils.printLog("Error===> ${error.toString()}");
+          emit(OilInventoryError("${error.toString()} failed..."));
+          return;
         }
       }
     } else {
@@ -171,6 +173,8 @@ class OilInventoryCubit extends Cubit<OilInventoryState> {
           }
         } else {
           Utils.printLog("Error===> ${error.toString()}");
+          emit(OilInventoryError("${error.toString()} failed..."));
+          return;
         }
       }
     } else {

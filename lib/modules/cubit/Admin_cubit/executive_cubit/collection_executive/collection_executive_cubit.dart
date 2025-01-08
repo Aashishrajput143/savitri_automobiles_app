@@ -58,6 +58,8 @@ class CollectionPersonCubit extends Cubit<CollectionPersonState> {
           }
         } else {
           Utils.printLog("Error===> ${error.toString()}");
+          emit(CollectionPersonError(message: "${error.toString()} failed..."));
+          return;
         }
       }
     } else {

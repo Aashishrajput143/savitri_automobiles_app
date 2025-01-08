@@ -30,6 +30,14 @@ class TractorInventoryPageView extends StatelessWidget {
             child: CircularProgressIndicator(),
           );
         }
+        if (state is TractorInventoryError) {
+          return Center(
+            child: Text(
+              state.message ?? "",
+              style: TextStyle(fontSize: 16),
+            ),
+          );
+        }
         return Container(
           height: MediaQuery.of(context).size.height,
           color: Colors.white,

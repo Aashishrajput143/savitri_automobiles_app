@@ -66,6 +66,14 @@ class CollectionExecutiveDetailsPageView extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           }
+          if (state is CollectionExecutiveDetailsError) {
+            return Center(
+              child: Text(
+                state.message ?? "",
+                style: TextStyle(fontSize: 16),
+              ),
+            );
+          }
           return Container(
             height: MediaQuery.of(context).size.height,
             color: Colors.white,
@@ -130,7 +138,7 @@ class CollectionExecutiveDetailsPageView extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
                               child: Text(
-                                "${state.getpendingpaidcount?.data?[0].count ?? 0}",
+                                "${state.getpendingpaidcount?.data?.isNotEmpty ?? false ? (state.getpendingpaidcount?.data?[0].count) : 0}",
                                 style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 18,
@@ -183,7 +191,7 @@ class CollectionExecutiveDetailsPageView extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
                               child: Text(
-                                "${state.getpendingpaidcount?.data?[1].count ?? 0}",
+                                "${state.getpendingpaidcount?.data?.isNotEmpty ?? false ? (state.getpendingpaidcount?.data?[1].count) : 0}",
                                 style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 18,
@@ -234,182 +242,201 @@ class CollectionExecutiveDetailsPageView extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 10),
-                  ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: state.getSalesentries?.data?.docs?.length ?? 0,
-                    itemBuilder: (context, index) {
-                      final entries = state.getSalesentries?.data?.docs?[index];
-                      return Card(
-                        color: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        margin: const EdgeInsets.symmetric(
-                            vertical: 10.0, horizontal: 2),
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.pushNamed(
-                              context,
-                              Routes.salespreview,
-                              arguments: entries?.sId ?? "",
-                            );
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
+                  state.getSalesentries?.data?.docs?.isNotEmpty ?? false
+                      ? ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount:
+                              state.getSalesentries?.data?.docs?.length ?? 0,
+                          itemBuilder: (context, index) {
+                            final entries =
+                                state.getSalesentries?.data?.docs?[index];
+                            return Card(
                               color: Colors.white,
-                              borderRadius: BorderRadius.circular(8),
-                              border: Border.all(
-                                  color: Colors.grey.withOpacity(0.2)),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.1),
-                                  blurRadius: 3,
-                                  offset: const Offset(0, 3),
-                                ),
-                              ],
-                            ),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  child: Image.asset(
-                                    AppImages.swaraj735FE,
-                                    width: 80,
-                                    height: 80,
-                                    fit: BoxFit.contain,
-                                    errorBuilder: (context, error, stackTrace) {
-                                      return const SizedBox(
-                                        width: 80,
-                                        height: 80,
-                                        child: Center(
-                                          child: Text(
-                                            "No Image",
-                                            style: TextStyle(fontSize: 11),
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        ),
-                                      );
-                                    },
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              margin: const EdgeInsets.symmetric(
+                                  vertical: 10.0, horizontal: 2),
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                    context,
+                                    Routes.salespreview,
+                                    arguments: entries?.sId ?? "",
+                                  );
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(8),
+                                    border: Border.all(
+                                        color: Colors.grey.withOpacity(0.2)),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.1),
+                                        blurRadius: 3,
+                                        offset: const Offset(0, 3),
+                                      ),
+                                    ],
                                   ),
-                                ),
-                                const SizedBox(width: 10),
-                                Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(10.0),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        SizedBox(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.4,
-                                          child: Text(
-                                            entries?.tractor?.modelName ??
-                                                "Not Available",
-                                            style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 14,
-                                            ),
-                                          ),
-                                        ),
-                                        const SizedBox(height: 5),
-                                        Text(
-                                          "Paid: ₹${PriceFormatter.formatPrice(entries?.paidAmount ?? 0)}",
-                                          style: const TextStyle(
-                                            fontSize: 14,
-                                            color: Colors.green,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        const SizedBox(height: 5),
-                                        Text(
-                                          "Due: ₹${PriceFormatter.formatPrice(entries?.dueAmount ?? 0)}",
-                                          style: const TextStyle(
-                                            fontSize: 14,
-                                            color: Colors.red,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        const SizedBox(height: 5),
-                                        Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            const Text(
-                                              overflow: TextOverflow.clip,
-                                              "Customer : ",
-                                              style: TextStyle(
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.bold,
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                        child: Image.asset(
+                                          AppImages.swaraj735FE,
+                                          width: 80,
+                                          height: 80,
+                                          fit: BoxFit.contain,
+                                          errorBuilder:
+                                              (context, error, stackTrace) {
+                                            return const SizedBox(
+                                              width: 80,
+                                              height: 80,
+                                              child: Center(
+                                                child: Text(
+                                                  "No Image",
+                                                  style:
+                                                      TextStyle(fontSize: 11),
+                                                  textAlign: TextAlign.center,
+                                                ),
                                               ),
-                                            ),
-                                            SizedBox(
-                                              width: 95,
-                                              child: Text(
-                                                overflow: TextOverflow.clip,
-                                                entries?.customerName ??
-                                                    "Not Available",
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                      const SizedBox(width: 10),
+                                      Expanded(
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(10.0),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              SizedBox(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.4,
+                                                child: Text(
+                                                  entries?.tractor?.modelName ??
+                                                      "Not Available",
+                                                  style: const TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 14,
+                                                  ),
+                                                ),
+                                              ),
+                                              const SizedBox(height: 5),
+                                              Text(
+                                                "Paid: ₹${PriceFormatter.formatPrice(entries?.paidAmount ?? 0)}",
                                                 style: const TextStyle(
-                                                  fontSize: 12,
+                                                  fontSize: 14,
+                                                  color: Colors.green,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
-                                            ),
-                                          ],
+                                              const SizedBox(height: 5),
+                                              Text(
+                                                "Due: ₹${PriceFormatter.formatPrice(entries?.dueAmount ?? 0)}",
+                                                style: const TextStyle(
+                                                  fontSize: 14,
+                                                  color: Colors.red,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              const SizedBox(height: 5),
+                                              Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  const Text(
+                                                    overflow: TextOverflow.clip,
+                                                    "Customer : ",
+                                                    style: TextStyle(
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    width: 95,
+                                                    child: Text(
+                                                      overflow:
+                                                          TextOverflow.clip,
+                                                      entries?.customerName ??
+                                                          "Not Available",
+                                                      style: const TextStyle(
+                                                        fontSize: 12,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              const SizedBox(height: 3),
+                                            ],
+                                          ),
                                         ),
-                                        const SizedBox(height: 3),
-                                      ],
-                                    ),
+                                      ),
+                                      Padding(
+                                          padding:
+                                              const EdgeInsets.only(right: 10),
+                                          child: Column(
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 8.0, right: 10),
+                                                child: Text(
+                                                  cubit.getdate(
+                                                      entries?.createdAt ?? "",
+                                                      true),
+                                                  style: const TextStyle(
+                                                      fontSize: 11,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Color.fromARGB(
+                                                          255, 138, 137, 137)),
+                                                ),
+                                              ),
+                                              Center(
+                                                heightFactor: 1.5,
+                                                child: TextButton(
+                                                  onPressed: () {
+                                                    Navigator.pushNamed(
+                                                      context,
+                                                      Routes.salespreview,
+                                                      arguments:
+                                                          entries?.sId ?? "",
+                                                    );
+                                                  },
+                                                  child: const Text(
+                                                    "View",
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          )),
+                                    ],
                                   ),
                                 ),
-                                Padding(
-                                    padding: const EdgeInsets.only(right: 10),
-                                    child: Column(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 8.0, right: 10),
-                                          child: Text(
-                                            cubit.getdate(
-                                                entries?.createdAt ?? "", true),
-                                            style: const TextStyle(
-                                                fontSize: 11,
-                                                fontWeight: FontWeight.bold,
-                                                color: Color.fromARGB(
-                                                    255, 138, 137, 137)),
-                                          ),
-                                        ),
-                                        Center(
-                                          heightFactor: 1.5,
-                                          child: TextButton(
-                                            onPressed: () {
-                                              Navigator.pushNamed(
-                                                context,
-                                                Routes.salespreview,
-                                                arguments: entries?.sId ?? "",
-                                              );
-                                            },
-                                            child: const Text(
-                                              "View",
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    )),
-                              ],
-                            ),
-                          ),
+                              ),
+                            );
+                          },
+                        )
+                      : const Center(
+                          heightFactor: 7,
+                          child: Text("No Entries Found..."),
                         ),
-                      );
-                    },
-                  ),
                 ],
               ),
             ),

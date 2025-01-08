@@ -57,6 +57,14 @@ class SalesEntryScreen extends StatelessWidget {
                 return const Center(
                   child: CircularProgressIndicator(),
                 );
+              }
+              if (state is AddSaleError) {
+                return Center(
+                  child: Text(
+                    state.message ?? "",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                );
               } else if (state is AddSaleLoading) {
                 return const Center(
                   child: CircularProgressIndicator(),
@@ -71,10 +79,25 @@ class SalesEntryScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        "Select Tractor Model",
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
+                      const Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            "Select Tractor Model",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          Text(
+                            " *",
+                            style: TextStyle(
+                              color: Colors.red,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
                       ),
                       const Divider(thickness: 1.5),
                       const SizedBox(height: 8),
@@ -151,11 +174,27 @@ class SalesEntryScreen extends StatelessWidget {
                       const SizedBox(height: 40),
 
                       // Customer Details
-                      const Text(
-                        "Customer Details",
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
+                      const Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            "Customer Details",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          Text(
+                            " *",
+                            style: TextStyle(
+                              color: Colors.red,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
                       ),
+
                       const Divider(thickness: 1.5),
                       const SizedBox(height: 8),
                       _buildDetailRowWithTextField(
@@ -229,10 +268,25 @@ class SalesEntryScreen extends StatelessWidget {
                             100),
                       ],
                       const SizedBox(height: 40),
-                      const Text(
-                        "Registration Details",
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
+                      const Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            "Registration Details",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          Text(
+                            " *",
+                            style: TextStyle(
+                              color: Colors.red,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
                       ),
                       const Divider(thickness: 1.5),
                       const SizedBox(height: 8),
@@ -464,11 +518,25 @@ class SalesEntryScreen extends StatelessWidget {
                           cubit,
                           "transportation"),
                       const SizedBox(height: 40),
-
-                      const Text(
-                        "Payment Details",
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
+                      const Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            "Payment Details",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          Text(
+                            " *",
+                            style: TextStyle(
+                              color: Colors.red,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
                       ),
                       const Divider(thickness: 1.5),
                       const SizedBox(height: 8),

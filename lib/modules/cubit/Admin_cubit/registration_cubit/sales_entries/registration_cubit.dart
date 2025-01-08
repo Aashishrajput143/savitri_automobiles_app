@@ -64,6 +64,8 @@ class RegistrationCubit extends Cubit<RegistrationState> {
           }
         } else {
           Utils.printLog("Error===> ${error.toString()}");
+          emit(RegistrationError(message: "${error.toString()} failed..."));
+          return;
         }
       }
     } else {

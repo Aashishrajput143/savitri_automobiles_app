@@ -128,6 +128,14 @@ class CollectionHomeScreen extends StatelessWidget {
               ),
             );
           }
+          if (state is CollectionHomeError) {
+            return Center(
+              child: Text(
+                state.message,
+                style: TextStyle(fontSize: 16),
+              ),
+            );
+          }
           return WillPopScope(
             onWillPop: () async {
               final now = DateTime.now();
@@ -202,7 +210,7 @@ class CollectionHomeScreen extends StatelessWidget {
                                     padding:
                                         const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
                                     child: Text(
-                                      "${state.salescount?.data?[0].count}",
+                                      "${state.salescount?.data?.isNotEmpty ?? false ? (state.salescount?.data?[0].count) : 0}",
                                       style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 18,
@@ -259,7 +267,7 @@ class CollectionHomeScreen extends StatelessWidget {
                                     padding:
                                         const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
                                     child: Text(
-                                      "${state.salescount?.data?[1].count}",
+                                      "${state.salescount?.data?.isNotEmpty ?? false ? (state.salescount?.data?[1].count) : 0}",
                                       style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 18,

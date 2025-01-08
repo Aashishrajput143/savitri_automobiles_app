@@ -64,6 +64,8 @@ class TractorInventoryCubit extends Cubit<TractorInventoryState> {
           }
         } else {
           Utils.printLog("Error===> ${error.toString()}");
+          emit(TractorInventoryError("${error.toString()} failed..."));
+          return;
         }
       }
     } else {
@@ -173,6 +175,8 @@ class TractorInventoryCubit extends Cubit<TractorInventoryState> {
           }
         } else {
           Utils.printLog("Error===> ${error.toString()}");
+          emit(TractorInventoryError("${error.toString()} failed..."));
+          return;
         }
       }
     } else {

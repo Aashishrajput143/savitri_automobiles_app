@@ -14,7 +14,7 @@ class AppStrings {
   String get weUnable =>
       'We\'re unable to process your request.\nPlease try again.';
   String get retry => 'Retry';
-  String get weUnableCheckData => 'We Unable to Check your Data';
+  String get weUnableCheckData => 'No Internet Connection...';
   String get login => 'Login';
   String get ok => 'Ok';
   String get getOTP => 'GET OTP';

@@ -52,8 +52,7 @@ class PreviewServiceCubit extends Cubit<PreviewServiceState> {
           }
         } else {
           Utils.printLog("Error===> ${error.toString()}");
-          emit(PreviewServiceError(
-              message: "${error.toString()} Login failed..."));
+          emit(PreviewServiceError(message: "${error.toString()} failed..."));
           return;
         }
       }

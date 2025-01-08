@@ -20,6 +20,14 @@ class CollectionDuePage extends StatelessWidget {
             return const Center(
               child: CircularProgressIndicator(),
             );
+          }
+          if (state is CollectionDueError) {
+            return Center(
+              child: Text(
+                state.message,
+                style: TextStyle(fontSize: 16),
+              ),
+            );
           } else if (state is CollectionDueLoaded) {
             if (state.getSalesEntries.data?.docs?.isEmpty ?? true) {
               return const Center(

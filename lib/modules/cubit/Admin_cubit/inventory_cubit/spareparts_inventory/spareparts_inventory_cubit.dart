@@ -64,6 +64,8 @@ class SparepartsInventoryCubit extends Cubit<SparepartsInventoryState> {
           }
         } else {
           Utils.printLog("Error===> ${error.toString()}");
+          emit(SparepartsInventoryError("${error.toString()} failed..."));
+          return;
         }
       }
     } else {
@@ -173,6 +175,8 @@ class SparepartsInventoryCubit extends Cubit<SparepartsInventoryState> {
           }
         } else {
           Utils.printLog("Error===> ${error.toString()}");
+          emit(SparepartsInventoryError("${error.toString()} failed..."));
+          return;
         }
       }
     } else {

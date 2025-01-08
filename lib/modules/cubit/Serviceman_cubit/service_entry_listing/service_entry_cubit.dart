@@ -66,8 +66,7 @@ class ServiceEntryCubit extends Cubit<ServiceEntryState> {
           }
         } else {
           Utils.printLog("Error===> ${error.toString()}");
-          emit(ServiceEntryError(
-              message: "${error.toString()} Login failed..."));
+          emit(ServiceEntryError(message: "${error.toString()} failed..."));
           return;
         }
       }

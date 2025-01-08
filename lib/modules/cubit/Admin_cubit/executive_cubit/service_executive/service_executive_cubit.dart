@@ -57,6 +57,8 @@ class ServicePersonCubit extends Cubit<ServicePersonState> {
           }
         } else {
           Utils.printLog("Error===> ${error.toString()}");
+          emit(ServicePersonError(message: "${error.toString()} failed..."));
+          return;
         }
       }
     } else {

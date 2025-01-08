@@ -73,8 +73,7 @@ class CollectionHomeCubit extends Cubit<CollectionHomeStates> {
           }
         } else {
           Utils.printLog("Error===> ${error.toString()}");
-          emit(CollectionHomeError(
-              message: "${error.toString()} Login failed..."));
+          emit(CollectionHomeError(message: "${error.toString()} failed..."));
           return;
         }
       }
@@ -112,8 +111,7 @@ class CollectionHomeCubit extends Cubit<CollectionHomeStates> {
           }
         } else {
           Utils.printLog("Error===> ${error.toString()}");
-          emit(CollectionHomeError(
-              message: "${error.toString()} Login failed..."));
+          emit(CollectionHomeError(message: "${error.toString()} failed..."));
           return;
         }
       }
@@ -154,8 +152,7 @@ class CollectionHomeCubit extends Cubit<CollectionHomeStates> {
           }
         } else {
           Utils.printLog("Error===> ${error.toString()}");
-          emit(CollectionHomeError(
-              message: "${error.toString()} Login failed..."));
+          emit(CollectionHomeError(message: "${error.toString()} failed..."));
           return;
         }
       }

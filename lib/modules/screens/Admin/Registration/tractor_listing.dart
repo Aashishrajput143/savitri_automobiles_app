@@ -30,6 +30,14 @@ class TractorPageView extends StatelessWidget {
           return const Center(
             child: CircularProgressIndicator(),
           );
+        }
+        if (state is RegistrationError) {
+          return Center(
+            child: Text(
+              state.message,
+              style: TextStyle(fontSize: 16),
+            ),
+          );
         } else if (state is RegistrationLoaded) {
           if (state.getSalesEntries?.data?.docs?.isEmpty ?? true) {
             return const Center(

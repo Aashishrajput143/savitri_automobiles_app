@@ -253,6 +253,8 @@ class AddServiceCubit extends Cubit<AddServiceState> {
           }
         } else {
           Utils.printLog("Error===> ${error.toString()}");
+          emit(AddServiceError("${error.toString()} failed..."));
+          return;
         }
       }
     } else {
@@ -294,6 +296,8 @@ class AddServiceCubit extends Cubit<AddServiceState> {
         } else {
           Utils.printLog("Error===> ${error.toString()}");
           Utils.printLog("Error===> ${stackTrace.toString()}}");
+          emit(AddServiceError("${error.toString()} failed..."));
+          return;
         }
       }
     } else {
@@ -332,6 +336,8 @@ class AddServiceCubit extends Cubit<AddServiceState> {
           }
         } else {
           Utils.printLog("Error===> ${error.toString()}");
+          emit(AddServiceError("${error.toString()} failed..."));
+          return;
         }
       }
     } else {

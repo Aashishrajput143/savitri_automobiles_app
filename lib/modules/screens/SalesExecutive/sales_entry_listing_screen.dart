@@ -21,6 +21,7 @@ class SaleEntryListingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text('Sales Entries'),
         backgroundColor: Colors.white,
@@ -61,9 +62,17 @@ class SaleEntryListingPage extends StatelessWidget {
           final cubit = context.read<SalesEntryCubit>();
           if (state is SalesEntryLoading) {
             return const Center(child: CircularProgressIndicator());
+          }
+          if (state is SalesEntryError) {
+            return Center(
+              child: Text(
+                state.message,
+                style: TextStyle(fontSize: 16),
+              ),
+            );
           } else if (state is SalesEntryLoaded) {
             if (state.getSalesEntries?.data?.docs?.isEmpty ?? true) {
-              return const Center(child: Text("No tractors available."));
+              return const Center(child: Text("Sales Entries Not Found..."));
             }
             return Container(
               color: Colors.white,

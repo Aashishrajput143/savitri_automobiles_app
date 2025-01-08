@@ -45,6 +45,14 @@ class PreviewPage extends StatelessWidget {
               builder: (context, state) {
                 if (state is PreviewServiceLoading) {
                   return const Center(child: CircularProgressIndicator());
+                }
+                if (state is PreviewServiceError) {
+                  return Center(
+                    child: Text(
+                      state.message,
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  );
                 } else if (state is PreviewServiceSuccess) {
                   if (state.getServiceDetailsByIDModel.data?.tractor?.modelName
                           ?.isEmpty ??

@@ -70,7 +70,7 @@ class CollectionDueCubit extends Cubit<CollectionDueStates> {
           }
         } else {
           Utils.printLog("Error===> ${error.toString()}");
-
+          emit(CollectionDueError(message: "${error.toString()} failed..."));
           return;
         }
       }

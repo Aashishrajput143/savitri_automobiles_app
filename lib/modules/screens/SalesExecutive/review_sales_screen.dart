@@ -88,7 +88,7 @@ class ReviewPage extends StatelessWidget {
                                     context, Routes.saleHome);
                               },
                               child: const Text(
-                                "Home",
+                                "Go Home",
                                 style: TextStyle(fontSize: 16.0),
                               ),
                             ),
@@ -111,6 +111,14 @@ class ReviewPage extends StatelessWidget {
                 return const Center(
                   child: CircularProgressIndicator(),
                 );
+              }
+              if (state is ReviewError) {
+                return Center(
+                  child: Text(
+                    state.message ?? "",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                );
               } else if (state is ReviewLoading) {
                 return const Center(
                   child: CircularProgressIndicator(),
@@ -129,10 +137,25 @@ class ReviewPage extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text(
-                              "Selected Tractor Model",
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold),
+                            const Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  "Selected Tractor Model",
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                Text(
+                                  " *",
+                                  style: TextStyle(
+                                    color: Colors.red,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
                             ),
                             IconButton(
                                 color: Colors.green,
@@ -173,10 +196,25 @@ class ReviewPage extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text(
-                              "Select Tractor Model",
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold),
+                            const Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  "Select Tractor Model",
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                Text(
+                                  " *",
+                                  style: TextStyle(
+                                    color: Colors.red,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
                             ),
                             IconButton(
                                 onPressed: () {
@@ -267,10 +305,25 @@ class ReviewPage extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
-                            "Customer Details",
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold),
+                          const Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                "Customer Details",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              Text(
+                                " *",
+                                style: TextStyle(
+                                  color: Colors.red,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
                           ),
                           state.customereditcheck ?? false
                               ? IconButton(
@@ -430,10 +483,25 @@ class ReviewPage extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
-                            "Registration Details",
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold),
+                          const Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                "Registration Details",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              Text(
+                                " *",
+                                style: TextStyle(
+                                  color: Colors.red,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
                           ),
                           state.registrationeditcheck ?? false
                               ? IconButton(
@@ -824,10 +892,25 @@ class ReviewPage extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
-                            "Payment Details",
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold),
+                          const Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                "Payment Details",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              Text(
+                                " *",
+                                style: TextStyle(
+                                  color: Colors.red,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
                           ),
                           state.paymenteditcheck ?? false
                               ? IconButton(

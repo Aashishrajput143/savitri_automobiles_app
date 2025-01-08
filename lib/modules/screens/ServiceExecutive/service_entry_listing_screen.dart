@@ -23,6 +23,7 @@ class SaleEntryListingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text('Service Entries'),
         backgroundColor: Colors.white,
@@ -65,9 +66,18 @@ class SaleEntryListingPage extends StatelessWidget {
             final cubit = context.read<ServiceEntryCubit>();
             if (state is ServiceEntryLoading) {
               return const Center(child: CircularProgressIndicator());
+            }
+            if (state is ServiceEntryError) {
+              return Center(
+                child: Text(
+                  state.message,
+                  style: TextStyle(fontSize: 16),
+                ),
+              );
             } else if (state is ServiceEntryLoaded) {
               if (state.getServiceEntries.data?.docs?.isEmpty ?? true) {
-                return const Center(child: Text("No Service available."));
+                return const Center(
+                    child: Text("Service Entries Not Found..."));
               }
               return Container(
                 color: Colors.white,
@@ -196,7 +206,7 @@ class SaleEntryListingPage extends StatelessWidget {
                                         ),
                                         const SizedBox(height: 5),
                                         Text(
-                                          "Servicetype: ${tractor?.serviceType ?? "Not Available"}",
+                                          "Service Type: ${tractor?.serviceType ?? "Not Available"}",
                                           style: const TextStyle(
                                             fontSize: 14,
                                           ),
@@ -246,8 +256,6 @@ class SaleEntryListingPage extends StatelessWidget {
                   },
                 ),
               );
-            } else if (state is ServiceEntryError) {
-              return Center(child: Text(state.message));
             }
             return const SizedBox.shrink();
           },

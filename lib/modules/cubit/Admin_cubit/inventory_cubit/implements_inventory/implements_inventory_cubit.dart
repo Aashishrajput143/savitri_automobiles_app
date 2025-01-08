@@ -64,6 +64,8 @@ class ImplementsInventoryCubit extends Cubit<ImplementInventoryState> {
           }
         } else {
           Utils.printLog("Error===> ${error.toString()}");
+          emit(ImplementsInventoryError("${error.toString()} failed..."));
+          return;
         }
       }
     } else {
@@ -173,6 +175,8 @@ class ImplementsInventoryCubit extends Cubit<ImplementInventoryState> {
           }
         } else {
           Utils.printLog("Error===> ${error.toString()}");
+          emit(ImplementsInventoryError("${error.toString()} failed..."));
+          return;
         }
       }
     } else {

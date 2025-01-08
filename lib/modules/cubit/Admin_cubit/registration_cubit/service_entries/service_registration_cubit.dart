@@ -66,6 +66,9 @@ class ServiceRegistrationCubit extends Cubit<ServiceRegistrationState> {
           }
         } else {
           Utils.printLog("Error===> ${error.toString()}");
+          emit(ServiceRegistrationError(
+              message: "${error.toString()} failed..."));
+          return;
         }
       }
     } else {

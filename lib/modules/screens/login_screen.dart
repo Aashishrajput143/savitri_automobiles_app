@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:savitri_automobiles_admin/modules/cubit/login_cubit/passwordvisible_cubit.dart';
 import 'package:savitri_automobiles_admin/modules/repository/loginrepository.dart';
+import 'package:savitri_automobiles_admin/resources/formatter.dart';
 import 'package:savitri_automobiles_admin/resources/images.dart';
 import 'package:savitri_automobiles_admin/routes/routes.dart';
 import '../cubit/login_cubit/login_cubit.dart';
@@ -93,6 +95,10 @@ class LoginScreen extends StatelessWidget {
 
                     TextFormField(
                       controller: emailController,
+                      inputFormatters: [
+                        EmailInputFormatter(),
+                        LengthLimitingTextInputFormatter(30)
+                      ],
                       decoration: InputDecoration(
                         prefixIcon: const Icon(Icons.person_outline),
                         hintText: 'Enter Email',
@@ -134,7 +140,14 @@ class LoginScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 50),
                     if (state is LoginLoading)
-                      const CircularProgressIndicator()
+                      const CircularProgressIndicator(),
+                    if (state is LoginError)
+                      Center(
+                        child: Text(
+                          state.message,
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      )
                     else
                       SizedBox(
                         width: double.infinity,

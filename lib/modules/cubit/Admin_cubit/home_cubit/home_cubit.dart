@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
-import 'package:flutter/material.dart';
 import 'package:savitri_automobiles_admin/Constants/utils.dart';
 import 'package:savitri_automobiles_admin/common/commonmethods.dart';
 import 'package:savitri_automobiles_admin/common/constants.dart';
@@ -14,10 +13,7 @@ import 'package:savitri_automobiles_admin/modules/model/salescounttractorimpleme
 import 'package:savitri_automobiles_admin/modules/repository/Sales_repository.dart';
 import 'package:savitri_automobiles_admin/modules/repository/Service_repository.dart';
 import 'package:savitri_automobiles_admin/modules/repository/loginrepository.dart';
-import 'package:savitri_automobiles_admin/resources/formatter.dart';
-import 'package:savitri_automobiles_admin/resources/images.dart';
 import 'package:savitri_automobiles_admin/resources/strings.dart';
-import 'package:savitri_automobiles_admin/routes/routes.dart';
 
 class HomeCubit extends Cubit<HomeState> {
   final SalesRepository salesrepository = SalesRepository();
@@ -78,7 +74,7 @@ class HomeCubit extends Cubit<HomeState> {
           }
         } else {
           Utils.printLog("Error===> ${error.toString()}");
-          emit(HomeError("${error.toString()} Login failed..."));
+          emit(HomeError("${error.toString()} failed..."));
           return;
         }
       }
@@ -116,6 +112,8 @@ class HomeCubit extends Cubit<HomeState> {
           }
         } else {
           Utils.printLog("Error===> ${error.toString()}");
+          emit(HomeError("${error.toString()} failed..."));
+          return;
         }
       }
     } else {
@@ -156,6 +154,7 @@ class HomeCubit extends Cubit<HomeState> {
           }
         } else {
           Utils.printLog("Error===> ${error.toString()}");
+          emit(HomeError("${error.toString()} failed..."));
         }
       }
     } else {
@@ -198,156 +197,12 @@ class HomeCubit extends Cubit<HomeState> {
           }
         } else {
           Utils.printLog("Error===> ${error.toString()}");
+          emit(HomeError("${error.toString()} failed..."));
         }
       }
     } else {
       emit(HomeError(appStrings.weUnableCheckData));
       return;
     }
-  }
-
-  Widget buildCard(BuildContext context, entries, String value) {
-    print(value);
-    return InkWell(
-      onTap: () {
-        if (value == "sales") {
-          Navigator.pushNamed(
-            context,
-            Routes.salespreview,
-            arguments: entries?.sId ?? "",
-          );
-        } else {
-          Navigator.pushNamed(
-            context,
-            Routes.servicereview,
-            arguments: entries?.sId ?? "",
-          );
-        }
-      },
-      child: Card(
-        color: Colors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
-        margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 2),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Image Section
-            ClipRRect(
-              borderRadius: BorderRadius.circular(8.0),
-              child: Image.asset(
-                AppImages.swaraj735XT,
-                width: 80,
-                height: 80,
-                fit: BoxFit.contain,
-                errorBuilder: (context, error, stackTrace) {
-                  return const SizedBox(
-                    width: 80,
-                    height: 80,
-                    child: Center(
-                      child: Text(
-                        "No Image",
-                        style: TextStyle(fontSize: 11),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-            const SizedBox(width: 10),
-            // Details Section
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Tractor Model Name
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.4,
-                      child: Text(
-                        entries?.tractor?.modelName ?? "Not Available",
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 5),
-                    if (value == "sales") ...[
-                      Text(
-                        "₹${PriceFormatter.formatPrice(entries?.totalAmount ?? 0)}",
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: Colors.green,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 5),
-                      // Salesman Name
-                      Text(
-                        "Salesman: ${entries?.customerName ?? "Not Available"}",
-                        style: const TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                    if (value != "sales") ...[
-                      Text(
-                        "₹${PriceFormatter.formatPrice(entries?.totalCost ?? 0)} ",
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: Colors.green,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 5),
-                      Text(
-                        "Serviceman : ${entries?.customerName ?? "Not Available"}",
-                        style: const TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-
-                    // Total Amount
-
-                    const SizedBox(height: 5),
-                    // Date
-                    Text(
-                      getdate(entries?.createdAt ?? "", true),
-                      style: const TextStyle(
-                        fontSize: 11,
-                        fontWeight: FontWeight.bold,
-                        color: Color.fromARGB(255, 138, 137, 137),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            // View Details Section
-            const Padding(
-              padding: EdgeInsets.only(right: 15),
-              child: Center(
-                heightFactor: 5.5,
-                child: Text(
-                  "View Details",
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Color.fromARGB(255, 119, 33, 135),
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
   }
 }

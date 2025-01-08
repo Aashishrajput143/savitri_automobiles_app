@@ -28,6 +28,14 @@ class CollectionExecutivePageView extends StatelessWidget {
           return const Center(
             child: CircularProgressIndicator(),
           );
+        }
+        if (state is CollectionPersonError) {
+          return Center(
+            child: Text(
+              state.message,
+              style: TextStyle(fontSize: 16),
+            ),
+          );
         } else if (state is CollectionPersonLoaded) {
           if (state.getusers?.data?.docs?.isEmpty ?? true) {
             return const Center(
@@ -73,7 +81,7 @@ class CollectionExecutivePageView extends StatelessWidget {
                                 ),
                               ),
                               subtitle: Text(
-                                "Executive-id ${user?.sId}",
+                                "Email: ${user?.email ?? "Not Available"}",
                                 style: const TextStyle(
                                   color: Colors.grey,
                                   fontSize: 14,

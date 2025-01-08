@@ -64,8 +64,7 @@ class SalesExecutiveDetailsCubit extends Cubit<SalesExecutiveDetailsState> {
           }
         } else {
           Utils.printLog("Error===> ${error.toString()}");
-          emit(SalesExecutiveDetailsError(
-              "${error.toString()} Login failed..."));
+          emit(SalesExecutiveDetailsError("${error.toString()} failed..."));
           return;
         }
       }
@@ -111,6 +110,8 @@ class SalesExecutiveDetailsCubit extends Cubit<SalesExecutiveDetailsState> {
           }
         } else {
           Utils.printLog("Error===> ${error.toString()}");
+          emit(SalesExecutiveDetailsError("${error.toString()} failed..."));
+          return;
         }
       }
     } else {

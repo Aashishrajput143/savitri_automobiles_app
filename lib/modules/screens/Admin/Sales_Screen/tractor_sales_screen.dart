@@ -28,6 +28,14 @@ class TractorSalesPageView extends StatelessWidget {
             child: CircularProgressIndicator(),
           );
         }
+        if (state is SalesGraphError) {
+          return Center(
+            child: Text(
+              state.message ?? "",
+              style: TextStyle(fontSize: 16),
+            ),
+          );
+        }
         return SingleChildScrollView(
           child: Container(
             height: MediaQuery.of(context).size.height * 0.8,

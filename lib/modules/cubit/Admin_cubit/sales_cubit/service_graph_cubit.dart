@@ -95,7 +95,7 @@ class ServiceGraphCubit extends Cubit<ServiceGraphState> {
           }
         } else {
           Utils.printLog("Error===> ${error.toString()}");
-          emit(ServiceGraphError("${error.toString()} Login failed..."));
+          emit(ServiceGraphError("${error.toString()}  failed..."));
           return;
         }
       }
@@ -134,7 +134,7 @@ class ServiceGraphCubit extends Cubit<ServiceGraphState> {
           }
         } else {
           Utils.printLog("Error===> ${error.toString()}");
-          emit(ServiceGraphError("${error.toString()} Login failed..."));
+          emit(ServiceGraphError("${error.toString()} failed..."));
           return;
         }
       }

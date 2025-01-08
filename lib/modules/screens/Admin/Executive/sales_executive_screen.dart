@@ -28,6 +28,14 @@ class SalesExecutivePageView extends StatelessWidget {
           return const Center(
             child: CircularProgressIndicator(),
           );
+        }
+        if (state is SalesPersonError) {
+          return Center(
+            child: Text(
+              state.message,
+              style: TextStyle(fontSize: 16),
+            ),
+          );
         } else if (state is SalesPersonLoaded) {
           if (state.getusers?.data?.docs?.isEmpty ?? true) {
             return const Center(
@@ -74,7 +82,7 @@ class SalesExecutivePageView extends StatelessWidget {
                                 ),
                               ),
                               subtitle: Text(
-                                "Executive-id ${user?.sId}",
+                                "Email: ${user?.email ?? "Not Available"}",
                                 style: const TextStyle(
                                   color: Colors.grey,
                                   fontSize: 14,

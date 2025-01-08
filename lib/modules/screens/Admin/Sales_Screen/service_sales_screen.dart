@@ -28,6 +28,14 @@ class ServiceSalesPageView extends StatelessWidget {
             child: CircularProgressIndicator(),
           );
         }
+        if (state is ServiceGraphError) {
+          return Center(
+            child: Text(
+              state.message ?? "",
+              style: TextStyle(fontSize: 16),
+            ),
+          );
+        }
         return SingleChildScrollView(
           child: Container(
             height: MediaQuery.of(context).size.height * 0.8,

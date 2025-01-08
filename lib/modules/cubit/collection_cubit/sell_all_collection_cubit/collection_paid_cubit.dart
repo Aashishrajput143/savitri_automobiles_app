@@ -70,7 +70,7 @@ class CollectionPaidCubit extends Cubit<CollectionPaidStates> {
           }
         } else {
           Utils.printLog("Error===> ${error.toString()}");
-
+          emit(CollectionPaidError(message: "${error.toString()} failed..."));
           return;
         }
       }

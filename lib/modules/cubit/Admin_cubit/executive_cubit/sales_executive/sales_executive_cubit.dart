@@ -57,6 +57,8 @@ class SalesPersonCubit extends Cubit<SalesPersonState> {
           }
         } else {
           Utils.printLog("Error===> ${error.toString()}");
+          emit(SalesPersonError(message: "${error.toString()} failed..."));
+          return;
         }
       }
     } else {

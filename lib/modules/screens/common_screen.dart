@@ -49,7 +49,10 @@ class CommonScreen extends StatelessWidget {
           unselectedItemColor: Colors.grey,
           onTap: (index) {
             if (index == 0) {
-              Navigator.pushNamed(context, Routes.home);
+              Navigator.pushNamed(
+                context,
+                Routes.home,
+              );
             } else if (index == 1) {
               Navigator.pushNamed(context, Routes.registration);
             } else if (index == 2) {
