@@ -282,14 +282,37 @@ class CollectionHomeScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                    // Add Sales Entry Button
-                    //
+                    const SizedBox(height: 30),
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          // Navigator.pushNamed(context, Routes.addServiceEntry);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.green,
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                        ),
+                        child: const Text(
+                          'Manage Finance',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
                     const SizedBox(height: 32),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         const Text(
-                          "Recent Due Entries",
+                          "Recent Sales Due Entries",
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -298,196 +321,450 @@ class CollectionHomeScreen extends StatelessWidget {
                         TextButton(
                           onPressed: () {
                             Navigator.pushNamed(
-                                context, Routes.collectionSeeAll);
+                                context, Routes.collectionSalesSeeAll);
                           },
                           child: const Text("See all"),
                         ),
                       ],
                     ),
                     const SizedBox(height: 8),
-                    ListView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount:
-                          (state.getSalesEntries?.data?.docs?.length ?? 0) > 5
-                              ? 5
-                              : state.getSalesEntries?.data?.docs?.length ?? 0,
-                      itemBuilder: (context, index) {
-                        final entries =
-                            state.getSalesEntries?.data?.docs?[index];
-                        return Card(
-                          color: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          margin: const EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 2),
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.pushNamed(
-                                context,
-                                Routes.salespreview,
-                                arguments: entries?.sId ?? "",
-                              );
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
+                    state.getSalesEntries?.data?.docs?.isNotEmpty ?? false
+                        ? ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: (state.getSalesEntries?.data?.docs
+                                            ?.length ??
+                                        0) >
+                                    5
+                                ? 5
+                                : state.getSalesEntries?.data?.docs?.length ??
+                                    0,
+                            itemBuilder: (context, index) {
+                              final entries =
+                                  state.getSalesEntries?.data?.docs?[index];
+                              return Card(
                                 color: Colors.white,
-                                borderRadius: BorderRadius.circular(8),
-                                border: Border.all(
-                                    color: Colors.grey.withOpacity(0.2)),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withOpacity(0.1),
-                                    blurRadius: 3,
-                                    offset: const Offset(0, 3),
-                                  ),
-                                ],
-                              ),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    child: Image.asset(
-                                      AppImages.swaraj735FE,
-                                      width: 80,
-                                      height: 80,
-                                      fit: BoxFit.contain,
-                                      errorBuilder:
-                                          (context, error, stackTrace) {
-                                        return const SizedBox(
-                                          width: 80,
-                                          height: 80,
-                                          child: Center(
-                                            child: Text(
-                                              "No Image",
-                                              style: TextStyle(fontSize: 11),
-                                              textAlign: TextAlign.center,
-                                            ),
-                                          ),
-                                        );
-                                      },
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                margin: const EdgeInsets.symmetric(
+                                    vertical: 10.0, horizontal: 2),
+                                child: InkWell(
+                                  onTap: () {
+                                    Navigator.pushNamed(
+                                      context,
+                                      Routes.salespreview,
+                                      arguments: entries?.sId ?? "",
+                                    );
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(8),
+                                      border: Border.all(
+                                          color: Colors.grey.withOpacity(0.2)),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(0.1),
+                                          blurRadius: 3,
+                                          offset: const Offset(0, 3),
+                                        ),
+                                      ],
                                     ),
-                                  ),
-                                  const SizedBox(width: 10),
-                                  Expanded(
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          SizedBox(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.4,
-                                            child: Text(
-                                              entries?.tractor?.modelName ??
-                                                  "Not Available",
-                                              style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 14,
-                                              ),
-                                            ),
-                                          ),
-                                          const SizedBox(height: 5),
-                                          Text(
-                                            "Paid: ₹${PriceFormatter.formatPrice(entries?.paidAmount ?? 0)}",
-                                            style: const TextStyle(
-                                              fontSize: 14,
-                                              color: Colors.green,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          const SizedBox(height: 5),
-                                          Text(
-                                            "Due: ₹${PriceFormatter.formatPrice(entries?.dueAmount ?? 0)}",
-                                            style: const TextStyle(
-                                              fontSize: 14,
-                                              color: Colors.red,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          const SizedBox(height: 5),
-                                          Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              const Text(
-                                                overflow: TextOverflow.clip,
-                                                "Customer : ",
-                                                style: TextStyle(
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.bold,
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                          child: Image.asset(
+                                            AppImages.swaraj735FE,
+                                            width: 80,
+                                            height: 80,
+                                            fit: BoxFit.contain,
+                                            errorBuilder:
+                                                (context, error, stackTrace) {
+                                              return const SizedBox(
+                                                width: 80,
+                                                height: 80,
+                                                child: Center(
+                                                  child: Text(
+                                                    "No Image",
+                                                    style:
+                                                        TextStyle(fontSize: 11),
+                                                    textAlign: TextAlign.center,
+                                                  ),
                                                 ),
-                                              ),
-                                              SizedBox(
-                                                width: 95,
-                                                child: Text(
-                                                  overflow: TextOverflow.clip,
-                                                  entries?.customerName ??
-                                                      "Not Available",
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                        const SizedBox(width: 10),
+                                        Expanded(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(10.0),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.4,
+                                                  child: Text(
+                                                    entries?.tractor
+                                                            ?.modelName ??
+                                                        "Not Available",
+                                                    style: const TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 14,
+                                                    ),
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 5),
+                                                Text(
+                                                  "Paid: ₹${PriceFormatter.formatPrice(entries?.paidAmount ?? 0)}",
                                                   style: const TextStyle(
-                                                    fontSize: 12,
+                                                    fontSize: 14,
+                                                    color: Colors.green,
                                                     fontWeight: FontWeight.bold,
                                                   ),
                                                 ),
-                                              ),
-                                            ],
+                                                const SizedBox(height: 5),
+                                                Text(
+                                                  "Due: ₹${PriceFormatter.formatPrice(entries?.dueAmount ?? 0)}",
+                                                  style: const TextStyle(
+                                                    fontSize: 14,
+                                                    color: Colors.red,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 5),
+                                                Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    const Text(
+                                                      overflow:
+                                                          TextOverflow.clip,
+                                                      "Customer : ",
+                                                      style: TextStyle(
+                                                        fontSize: 12,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 95,
+                                                      child: Text(
+                                                        overflow:
+                                                            TextOverflow.clip,
+                                                        entries?.customerName ??
+                                                            "Not Available",
+                                                        style: const TextStyle(
+                                                          fontSize: 12,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                const SizedBox(height: 3),
+                                              ],
+                                            ),
                                           ),
-                                          const SizedBox(height: 3),
-                                        ],
-                                      ),
+                                        ),
+                                        Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 10),
+                                            child: Column(
+                                              children: [
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          top: 8.0, right: 10),
+                                                  child: Text(
+                                                    cubit.getdate(
+                                                        entries?.createdAt ??
+                                                            "",
+                                                        true),
+                                                    style: const TextStyle(
+                                                        fontSize: 11,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: Color.fromARGB(
+                                                            255,
+                                                            138,
+                                                            137,
+                                                            137)),
+                                                  ),
+                                                ),
+                                                Center(
+                                                  heightFactor: 1.5,
+                                                  child: TextButton(
+                                                    onPressed: () {
+                                                      Navigator.pushNamed(
+                                                        context,
+                                                        Routes.salespreview,
+                                                        arguments:
+                                                            entries?.sId ?? "",
+                                                      );
+                                                    },
+                                                    child: const Text(
+                                                      "View",
+                                                      style: TextStyle(
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            )),
+                                      ],
                                     ),
                                   ),
-                                  Padding(
-                                      padding: const EdgeInsets.only(right: 10),
-                                      child: Column(
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 8.0, right: 10),
-                                            child: Text(
-                                              cubit.getdate(
-                                                  entries?.createdAt ?? "",
-                                                  true),
-                                              style: const TextStyle(
-                                                  fontSize: 11,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Color.fromARGB(
-                                                      255, 138, 137, 137)),
-                                            ),
-                                          ),
-                                          Center(
-                                            heightFactor: 1.5,
-                                            child: TextButton(
-                                              onPressed: () {
-                                                Navigator.pushNamed(
-                                                  context,
-                                                  Routes.salespreview,
-                                                  arguments: entries?.sId ?? "",
-                                                );
-                                              },
-                                              child: const Text(
-                                                "View",
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      )),
-                                ],
-                              ),
-                            ),
+                                ),
+                              );
+                            },
+                          )
+                        : const Center(
+                            heightFactor: 7,
+                            child: Text("No Entries Found..."),
                           ),
-                        );
-                      },
+                    const SizedBox(height: 32),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          "Recent Service Due Entries",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pushNamed(
+                                context, Routes.collectionServiceSeeAll);
+                          },
+                          child: const Text("See all"),
+                        ),
+                      ],
                     ),
+                    const SizedBox(height: 8),
+                    state.getServiceEntries?.data?.docs?.isNotEmpty ?? false
+                        ? ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: (state.getServiceEntries?.data?.docs
+                                            ?.length ??
+                                        0) >
+                                    5
+                                ? 5
+                                : state.getServiceEntries?.data?.docs?.length ??
+                                    0,
+                            itemBuilder: (context, index) {
+                              final entries =
+                                  state.getServiceEntries?.data?.docs?[index];
+                              return Card(
+                                color: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                margin: const EdgeInsets.symmetric(
+                                    vertical: 10.0, horizontal: 2),
+                                child: InkWell(
+                                  onTap: () {
+                                    Navigator.pushNamed(
+                                      context,
+                                      Routes.salespreview,
+                                      arguments: entries?.sId ?? "",
+                                    );
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(8),
+                                      border: Border.all(
+                                          color: Colors.grey.withOpacity(0.2)),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(0.1),
+                                          blurRadius: 3,
+                                          offset: const Offset(0, 3),
+                                        ),
+                                      ],
+                                    ),
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                          child: Image.asset(
+                                            AppImages.swaraj735FE,
+                                            width: 80,
+                                            height: 80,
+                                            fit: BoxFit.contain,
+                                            errorBuilder:
+                                                (context, error, stackTrace) {
+                                              return const SizedBox(
+                                                width: 80,
+                                                height: 80,
+                                                child: Center(
+                                                  child: Text(
+                                                    "No Image",
+                                                    style:
+                                                        TextStyle(fontSize: 11),
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                        const SizedBox(width: 10),
+                                        Expanded(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(10.0),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.4,
+                                                  child: Text(
+                                                    entries?.tractor
+                                                            ?.modelName ??
+                                                        "Not Available",
+                                                    style: const TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 14,
+                                                    ),
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 5),
+                                                Text(
+                                                  "Paid: ₹${PriceFormatter.formatPrice(entries?.paidAmount ?? 0)}",
+                                                  style: const TextStyle(
+                                                    fontSize: 14,
+                                                    color: Colors.green,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 5),
+                                                Text(
+                                                  "Due: ₹${PriceFormatter.formatPrice(entries?.dueAmount ?? 0)}",
+                                                  style: const TextStyle(
+                                                    fontSize: 14,
+                                                    color: Colors.red,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 5),
+                                                Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    const Text(
+                                                      overflow:
+                                                          TextOverflow.clip,
+                                                      "Customer : ",
+                                                      style: TextStyle(
+                                                        fontSize: 12,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 95,
+                                                      child: Text(
+                                                        overflow:
+                                                            TextOverflow.clip,
+                                                        entries?.customerName ??
+                                                            "Not Available",
+                                                        style: const TextStyle(
+                                                          fontSize: 12,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                const SizedBox(height: 3),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 10),
+                                            child: Column(
+                                              children: [
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          top: 8.0, right: 10),
+                                                  child: Text(
+                                                    cubit.getdate(
+                                                        entries?.createdAt ??
+                                                            "",
+                                                        true),
+                                                    style: const TextStyle(
+                                                        fontSize: 11,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: Color.fromARGB(
+                                                            255,
+                                                            138,
+                                                            137,
+                                                            137)),
+                                                  ),
+                                                ),
+                                                Center(
+                                                  heightFactor: 1.5,
+                                                  child: TextButton(
+                                                    onPressed: () {
+                                                      Navigator.pushNamed(
+                                                        context,
+                                                        Routes.salespreview,
+                                                        arguments:
+                                                            entries?.sId ?? "",
+                                                      );
+                                                    },
+                                                    child: const Text(
+                                                      "View",
+                                                      style: TextStyle(
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            )),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          )
+                        : const Center(
+                            heightFactor: 7,
+                            child: Text("No Entries Found..."),
+                          ),
                   ],
                 ),
               ),

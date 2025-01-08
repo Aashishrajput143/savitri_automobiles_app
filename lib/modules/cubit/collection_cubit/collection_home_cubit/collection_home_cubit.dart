@@ -8,17 +8,21 @@ import 'package:savitri_automobiles_admin/data/response/status.dart';
 import 'package:savitri_automobiles_admin/modules/cubit/collection_cubit/collection_home_cubit/collection_home_state.dart';
 import 'package:savitri_automobiles_admin/modules/model/getlogoutmodel.dart';
 import 'package:savitri_automobiles_admin/modules/model/getsalesentrymodel.dart';
+import 'package:savitri_automobiles_admin/modules/model/getserviceentrymodel.dart';
 import 'package:savitri_automobiles_admin/modules/model/salescountpendingpaidmodel.dart';
 import 'package:savitri_automobiles_admin/modules/repository/Sales_repository.dart';
+import 'package:savitri_automobiles_admin/modules/repository/Service_repository.dart';
 import 'package:savitri_automobiles_admin/modules/repository/loginrepository.dart';
 import 'package:savitri_automobiles_admin/resources/strings.dart';
 
 class CollectionHomeCubit extends Cubit<CollectionHomeStates> {
   final SalesRepository salesrepository = SalesRepository();
+  final ServiceRepository servicerepository = ServiceRepository();
   final LoginRepository logoutrepository = LoginRepository();
   CollectionHomeCubit() : super(CollectionHomeLoading()) {
     getSalesCountPaidPendingApi();
     getSalesEntries();
+    getServiceEntries();
   }
   String getdate(String datetime, bool date) {
     String dateTime = datetime;
@@ -55,6 +59,51 @@ class CollectionHomeCubit extends Cubit<CollectionHomeStates> {
         GetSalesEntryModel response =
             await salesrepository.getSalesEntries(requestData);
         emit(state.copyWith(getSalesEntries: response));
+
+        setRxRequestStatus(Status.COMPLETED);
+        Utils.printLog("Response===> ${response.toString()}");
+      } catch (error) {
+        setRxRequestStatus(Status.ERROR);
+        setError(error.toString());
+
+        if (error.toString().contains("{")) {
+          var errorResponse = json.decode(error.toString());
+          if (errorResponse is Map && errorResponse.containsKey('message')) {
+            emit(CollectionHomeError(message: errorResponse['message']));
+            return;
+          } else {
+            emit(CollectionHomeError(message: "An unexpected error occurred."));
+            return;
+          }
+        } else {
+          Utils.printLog("Error===> ${error.toString()}");
+          emit(CollectionHomeError(message: "${error.toString()} failed..."));
+          return;
+        }
+      }
+    } else {
+      emit(CollectionHomeError(message: appStrings.weUnableCheckData));
+      return;
+    }
+  }
+
+  Future<void> getServiceEntries() async {
+    bool connection = await CommonMethods.checkInternetConnectivity();
+    Utils.printLog("CheckInternetConnection===> ${connection.toString()}");
+
+    if (connection) {
+      setRxRequestStatus(Status.LOADING);
+
+      Map<String, dynamic> requestData = {
+        "page": 1,
+        "pageSize": 5,
+        "status": "PENDING" //"PAID"
+      };
+
+      try {
+        GetServiceEntryModel response =
+            await servicerepository.getServiceEntries(requestData);
+        emit(state.copyWith(getServiceEntries: response));
 
         setRxRequestStatus(Status.COMPLETED);
         Utils.printLog("Response===> ${response.toString()}");

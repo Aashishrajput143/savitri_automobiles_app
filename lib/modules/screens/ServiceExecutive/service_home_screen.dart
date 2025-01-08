@@ -25,6 +25,7 @@ class ServiceHomeScreen extends StatelessWidget {
         builder: (context, state) {
           final cubit = context.read<ServiceHomeCubit>();
           return Scaffold(
+            backgroundColor: Colors.white,
             appBar: AppBar(
               backgroundColor: Colors.white,
               title: const Text("Service Data"),

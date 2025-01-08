@@ -1,35 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:savitri_automobiles_admin/modules/cubit/collection_cubit/sell_all_collection_cubit/collection_paid_cubit.dart';
-import 'package:savitri_automobiles_admin/modules/cubit/collection_cubit/sell_all_collection_cubit/collection_paid_state.dart';
+import 'package:savitri_automobiles_admin/modules/cubit/collection_cubit/see_all_service_collection_cubit/collection_service_paid_cubit.dart';
+import 'package:savitri_automobiles_admin/modules/cubit/collection_cubit/see_all_service_collection_cubit/collection_service_paid_state.dart';
 import 'package:savitri_automobiles_admin/resources/formatter.dart';
 import 'package:savitri_automobiles_admin/resources/images.dart';
 import 'package:savitri_automobiles_admin/routes/routes.dart';
 
-class CollectionPaidPage extends StatelessWidget {
-  const CollectionPaidPage({super.key});
+class CollectionServicePaidPage extends StatelessWidget {
+  const CollectionServicePaidPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => CollectionPaidCubit(),
-      child: BlocBuilder<CollectionPaidCubit, CollectionPaidStates>(
+      create: (_) => CollectionServicePaidCubit(),
+      child:
+          BlocBuilder<CollectionServicePaidCubit, CollectionServicePaidStates>(
         builder: (context, state) {
-          final cubit = context.read<CollectionPaidCubit>();
-          if (state is CollectionPaidLoading) {
+          final cubit = context.read<CollectionServicePaidCubit>();
+          if (state is CollectionServicePaidLoading) {
             return const Center(
               child: CircularProgressIndicator(),
             );
           }
-          if (state is CollectionPaidError) {
+          if (state is CollectionServicePaidError) {
             return Center(
               child: Text(
                 state.message,
                 style: TextStyle(fontSize: 16),
               ),
             );
-          } else if (state is CollectionPaidLoaded) {
-            if (state.getSalesEntries.data?.docs?.isEmpty ?? true) {
+          } else if (state is CollectionServicePaidLoaded) {
+            if (state.getServiceEntries.data?.docs?.isEmpty ?? true) {
               return const Center(
                 child: Text("No Entries Found..."),
               );
@@ -37,9 +38,9 @@ class CollectionPaidPage extends StatelessWidget {
             return Container(
               color: Colors.white,
               child: ListView.builder(
-                itemCount: state.getSalesEntries.data?.docs?.length,
+                itemCount: state.getServiceEntries.data?.docs?.length ?? 0,
                 itemBuilder: (context, index) {
-                  final entries = state.getSalesEntries.data?.docs?[index];
+                  final entries = state.getServiceEntries.data?.docs?[index];
                   return InkWell(
                     onTap: () {
                       Navigator.pushNamed(
@@ -137,7 +138,7 @@ class CollectionPaidPage extends StatelessWidget {
                                       ),
                                       const SizedBox(height: 5),
                                       Text(
-                                        "Total Price: ₹${PriceFormatter.formatPrice(entries?.totalAmount ?? 0)}",
+                                        "Total Price: ₹${PriceFormatter.formatPrice(entries?.totalCost ?? 0)}",
                                         style: const TextStyle(
                                           fontSize: 14,
                                           color: Colors.green,
@@ -157,15 +158,14 @@ class CollectionPaidPage extends StatelessWidget {
                                       Row(
                                         children: [
                                           const Text(
-                                            "RegistrationType: ",
+                                            "Service Type: ",
                                             style: TextStyle(
                                               fontSize: 14,
                                             ),
                                           ),
                                           Text(
-                                            entries?.registration
-                                                    ?.registrationType ??
-                                                "",
+                                            entries?.serviceType ??
+                                                "Not Available",
                                             style: const TextStyle(
                                               fontSize: 13,
                                             ),

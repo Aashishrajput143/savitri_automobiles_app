@@ -59,9 +59,9 @@ class SalesEntryScreen extends StatelessWidget {
                 );
               }
               if (state is AddSaleError) {
-                return Center(
+                return const Center(
                   child: Text(
-                    state.message ?? "",
+                    "Data Not Found...",
                     style: TextStyle(fontSize: 16),
                   ),
                 );

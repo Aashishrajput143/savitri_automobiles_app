@@ -4,15 +4,15 @@ import 'package:bloc/bloc.dart';
 import 'package:savitri_automobiles_admin/Constants/utils.dart';
 import 'package:savitri_automobiles_admin/common/commonmethods.dart';
 import 'package:savitri_automobiles_admin/data/response/status.dart';
-import 'package:savitri_automobiles_admin/modules/cubit/collection_cubit/sell_all_collection_cubit/collection_due_state.dart';
+import 'package:savitri_automobiles_admin/modules/cubit/collection_cubit/see_all_sales_collection_cubit/collection_paid_state.dart';
 import 'package:savitri_automobiles_admin/modules/model/getsalesentrymodel.dart';
 import 'package:savitri_automobiles_admin/modules/repository/Sales_repository.dart';
 import 'package:savitri_automobiles_admin/resources/strings.dart';
 
-class CollectionDueCubit extends Cubit<CollectionDueStates> {
+class CollectionPaidCubit extends Cubit<CollectionPaidStates> {
   final SalesRepository salesrepository = SalesRepository();
-  CollectionDueCubit() : super(const CollectionDueLoading()) {
-    getSalesEntries("PENDING");
+  CollectionPaidCubit() : super(const CollectionPaidLoading()) {
+    getSalesEntries("PAID");
   }
 
   String getdate(String datetime, bool date) {
@@ -34,7 +34,7 @@ class CollectionDueCubit extends Cubit<CollectionDueStates> {
   void setRxRequestStatus(Status value) => rxRequestStatus = value;
 
   Future<void> getSalesEntries(String status) async {
-    emit(const CollectionDueLoading());
+    emit(const CollectionPaidLoading());
     bool connection = await CommonMethods.checkInternetConnectivity();
     Utils.printLog("CheckInternetConnection===> ${connection.toString()}");
 
@@ -50,7 +50,7 @@ class CollectionDueCubit extends Cubit<CollectionDueStates> {
       try {
         GetSalesEntryModel response =
             await salesrepository.getSalesEntries(requestData);
-        emit(CollectionDueLoaded(getSalesEntries: response));
+        emit(CollectionPaidLoaded(getSalesEntries: response));
 
         setRxRequestStatus(Status.COMPLETED);
         Utils.printLog("Response===> ${response.toString()}");
@@ -61,21 +61,21 @@ class CollectionDueCubit extends Cubit<CollectionDueStates> {
         if (error.toString().contains("{")) {
           var errorResponse = json.decode(error.toString());
           if (errorResponse is Map && errorResponse.containsKey('message')) {
-            emit(CollectionDueError(message: errorResponse['message']));
+            emit(CollectionPaidError(message: errorResponse['message']));
             return;
           } else {
-            emit(const CollectionDueError(
+            emit(const CollectionPaidError(
                 message: "An unexpected error occurred."));
             return;
           }
         } else {
           Utils.printLog("Error===> ${error.toString()}");
-          emit(CollectionDueError(message: "${error.toString()} failed..."));
+          emit(CollectionPaidError(message: "${error.toString()} failed..."));
           return;
         }
       }
     } else {
-      emit(CollectionDueError(message: appStrings.weUnableCheckData));
+      emit(CollectionPaidError(message: appStrings.weUnableCheckData));
       return;
     }
   }

@@ -37,6 +37,7 @@ class ReviewPage extends StatelessWidget {
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
     return dismissKeyboardOnTap(
       child: Scaffold(
+        backgroundColor: Colors.white,
         appBar: AppBar(
           title: const Text('Sales Review Screen'),
           backgroundColor: Colors.white,
@@ -113,9 +114,9 @@ class ReviewPage extends StatelessWidget {
                 );
               }
               if (state is ReviewError) {
-                return Center(
+                return const Center(
                   child: Text(
-                    state.message ?? "",
+                    "Data Not Found...",
                     style: TextStyle(fontSize: 16),
                   ),
                 );

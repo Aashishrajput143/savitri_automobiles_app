@@ -12,7 +12,8 @@ import 'package:savitri_automobiles_admin/modules/screens/ServiceExecutive/previ
 import 'package:savitri_automobiles_admin/modules/screens/ServiceExecutive/service_entry_listing_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/ServiceExecutive/service_home_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/collectionExecutive/collection_home_screen.dart';
-import 'package:savitri_automobiles_admin/modules/screens/collectionExecutive/collection_see_all_screen.dart';
+import 'package:savitri_automobiles_admin/modules/screens/collectionExecutive/collection_sales_screen/collection_sales_see_all_screen.dart';
+import 'package:savitri_automobiles_admin/modules/screens/collectionExecutive/collection_service_screen/collection_service_see_all_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/login_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/notification_screen.dart';
 import 'package:savitri_automobiles_admin/modules/screens/Admin/Registration/registration_listing.dart';
@@ -47,7 +48,8 @@ class Routes {
   static const String serviceEntrylisiting = '/serviceEntrylisiting';
   static const String addServiceEntry = '/addServiceEntry';
   static const String collectionHome = '/collection';
-  static const String collectionSeeAll = '/collectionSeeAll';
+  static const String collectionSalesSeeAll = '/collectionSalesSeeAll';
+  static const String collectionServiceSeeAll = '/collectionServiceSeeAll';
   static const String serviceexecutivedetails = '/serviceexecutivedetails';
   static const String collectionexecutivedetails =
       '/collectionexecutivedetails';
@@ -112,8 +114,12 @@ class Routes {
       case collectionHome:
         return MaterialPageRoute(builder: (_) => const CollectionHomeScreen());
 
-      case collectionSeeAll:
+      case collectionSalesSeeAll:
         return MaterialPageRoute(builder: (_) => const CollectionScreen());
+      case collectionServiceSeeAll:
+        return MaterialPageRoute(
+            builder: (_) => const CollectionServiceScreen());
+
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

@@ -146,14 +146,14 @@ class HomePageView extends StatelessWidget {
               if (state is HomeLoading) {
                 return const Center(child: CircularProgressIndicator());
               }
-              if (state is HomeError) {
-                return Center(
-                  child: Text(
-                    state.message ?? "",
-                    style: TextStyle(fontSize: 16),
-                  ),
-                );
-              }
+              // if (state is HomeError) {
+              //   return Center(
+              //     child: Text(
+              //       state.message ?? "",
+              //       style: TextStyle(fontSize: 16),
+              //     ),
+              //   );
+              // }
               return SingleChildScrollView(
                 child: Container(
                   color: Colors.white,

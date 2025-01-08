@@ -24,6 +24,7 @@ class PreviewPage extends StatelessWidget {
   Widget build(BuildContext context) {
     String? id = ModalRoute.of(context)?.settings.arguments as String?;
     return Scaffold(
+        backgroundColor: Colors.white,
         appBar: AppBar(
           title: const Text('Sales Preview Screen'),
           backgroundColor: Colors.white,

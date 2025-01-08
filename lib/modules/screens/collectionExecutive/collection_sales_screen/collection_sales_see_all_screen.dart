@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:savitri_automobiles_admin/modules/cubit/collection_cubit/sell_all_collection_cubit/collection_tab_cubit.dart';
-import 'package:savitri_automobiles_admin/modules/screens/collectionExecutive/collection_due_screen%20copy.dart';
-import 'package:savitri_automobiles_admin/modules/screens/collectionExecutive/collection_paid_screen.dart';
+import 'package:savitri_automobiles_admin/modules/cubit/collection_cubit/see_all_sales_collection_cubit/collection_tab_cubit.dart';
+import 'package:savitri_automobiles_admin/modules/screens/collectionExecutive/collection_sales_screen/collection_sales_due_screen.dart';
+import 'package:savitri_automobiles_admin/modules/screens/collectionExecutive/collection_sales_screen/collection_sales_paid_screen.dart';
 import 'package:savitri_automobiles_admin/routes/routes.dart';
 
 class CollectionScreen extends StatelessWidget {
@@ -29,7 +29,7 @@ class CollectionPageView extends StatelessWidget {
         child: Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
-            title: const Text('Collection Entries'),
+            title: const Text('Sales Collection Entries'),
             backgroundColor: Colors.white,
             leading: IconButton(
               icon: const Icon(Icons.arrow_back, color: Colors.black),
@@ -76,8 +76,8 @@ class CollectionPageView extends StatelessWidget {
             builder: (context, state) {
               return const TabBarView(
                 children: [
-                  CollectionPaidPage(),
-                  CollectionDuePage(),
+                  CollectionSalesPaidPage(),
+                  CollectionSalesDuePage(),
                 ],
               );
             },

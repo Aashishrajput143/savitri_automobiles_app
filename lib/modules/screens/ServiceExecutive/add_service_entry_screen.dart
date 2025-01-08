@@ -16,6 +16,7 @@ class ServiceEntryScreen extends StatelessWidget {
       create: (_) => AddServiceCubit(),
       child: BlocConsumer<AddServiceCubit, AddServiceState>(
         builder: (context, state) => Scaffold(
+          backgroundColor: Colors.white,
           appBar: AppBar(
             backgroundColor: Colors.white,
             title: const Text("Add Service Entry"),
@@ -42,9 +43,9 @@ class ServiceEntryScreen extends StatelessWidget {
                 );
               }
               if (state is AddServiceError) {
-                return Center(
+                return const Center(
                   child: Text(
-                    state.message ?? "",
+                    "Data Not Found...",
                     style: TextStyle(fontSize: 16),
                   ),
                 );

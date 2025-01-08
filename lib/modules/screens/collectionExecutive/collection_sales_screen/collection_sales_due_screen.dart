@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:savitri_automobiles_admin/modules/cubit/collection_cubit/sell_all_collection_cubit/collection_due_cubit.dart';
-import 'package:savitri_automobiles_admin/modules/cubit/collection_cubit/sell_all_collection_cubit/collection_due_state.dart';
+import 'package:savitri_automobiles_admin/modules/cubit/collection_cubit/see_all_sales_collection_cubit/collection_due_cubit.dart';
+import 'package:savitri_automobiles_admin/modules/cubit/collection_cubit/see_all_sales_collection_cubit/collection_due_state.dart';
 import 'package:savitri_automobiles_admin/resources/formatter.dart';
 import 'package:savitri_automobiles_admin/resources/images.dart';
 import 'package:savitri_automobiles_admin/routes/routes.dart';
 
-class CollectionDuePage extends StatelessWidget {
-  const CollectionDuePage({super.key});
+class CollectionSalesDuePage extends StatelessWidget {
+  const CollectionSalesDuePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +37,7 @@ class CollectionDuePage extends StatelessWidget {
             return Container(
               color: Colors.white,
               child: ListView.builder(
-                itemCount: state.getSalesEntries.data?.docs?.length,
+                itemCount: state.getSalesEntries.data?.docs?.length ?? 0,
                 itemBuilder: (context, index) {
                   final entries = state.getSalesEntries.data?.docs?[index];
                   return InkWell(
@@ -166,7 +166,7 @@ class CollectionDuePage extends StatelessWidget {
                                       Row(
                                         children: [
                                           const Text(
-                                            "RegistrationType: ",
+                                            "Registration Type: ",
                                             style: TextStyle(
                                               fontSize: 14,
                                             ),

@@ -4,15 +4,15 @@ import 'package:bloc/bloc.dart';
 import 'package:savitri_automobiles_admin/Constants/utils.dart';
 import 'package:savitri_automobiles_admin/common/commonmethods.dart';
 import 'package:savitri_automobiles_admin/data/response/status.dart';
-import 'package:savitri_automobiles_admin/modules/cubit/collection_cubit/sell_all_collection_cubit/collection_paid_state.dart';
-import 'package:savitri_automobiles_admin/modules/model/getsalesentrymodel.dart';
-import 'package:savitri_automobiles_admin/modules/repository/Sales_repository.dart';
+import 'package:savitri_automobiles_admin/modules/cubit/collection_cubit/see_all_service_collection_cubit/collection_service_paid_state.dart';
+import 'package:savitri_automobiles_admin/modules/model/getserviceentrymodel.dart';
+import 'package:savitri_automobiles_admin/modules/repository/Service_repository.dart';
 import 'package:savitri_automobiles_admin/resources/strings.dart';
 
-class CollectionPaidCubit extends Cubit<CollectionPaidStates> {
-  final SalesRepository salesrepository = SalesRepository();
-  CollectionPaidCubit() : super(const CollectionPaidLoading()) {
-    getSalesEntries("PAID");
+class CollectionServicePaidCubit extends Cubit<CollectionServicePaidStates> {
+  final ServiceRepository servicerepository = ServiceRepository();
+  CollectionServicePaidCubit() : super(const CollectionServicePaidLoading()) {
+    getServiceEntries("PAID");
   }
 
   String getdate(String datetime, bool date) {
@@ -33,8 +33,8 @@ class CollectionPaidCubit extends Cubit<CollectionPaidStates> {
 
   void setRxRequestStatus(Status value) => rxRequestStatus = value;
 
-  Future<void> getSalesEntries(String status) async {
-    emit(const CollectionPaidLoading());
+  Future<void> getServiceEntries(String status) async {
+    emit(const CollectionServicePaidLoading());
     bool connection = await CommonMethods.checkInternetConnectivity();
     Utils.printLog("CheckInternetConnection===> ${connection.toString()}");
 
@@ -48,9 +48,9 @@ class CollectionPaidCubit extends Cubit<CollectionPaidStates> {
       };
 
       try {
-        GetSalesEntryModel response =
-            await salesrepository.getSalesEntries(requestData);
-        emit(CollectionPaidLoaded(getSalesEntries: response));
+        GetServiceEntryModel response =
+            await servicerepository.getServiceEntries(requestData);
+        emit(CollectionServicePaidLoaded(getServiceEntries: response));
 
         setRxRequestStatus(Status.COMPLETED);
         Utils.printLog("Response===> ${response.toString()}");
@@ -61,21 +61,22 @@ class CollectionPaidCubit extends Cubit<CollectionPaidStates> {
         if (error.toString().contains("{")) {
           var errorResponse = json.decode(error.toString());
           if (errorResponse is Map && errorResponse.containsKey('message')) {
-            emit(CollectionPaidError(message: errorResponse['message']));
+            emit(CollectionServicePaidError(message: errorResponse['message']));
             return;
           } else {
-            emit(const CollectionPaidError(
+            emit(const CollectionServicePaidError(
                 message: "An unexpected error occurred."));
             return;
           }
         } else {
           Utils.printLog("Error===> ${error.toString()}");
-          emit(CollectionPaidError(message: "${error.toString()} failed..."));
+          emit(CollectionServicePaidError(
+              message: "${error.toString()} failed..."));
           return;
         }
       }
     } else {
-      emit(CollectionPaidError(message: appStrings.weUnableCheckData));
+      emit(CollectionServicePaidError(message: appStrings.weUnableCheckData));
       return;
     }
   }
