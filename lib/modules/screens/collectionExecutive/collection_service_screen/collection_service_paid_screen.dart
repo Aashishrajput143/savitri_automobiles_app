@@ -45,7 +45,7 @@ class CollectionServicePaidPage extends StatelessWidget {
                     onTap: () {
                       Navigator.pushNamed(
                         context,
-                        Routes.salespreview,
+                        Routes.servicereview,
                         arguments: entries?.sId ?? "",
                       );
                     },
