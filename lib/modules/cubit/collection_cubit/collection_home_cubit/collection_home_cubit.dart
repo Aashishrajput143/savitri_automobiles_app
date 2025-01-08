@@ -19,7 +19,7 @@ class CollectionHomeCubit extends Cubit<CollectionHomeStates> {
   final SalesRepository salesrepository = SalesRepository();
   final ServiceRepository servicerepository = ServiceRepository();
   final LoginRepository logoutrepository = LoginRepository();
-  CollectionHomeCubit() : super(CollectionHomeLoading()) {
+  CollectionHomeCubit() : super(const CollectionHomeLoading()) {
     getSalesCountPaidPendingApi();
     getSalesEntries();
     getServiceEntries();
@@ -58,7 +58,7 @@ class CollectionHomeCubit extends Cubit<CollectionHomeStates> {
       try {
         GetSalesEntryModel response =
             await salesrepository.getSalesEntries(requestData);
-        emit(state.copyWith(getSalesEntries: response));
+        emit(CollectionHomeLoaded(getSalesEntries: response));
 
         setRxRequestStatus(Status.COMPLETED);
         Utils.printLog("Response===> ${response.toString()}");
@@ -72,7 +72,8 @@ class CollectionHomeCubit extends Cubit<CollectionHomeStates> {
             emit(CollectionHomeError(message: errorResponse['message']));
             return;
           } else {
-            emit(CollectionHomeError(message: "An unexpected error occurred."));
+            emit(const CollectionHomeError(
+                message: "An unexpected error occurred."));
             return;
           }
         } else {
@@ -103,7 +104,7 @@ class CollectionHomeCubit extends Cubit<CollectionHomeStates> {
       try {
         GetServiceEntryModel response =
             await servicerepository.getServiceEntries(requestData);
-        emit(state.copyWith(getServiceEntries: response));
+        emit(CollectionHomeLoaded(getServiceEntries: response));
 
         setRxRequestStatus(Status.COMPLETED);
         Utils.printLog("Response===> ${response.toString()}");
@@ -117,7 +118,8 @@ class CollectionHomeCubit extends Cubit<CollectionHomeStates> {
             emit(CollectionHomeError(message: errorResponse['message']));
             return;
           } else {
-            emit(CollectionHomeError(message: "An unexpected error occurred."));
+            emit(const CollectionHomeError(
+                message: "An unexpected error occurred."));
             return;
           }
         } else {
@@ -141,7 +143,7 @@ class CollectionHomeCubit extends Cubit<CollectionHomeStates> {
       try {
         SalesCountPendingPaidModel response =
             await salesrepository.getSalesCountPendingPaidApi();
-        emit(state.copyWith(salescount: response));
+        emit(CollectionHomeLoaded(salescount: response));
 
         setRxRequestStatus(Status.COMPLETED);
         Utils.printLog("Response===> ${response.toString()}");
@@ -155,7 +157,8 @@ class CollectionHomeCubit extends Cubit<CollectionHomeStates> {
             emit(CollectionHomeError(message: errorResponse['message']));
             return;
           } else {
-            emit(CollectionHomeError(message: "An unexpected error occurred."));
+            emit(const CollectionHomeError(
+                message: "An unexpected error occurred."));
             return;
           }
         } else {
@@ -171,7 +174,7 @@ class CollectionHomeCubit extends Cubit<CollectionHomeStates> {
   }
 
   Future<void> logoutApi(context) async {
-    emit(CollectionHomeLoading());
+    emit(const CollectionHomeLoading());
     bool connection = await CommonMethods.checkInternetConnectivity();
     Utils.printLog("CheckInternetConnection===> ${connection.toString()}");
 
@@ -196,7 +199,8 @@ class CollectionHomeCubit extends Cubit<CollectionHomeStates> {
             emit(CollectionHomeError(message: errorResponse['message']));
             return;
           } else {
-            emit(CollectionHomeError(message: "An unexpected error occurred."));
+            emit(const CollectionHomeError(
+                message: "An unexpected error occurred."));
             return;
           }
         } else {

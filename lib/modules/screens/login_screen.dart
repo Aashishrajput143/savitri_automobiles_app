@@ -140,14 +140,7 @@ class LoginScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 50),
                     if (state is LoginLoading)
-                      const CircularProgressIndicator(),
-                    if (state is LoginError)
-                      Center(
-                        child: Text(
-                          state.message,
-                          style: TextStyle(fontSize: 16),
-                        ),
-                      )
+                      const CircularProgressIndicator()
                     else
                       SizedBox(
                         width: double.infinity,
