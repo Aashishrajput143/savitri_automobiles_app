@@ -174,22 +174,25 @@ class ReviewPage extends StatelessWidget {
                               state.selectedTractor?.modelName ??
                                   "Not Available"),
                           _buildDetailRow(
-                              "Manufacture Year",
-                              state.selectedTractor?.yearOfManufacture ??
+                              "No of Cylinders",
+                              state.selectedTractor?.numberOfCylinders ??
                                   "Not Available"),
                           _buildDetailRow("Price",
                               "₹${PriceFormatter.formatPrice(state.selectedTractor?.price ?? 0)}"),
                           _buildDetailRow(
                               "Fuel Capacity",
-                              state.selectedTractor?.fuelCapacity ??
+                              state.selectedTractor?.others?.fuelTankCapacity !=
+                                      null
+                                  ? "${state.selectedTractor?.others?.fuelTankCapacity} litres"
+                                  : "Not Available"),
+                          _buildDetailRow(
+                              "PTO Type",
+                              state.selectedTractor?.transmission?.pto
+                                      ?.speeds?[0] ??
                                   "Not Available"),
                           _buildDetailRow(
-                              "fuelType",
-                              state.selectedTractor?.fuelType ??
-                                  "Not Available"),
-                          _buildDetailRow(
-                              "features",
-                              state.selectedTractor?.features ??
+                              "Engine Capacity",
+                              state.selectedTractor?.engineCapacity ??
                                   "Not Available"),
                         ],
                       ],
@@ -286,19 +289,26 @@ class ReviewPage extends StatelessWidget {
                             state.selectedTractor?.modelName ??
                                 "Not Available"),
                         _buildDetailRow(
-                            "Manufacture Year",
-                            state.selectedTractor?.yearOfManufacture ??
+                            "No of Cylinders",
+                            state.selectedTractor?.numberOfCylinders ??
                                 "Not Available"),
                         _buildDetailRow("Price",
                             "₹${PriceFormatter.formatPrice(state.selectedTractor?.price ?? 0)}"),
                         _buildDetailRow(
                             "Fuel Capacity",
-                            state.selectedTractor?.fuelCapacity ??
+                            state.selectedTractor?.others?.fuelTankCapacity !=
+                                    null
+                                ? "${state.selectedTractor?.others?.fuelTankCapacity} litres"
+                                : "Not Available"),
+                        _buildDetailRow(
+                            "PTO Type",
+                            state.selectedTractor?.transmission?.pto
+                                    ?.speeds?[0] ??
                                 "Not Available"),
-                        _buildDetailRow("fuelType",
-                            state.selectedTractor?.fuelType ?? "Not Available"),
-                        _buildDetailRow("features",
-                            state.selectedTractor?.features ?? "Not Available"),
+                        _buildDetailRow(
+                            "Engine Capacity",
+                            state.selectedTractor?.engineCapacity ??
+                                "Not Available"),
                       ],
                       const SizedBox(height: 40),
 

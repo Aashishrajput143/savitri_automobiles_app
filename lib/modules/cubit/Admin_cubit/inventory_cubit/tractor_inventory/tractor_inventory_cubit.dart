@@ -49,7 +49,7 @@ class TractorInventoryCubit extends Cubit<TractorInventoryState> {
         Utils.printLog("Response===> ${response.toString()}");
         emit(TractorInventoryloaded(
             gettractormodel: response, message: "Successfully fetch...."));
-      } catch (error) {
+      } catch (error, stackerror) {
         setRxRequestStatus(Status.ERROR);
         setError(error.toString());
 
@@ -64,6 +64,7 @@ class TractorInventoryCubit extends Cubit<TractorInventoryState> {
           }
         } else {
           Utils.printLog("Error===> ${error.toString()}");
+          Utils.printLog("Error===> ${stackerror.toString()}");
           emit(TractorInventoryError("${error.toString()} failed..."));
           return;
         }

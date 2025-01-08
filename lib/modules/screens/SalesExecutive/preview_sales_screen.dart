@@ -107,10 +107,7 @@ class PreviewPage extends StatelessWidget {
                                             ?.fuelCapacity ==
                                         null
                                     ? "Not Available"
-                                    : state.getSalesDetailsByIDModel.data
-                                            ?.tractor?.fuelCapacity
-                                            .toString() ??
-                                        ""),
+                                    : "${state.getSalesDetailsByIDModel.data?.tractor?.fuelCapacity} Litres"),
                             _buildDetailRow(
                                 "Engine Capacity",
                                 state.getSalesDetailsByIDModel.data?.tractor
@@ -140,8 +137,13 @@ class PreviewPage extends StatelessWidget {
                             _buildDetailRow(
                                 "Horse power",
                                 state.getSalesDetailsByIDModel.data?.tractor
-                                        ?.horsepower ??
-                                    "Not Available"),
+                                            ?.horsepower !=
+                                        null
+                                    ? state.getSalesDetailsByIDModel.data
+                                            ?.tractor?.horsepower
+                                            .toString() ??
+                                        ""
+                                    : "Not Available"),
 
                             const SizedBox(
                               height: 20,

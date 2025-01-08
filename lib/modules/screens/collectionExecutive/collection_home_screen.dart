@@ -289,32 +289,32 @@ class CollectionHomeScreen extends StatelessWidget {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 30),
-                          Container(
-                            width: double.infinity,
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: ElevatedButton(
-                              onPressed: () {
-                                // Navigator.pushNamed(context, Routes.addServiceEntry);
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.green,
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 12),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                ),
-                              ),
-                              child: const Text(
-                                'Manage Finance',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
+                          // const SizedBox(height: 30),
+                          // Container(
+                          //   width: double.infinity,
+                          //   padding: const EdgeInsets.symmetric(horizontal: 10),
+                          //   child: ElevatedButton(
+                          //     onPressed: () {
+                          //       // Navigator.pushNamed(context, Routes.addServiceEntry);
+                          //     },
+                          //     style: ElevatedButton.styleFrom(
+                          //       backgroundColor: Colors.green,
+                          //       padding:
+                          //           const EdgeInsets.symmetric(vertical: 12),
+                          //       shape: RoundedRectangleBorder(
+                          //         borderRadius: BorderRadius.circular(8.0),
+                          //       ),
+                          //     ),
+                          //     child: const Text(
+                          //       'Manage Finance',
+                          //       style: TextStyle(
+                          //         color: Colors.white,
+                          //         fontSize: 16,
+                          //         fontWeight: FontWeight.bold,
+                          //       ),
+                          //     ),
+                          //   ),
+                          // ),
                           const SizedBox(height: 32),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -548,7 +548,7 @@ class CollectionHomeScreen extends StatelessWidget {
                                                             );
                                                           },
                                                           child: const Text(
-                                                            "View",
+                                                            "Update",
                                                             style: TextStyle(
                                                                 fontSize: 14,
                                                                 fontWeight:
@@ -804,7 +804,7 @@ class CollectionHomeScreen extends StatelessWidget {
                                                             );
                                                           },
                                                           child: const Text(
-                                                            "View",
+                                                            "Update",
                                                             style: TextStyle(
                                                                 fontSize: 14,
                                                                 fontWeight:
